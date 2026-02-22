@@ -1,0 +1,13 @@
+# MacOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# MacOS
+.DS_Store
+
+# Dossiers générés
+backend/package-lock.json
+frontend/package-lock.json
