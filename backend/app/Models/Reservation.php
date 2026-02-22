@@ -21,5 +21,13 @@ class Reservation extends Model
         'espace_id',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
+    public function espace()
+    {
+        return $this->belongsTo(Espace::class);
+    }
 }
