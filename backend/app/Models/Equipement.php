@@ -15,5 +15,10 @@ class Equipement extends Model
         'nom',
     ];
 
-    
+
+    public function espaces()
+    {
+        return $this->belongsToMany(Espace::class, 'espace_equipement');
+    }
+
 }

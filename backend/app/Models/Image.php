@@ -16,5 +16,9 @@ class Image extends Model
         'espace_id',
     ];
 
-   
+
+    public function espace()
+    {
+        return $this->belongsTo(Espace::class);
+    }
 }
