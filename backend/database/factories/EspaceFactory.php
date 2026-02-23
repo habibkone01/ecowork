@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Espace>
  */
@@ -16,8 +17,11 @@ class EspaceFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
+       return [
+            'nom' => fake()->company(),
+            'surface' => fake()->randomFloat(1, 10, 200),
+            'type' => fake()->randomElement(['bureau', 'salle de réunion', 'conférence']),
+            'tarif_journalier' => fake()->randomFloat(2, 50, 500),
         ];
     }
 }
