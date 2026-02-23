@@ -23,5 +23,14 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         Espace::factory(5)->create();
         Reservation::factory(20)->create();
+
+        $espaces = \App\Models\Espace::all();
+        $equipements = \App\Models\Equipement::all();
+
+        $espaces->each(function ($espace) use ($equipements) {
+            $espace->equipements()->attach(
+                $equipements->random(rand(2, 5))->pluck('id')->toArray()
+            );
+        });
     }
 }
