@@ -9,40 +9,44 @@ use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Routes publiques (sans connexion)
+// Routes publiques
 Route::post('/register', [AuthController::class, 'register'])->name('api.auth.register');
 Route::post('/login', [AuthController::class, 'login'])->name('api.auth.login');
 
-// Routes protégées (connexion obligatoire)
+// Routes protégées
 Route::middleware('auth:sanctum')->group(function () {
 
     // Déconnexion
     Route::post('/logout', [AuthController::class, 'logout'])->name('api.auth.logout');
 
-    // Profil de l'utilisateur connecté
+    // Profil utilisateur connecté
     Route::get('/me', function (Request $request) {
         return $request->user();
     })->name('api.me');
 
-    // Espaces (tout le monde connecté peut voir)
+    // Espaces
     Route::get('/espaces', [EspaceController::class, 'index'])->name('api.espaces.index');
     Route::get('/espaces/{id}', [EspaceController::class, 'show'])->name('api.espaces.show');
 
-    // Equipements (tout le monde connecté peut voir)
+    // Equipements
     Route::get('/equipements', [EquipementController::class, 'index'])->name('api.equipements.index');
 
-    // Réservations (utilisateur et admin)
+    // Réservations
     Route::get('/reservations', [ReservationController::class, 'index'])->name('api.reservations.index');
-    Route::post('/reservations', [ReservationController::class, 'store'])->name('api.reservations.store');
     Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('api.reservations.show');
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('api.reservations.destroy');
 
-    // Profil utilisateur (l'utilisateur peut modifier et supprimer son propre compte)
+    // utilisateur
     Route::get('/users/{id}', [UserController::class, 'show'])->name('api.users.show');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('api.users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('api.users.destroy');
 
-    // Routes admin uniquement
+    // Routes user
+    Route::middleware('user')->group(function () {
+        Route::post('/reservations', [ReservationController::class, 'store'])->name('api.reservations.store');
+    });
+
+    // Routes admin
     Route::middleware('admin')->group(function () {
 
         // Gestion des espaces
