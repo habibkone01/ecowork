@@ -25,6 +25,8 @@ class StoreEspaceRequest extends FormRequest
             'nom' => 'required|string|max:255',
             'surface' => 'required|numeric|min:1',
             'type' => 'required|in:bureau,salle de réunion,conférence',
+            'capacite' => 'required|integer|min:1',
+            'description' => 'required|string',
             'tarif_journalier' => 'required|numeric|min:0',
             'equipements' => 'nullable|array',
             'equipements.*' => 'exists:equipements,id',
@@ -33,7 +35,7 @@ class StoreEspaceRequest extends FormRequest
         ];
     }
 
-    
+
 
     /**
      * Handle a failed validation attempt.
