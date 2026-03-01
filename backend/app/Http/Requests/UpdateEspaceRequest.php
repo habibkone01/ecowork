@@ -25,6 +25,8 @@ class UpdateEspaceRequest extends FormRequest
             'nom' => 'sometimes|string|max:255',
             'surface' => 'sometimes|numeric|min:1',
             'type' => 'sometimes|in:bureau,salle de réunion,conférence',
+            'capacite' => 'sometimes|integer|min:1',
+            'description' => 'sometimes|string',
             'tarif_journalier' => 'sometimes|numeric|min:0',
             'equipements' => 'nullable|array',
             'equipements.*' => 'exists:equipements,id',
@@ -33,7 +35,7 @@ class UpdateEspaceRequest extends FormRequest
         ];
     }
 
-    
+
 
     /**
      * Handle a failed validation attempt.
