@@ -17,6 +17,8 @@ class EspaceResource extends JsonResource
             'nom' => $this->nom,
             'surface' => $this->surface,
             'type' => $this->type,
+            'capacite' => $this->capacite,
+            'description' => $this->description,
             'tarif_journalier' => $this->tarif_journalier,
             'equipements' => EquipementResource::collection($this->whenLoaded('equipements')),
             'images' => ImageResource::collection($this->whenLoaded('images')),
