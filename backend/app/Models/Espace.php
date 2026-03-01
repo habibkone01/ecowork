@@ -15,6 +15,8 @@ class Espace extends Model
         'nom',
         'surface',
         'type',
+        'capacite',
+        'description',
         'tarif_journalier',
     ];
 
@@ -33,5 +35,5 @@ class Espace extends Model
         return $this->hasMany(Image::class);
     }
 
-    
+
 }

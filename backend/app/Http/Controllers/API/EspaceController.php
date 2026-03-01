@@ -53,7 +53,7 @@ class EspaceController extends Controller
      */
     public function store(StoreEspaceRequest $request)
     {
-        $espace = Espace::create($request->only(['nom', 'surface', 'type', 'tarif_journalier']));
+        $espace = Espace::create($request->only(['nom', 'surface', 'type', 'capacite', 'description', 'tarif_journalier']));
 
         // Associer les équipements
         if ($request->has('equipements')) {
@@ -101,7 +101,7 @@ class EspaceController extends Controller
     public function update(UpdateEspaceRequest $request, $id)
     {
         $espace = Espace::findOrFail($id);
-        $espace->update($request->only(['nom', 'surface', 'type', 'tarif_journalier']));
+        $espace->update($request->only(['nom', 'surface', 'type', 'capacite', 'description', 'tarif_journalier']));
 
         // Mettre à jour les équipements
         if ($request->has('equipements')) {
