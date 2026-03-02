@@ -10,7 +10,7 @@ export default function SidebarAdmin() {
     const isActive = (path) => location.pathname === path
 
     return (
-        <aside className="fixed left-0 top-0 bottom-0 z-50 flex flex-col w-[260px] min-h-screen bg-[#1a1a2e]">
+        <aside className="fixed left-0 top-0 bottom-0 z-50 flex flex-col w-65 min-h-screen bg-[#1a1a2e]">
 
             {/* Logo */}
             <div className="p-6 border-b border-[#ffffff14]">
@@ -53,7 +53,7 @@ export default function SidebarAdmin() {
             {/* Admin + logout */}
             <div className="p-4 border-t border-[#ffffff14]">
                 <div className="flex items-center gap-3 p-3 rounded-xl mb-3 bg-[#ffffff0d]">
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-[#7bdff233]">
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 bg-[#7bdff233]">
                         <Shield size={16} className="text-[#7bdff2]" />
                     </div>
                     <div className="flex-1 min-w-0">
