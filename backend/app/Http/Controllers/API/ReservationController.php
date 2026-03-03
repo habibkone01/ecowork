@@ -23,7 +23,7 @@ class ReservationController extends Controller
         $perPage = $request->query('per_page', 10);
 
         if ($request->user()->role === 'admin') {
-            $reservations = Reservation::with(['user', 'espace'])
+            $reservations = Reservation::with(['user', 'espace', 'espace.images'])
                 ->when($request->statut, function ($query) use ($request) {
                     $query->where('statut', $request->statut);
                 })
@@ -35,7 +35,7 @@ class ReservationController extends Controller
                 })
                 ->paginate($perPage);
         } else {
-            $reservations = Reservation::with(['espace'])
+            $reservations = Reservation::with(['espace', 'espace.images'])
                 ->where('user_id', $request->user()->id)
                 ->paginate($perPage);
         }
