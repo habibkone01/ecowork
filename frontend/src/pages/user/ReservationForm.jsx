@@ -49,12 +49,12 @@ export default function ReservationForm() {
                 date_fin: dateFin
             })
 
-            if (data.errors || !data.data) {
+            if (!data.reservation) {
                 setError(data.message || 'Erreur lors de la réservation')
                 return
             }
 
-            navigate('/reservation-confirm', { state: { reservation: data.data, espace } })
+            navigate('/reservation-confirm', { state: { reservation: data.reservation, espace } })
 
         } catch (err) {
             setError('Erreur de connexion au serveur')
