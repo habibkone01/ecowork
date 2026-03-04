@@ -5,6 +5,16 @@ const headers = (token) => ({
     'Authorization': `Bearer ${token}`
 })
 
+export const getUsers = async (token) => {
+    const response = await fetch(`http://localhost:8000/api/users`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    return response.json()
+}
+
 export const updateUser = async (token, id, form) => {
     const response = await fetch(`${API_URL}/users/${id}`, {
         method: 'PUT',
