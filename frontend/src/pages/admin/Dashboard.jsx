@@ -49,11 +49,10 @@ export default function Dashboard() {
             <main className="ml-65 flex-1 min-h-screen bg-gray-50 p-8">
 
                 <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-[#1a1a2e] mb-1">Bonjour, {user?.prenom} 👋</h1>
+                    <h1 className="text-2xl font-bold text-[#1a1a2e] mb-1">Bonjour, {user?.prenom} </h1>
                     <p className="text-gray-500 text-sm">Voici un aperçu de votre plateforme EcoWork</p>
                 </div>
 
-                {/* Stats */}
                 <div className="grid grid-cols-4 gap-5 mb-8">
                     <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
                         <div className="flex items-center justify-between mb-3">
@@ -88,14 +87,15 @@ export default function Dashboard() {
                                 <TrendingUp size={20} className="text-[#7bdff2]" />
                             </div>
                         </div>
-                        <div className="text-3xl font-bold text-[#1a1a2e] mb-1">{stats.revenus}€</div>
+                        <div className="text-3xl font-bold text-[#1a1a2e] mb-1">
+                            {stats.revenus >= 1000 ? `${(stats.revenus / 1000).toFixed(1)}k€` : `${stats.revenus}€`}
+                        </div>
                         <div className="text-sm text-gray-400">Revenus</div>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-6">
 
-                    {/* Réservations récentes */}
                     <div className="col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                         <div className="p-5 border-b border-gray-100 flex items-center justify-between">
                             <h2 className="font-bold text-[#1a1a2e]">Réservations récentes</h2>
@@ -133,7 +133,6 @@ export default function Dashboard() {
                         )}
                     </div>
 
-                    {/* Liens rapides */}
                     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
                         <div className="p-5 border-b border-gray-100">
                             <h2 className="font-bold text-[#1a1a2e]">Accès rapide</h2>
