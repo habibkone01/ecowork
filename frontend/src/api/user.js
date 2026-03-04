@@ -6,11 +6,8 @@ const headers = (token) => ({
 })
 
 export const getUsers = async (token) => {
-    const response = await fetch(`http://localhost:8000/api/users`, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
+    const response = await fetch(`${API_URL}/users`, {
+        headers: headers(token)
     })
     return response.json()
 }
