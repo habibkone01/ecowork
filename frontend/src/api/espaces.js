@@ -49,11 +49,3 @@ export const deleteEspace = async (token, id) => {
     return response.json()
 }
 
-export const acquitterFacture = async (token, id) => {
-    const response = await fetch(`${API_URL}/reservations/${id}`, {
-        method: 'PUT',
-        headers: headers(token),
-        body: JSON.stringify({ facture_acquittee: true })
-    })
-    return response.json()
-}
