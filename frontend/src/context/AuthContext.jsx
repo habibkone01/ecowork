@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
         localStorage.setItem('user', JSON.stringify(userData))
     }
 
-    const isAdmin = () => user?.role === 'administrateur'
+    const isAdmin = () => user?.role === 'admin'
     const isUser = () => user?.role === 'utilisateur'
 
     return (
