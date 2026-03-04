@@ -8,11 +8,11 @@ export default function ProtectedRoute({ children, adminOnly = false }) {
         return <Navigate to="/login" replace />
     }
 
-    if (adminOnly && user.role !== 'administrateur') {
+    if (adminOnly && user.role !== 'admin') {
         return <Navigate to="/espaces" replace />
     }
 
-    if (!adminOnly && user.role === 'administrateur') {
+    if (!adminOnly && user.role === 'admin') {
         return <Navigate to="/admin/dashboard" replace />
     }
 

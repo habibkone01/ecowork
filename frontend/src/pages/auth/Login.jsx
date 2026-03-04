@@ -31,7 +31,7 @@ export default function Login() {
 
             login(data.user, data.token)
 
-            if (data.user.role === 'administrateur') {
+            if (data.user.role === 'admin') {
                 navigate('/admin/dashboard')
             } else {
                 navigate('/espaces')
