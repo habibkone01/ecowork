@@ -18,7 +18,7 @@ class EspaceController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->query('per_page', 10);
+        $perPage = $request->query('per_page', 9);
 
         $espaces = Espace::with(['equipements', 'images'])
             ->when($request->type, function ($query) use ($request) {
@@ -42,6 +42,7 @@ class EspaceController extends Controller
                         });
                 });
             })
+            ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
         return EspaceResource::collection($espaces);
