@@ -19,7 +19,6 @@ import EspaceForm from './pages/admin/EspaceForm'
 import Equipements from './pages/admin/Equipements'
 import EquipementForm from './pages/admin/EquipementForm'
 import AdminReservations from './pages/admin/Reservations'
-import AdminReservationForm from './pages/admin/ReservationForm'
 import Utilisateurs from './pages/admin/Utilisateurs'
 import UtilisateurForm from './pages/admin/UtilisateurForm'
 
@@ -48,7 +47,6 @@ export default function App() {
                     <Route path="/admin/equipements/creer" element={<ProtectedRoute adminOnly><EquipementForm /></ProtectedRoute>} />
                     <Route path="/admin/equipements/:id/modifier" element={<ProtectedRoute adminOnly><EquipementForm /></ProtectedRoute>} />
                     <Route path="/admin/reservations" element={<ProtectedRoute adminOnly><AdminReservations /></ProtectedRoute>} />
-                    <Route path="/admin/reservations/:id/modifier" element={<ProtectedRoute adminOnly><AdminReservationForm /></ProtectedRoute>} />
                     <Route path="/admin/utilisateurs" element={<ProtectedRoute adminOnly><Utilisateurs /></ProtectedRoute>} />
                     <Route path="/admin/utilisateurs/creer" element={<ProtectedRoute adminOnly><UtilisateurForm /></ProtectedRoute>} />
                     <Route path="/admin/utilisateurs/:id/modifier" element={<ProtectedRoute adminOnly><UtilisateurForm /></ProtectedRoute>} />
