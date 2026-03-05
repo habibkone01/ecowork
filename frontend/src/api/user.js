@@ -28,3 +28,12 @@ export const deleteUser = async (token, id) => {
     })
     return response.json()
 }
+
+export const createUser = async (token, form) => {
+    const response = await fetch(`${API_URL}/users`, {
+        method: 'POST',
+        headers: headers(token),
+        body: JSON.stringify(form)
+    })
+    return response.json()
+}
