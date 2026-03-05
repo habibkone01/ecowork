@@ -49,7 +49,7 @@ export default function EspaceDetail() {
         <div className="flex">
             <SidebarUser />
             <main className="ml-65 flex-1 min-h-screen bg-gray-50 p-8">
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-5xl mx-auto">
 
                     {/* Breadcrumb */}
                     <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
@@ -87,55 +87,68 @@ export default function EspaceDetail() {
                         </div>
                     )}
 
-                    {/* Fiche espace */}
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-5">
-                        <div className="flex items-start justify-between mb-4">
-                            <div>
-                                <h1 className="text-2xl font-bold text-[#1a1a2e] mb-2">{espace.nom}</h1>
-                                <div className="flex items-center gap-4 text-sm text-gray-500">
-                                    <span className="flex items-center gap-1.5"><Maximize2 size={16} />{espace.surface}m²</span>
-                                    <span className="flex items-center gap-1.5"><Users size={16} />{espace.capacite} personnes max.</span>
-                                    <span className="flex items-center gap-1.5"><Tag size={16} />{espace.type}</span>
+                    {/* Layout 2 colonnes */}
+                    <div className="grid grid-cols-3 gap-6">
+
+                        {/* Colonne gauche : infos + équipements */}
+                        <div className="col-span-2 space-y-5">
+                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                <h1 className="text-2xl font-bold text-[#1a1a2e] mb-3">{espace.nom}</h1>
+                            </div>
+
+                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                <h3 className="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-3">Description</h3>
+                                <p className="text-sm text-gray-600 leading-relaxed">{espace.description}</p>
+                            </div>
+
+                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                <h3 className="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-3">Équipements</h3>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {espace.equipements?.map((eq) => (
+                                        <div key={eq.id} className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[#eff7f6]">
+                                            <CheckCircle size={16} className="text-[#0d9488] shrink-0" />
+                                            <span className="text-sm text-[#1a1a2e]">{eq.nom}</span>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                            <div className="text-right">
-                                <div className="text-2xl font-bold text-[#7bdff2]">{espace.tarif_journalier}€</div>
-                                <div className="text-xs text-gray-400">par jour</div>
-                            </div>
                         </div>
 
-                        <hr className="border-gray-100 my-4" />
+                        {/* Colonne droite : tarif + bouton réserver */}
+                        <div className="col-span-1">
+                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 sticky top-8">
+                                <div className="text-center mb-6">
+                                    <div className="text-3xl font-bold text-[#7bdff2]">{espace.tarif_journalier}€</div>
+                                    <div className="text-xs text-gray-400">par jour</div>
+                                </div>
 
-                        {/* Description */}
-                        <div className="mb-5">
-                            <h3 className="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-2">Description</h3>
-                            <p className="text-sm text-gray-600 leading-relaxed">{espace.description}</p>
-                        </div>
+                                <hr className="border-gray-100 mb-6" />
 
-                        <hr className="border-gray-100 my-4" />
-
-                        {/* Équipements */}
-                        <div>
-                            <h3 className="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-3">Équipements</h3>
-                            <div className="grid grid-cols-2 gap-2">
-                                {espace.equipements?.map((eq) => (
-                                    <div key={eq.id} className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[#eff7f6]">
-                                        <CheckCircle size={16} className="text-[#0d9488] shrink-0" />
-                                        <span className="text-sm text-[#1a1a2e]">{eq.nom}</span>
+                                <div className="space-y-3 text-sm text-gray-500 mb-6">
+                                    <div className="flex justify-between">
+                                        <span>Surface</span>
+                                        <span className="font-medium text-[#1a1a2e]">{espace.surface}m²</span>
                                     </div>
-                                ))}
+                                    <div className="flex justify-between">
+                                        <span>Capacité</span>
+                                        <span className="font-medium text-[#1a1a2e]">{espace.capacite} pers.</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span>Type</span>
+                                        <span className="font-medium text-[#1a1a2e]">{espace.type}</span>
+                                    </div>
+                                </div>
+
+                                <Link to={`/espaces/${espace.id}/reserver`}
+                                    className="w-full py-3.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center justify-center gap-2 no-underline">
+                                    Réserver cet espace
+                                </Link>
+                                <div className="flex items-center justify-center gap-2 mt-3 text-xs text-gray-400">
+                                    <ShieldCheck size={12} />
+                                    <span>Annulation gratuite jusqu'à 24h avant</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    {/* Bouton réserver */}
-                    <Link to={`/espaces/${espace.id}/reserver`}
-                        className="w-full py-3.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center justify-center gap-2 no-underline">
-                        Réserver cet espace
-                    </Link>
-                    <div className="flex items-center justify-center gap-2 mt-3 text-xs text-gray-400">
-                        <ShieldCheck size={12} />
-                        <span>Annulation gratuite jusqu'à 24h avant</span>
                     </div>
                 </div>
             </main>
