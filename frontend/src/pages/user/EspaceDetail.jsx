@@ -51,7 +51,7 @@ export default function EspaceDetail() {
             <main className="ml-65 flex-1 min-h-screen bg-gray-50 p-8">
                 <div className="max-w-5xl mx-auto">
 
-                    {/* Breadcrumb */}
+                    
                     <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
                         <Link to="/espaces" className="hover:text-gray-600 flex items-center gap-1 no-underline">
                             <ArrowLeft size={16} />
@@ -61,7 +61,7 @@ export default function EspaceDetail() {
                         <span className="text-[#1a1a2e] font-medium">{espace.nom}</span>
                     </div>
 
-                    {/* Image principale */}
+                    
                     <div className="relative rounded-2xl overflow-hidden mb-4 h-80">
                         {espace.images?.length > 0 ? (
                             <img src={getImageUrl(espace.images[0].url)} alt={espace.nom}
@@ -76,7 +76,7 @@ export default function EspaceDetail() {
                         </div>
                     </div>
 
-                    {/* Galerie */}
+                    
                     {espace.images?.length > 1 && (
                         <div className="grid grid-cols-3 gap-3 mb-6">
                             {espace.images.slice(1, 4).map((img) => (
@@ -87,10 +87,10 @@ export default function EspaceDetail() {
                         </div>
                     )}
 
-                    {/* Layout 2 colonnes */}
+                   
                     <div className="grid grid-cols-3 gap-6">
 
-                        {/* Colonne gauche : infos + équipements */}
+                       
                         <div className="col-span-2 space-y-5">
                             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                                 <h1 className="text-2xl font-bold text-[#1a1a2e] mb-3">{espace.nom}</h1>
@@ -114,7 +114,7 @@ export default function EspaceDetail() {
                             </div>
                         </div>
 
-                        {/* Colonne droite : tarif + bouton réserver */}
+                        
                         <div className="col-span-1">
                             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 sticky top-8">
                                 <div className="text-center mb-6">

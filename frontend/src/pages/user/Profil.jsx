@@ -3,6 +3,7 @@ import { User, Mail, Phone, MapPin, Lock, Save, Trash2 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { updateUser, deleteUser } from '../../api/user'
 import SidebarUser from '../../components/SidebarUser'
+import Modal from '../../components/Modal'
 
 export default function Profil() {
     const { user, token, logout, updateUserContext } = useAuth()
@@ -18,6 +19,7 @@ export default function Profil() {
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [modal, setModal] = useState(false)
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -61,7 +63,6 @@ export default function Profil() {
     }
 
     const handleSupprimer = async () => {
-        if (!confirm('Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.')) return
         await deleteUser(token, user.id)
         logout()
     }
@@ -71,6 +72,16 @@ export default function Profil() {
             <SidebarUser />
             <main className="ml-65 flex-1 min-h-screen bg-gray-50 p-8">
                 <div className="max-w-3xl mx-auto">
+
+                    <Modal
+                        isOpen={modal}
+                        title="Supprimer mon compte"
+                        message="Voulez-vous vraiment supprimer votre compte ? Cette action est définitive et irréversible."
+                        confirmText="Supprimer mon compte"
+                        confirmColor="bg-red-500 text-white"
+                        onConfirm={handleSupprimer}
+                        onCancel={() => setModal(false)}
+                    />
 
                     <div className="mb-8">
                         <h1 className="text-2xl font-bold text-[#1a1a2e] mb-1">Mon profil</h1>
@@ -195,7 +206,7 @@ export default function Profil() {
                     <div className="bg-white rounded-2xl p-6 border border-red-100">
                         <h3 className="font-bold text-red-600 mb-2">Zone de danger</h3>
                         <p className="text-sm text-gray-500 mb-4">La suppression de votre compte est définitive et irréversible.</p>
-                        <button onClick={handleSupprimer}
+                        <button onClick={() => setModal(true)}
                             className="px-6 py-2.5 rounded-xl font-semibold text-sm border border-red-200 text-red-600 hover:bg-red-50 transition-all flex items-center gap-2">
                             <Trash2 size={16} />
                             Supprimer mon compte
