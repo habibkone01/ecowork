@@ -37,6 +37,7 @@ class ReservationController extends Controller
         } else {
             $reservations = Reservation::with(['espace', 'espace.images'])
                 ->where('user_id', $request->user()->id)
+                ->orderBy('created_at', 'desc')
                 ->paginate($perPage);
         }
 

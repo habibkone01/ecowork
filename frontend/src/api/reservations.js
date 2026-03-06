@@ -5,8 +5,8 @@ const headers = (token) => ({
     'Authorization': `Bearer ${token}`
 })
 
-export const getReservations = async (token) => {
-    const response = await fetch(`${API_URL}/reservations`, {
+export const getReservations = async (token, page = 1) => {
+    const response = await fetch(`${API_URL}/reservations?page=${page}`, {
         headers: headers(token)
     })
     return response.json()
