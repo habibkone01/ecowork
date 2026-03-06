@@ -106,7 +106,7 @@ export default function Dashboard() {
                         ) : (
                             <table className="w-full">
                                 <thead>
-                                    <tr className="bg-gray-50">
+                                    <tr className="bg-gray-100">
                                         <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-400">Utilisateur</th>
                                         <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-400">Espace</th>
                                         <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-400">Dates</th>
@@ -143,7 +143,7 @@ export default function Dashboard() {
                                 <span className="text-sm font-medium text-[#1a1a2e]">Ajouter un espace</span>
                             </Link>
                             <Link to="/admin/equipements/creer" className="flex items-center gap-3 p-3 rounded-xl bg-[#eff7f6] hover:bg-[#b2f7ef26] transition-colors no-underline">
-                                <CalendarCheck size={18} className="text-[#0d9488]" />
+                                <CalendarCheck size={18} className="text-[#7bdff2]" />
                                 <span className="text-sm font-medium text-[#1a1a2e]">Ajouter un équipement</span>
                             </Link>
                             <Link to="/admin/utilisateurs" className="flex items-center gap-3 p-3 rounded-xl bg-[#eff7f6] hover:bg-[#b2f7ef26] transition-colors no-underline">

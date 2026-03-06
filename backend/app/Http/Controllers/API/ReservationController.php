@@ -33,6 +33,7 @@ class ReservationController extends Controller
                 ->when($request->date_fin, function ($query) use ($request) {
                     $query->where('date_fin', '<=', $request->date_fin);
                 })
+                ->orderBy('created_at', 'desc')
                 ->paginate($perPage);
         } else {
             $reservations = Reservation::with(['espace', 'espace.images'])
