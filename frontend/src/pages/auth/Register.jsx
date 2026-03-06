@@ -25,11 +25,21 @@ export default function Register() {
         setError(null)
         setLoading(true)
 
+        if (form.password !== form.password_confirmation) {
+            setError('Les mots de passe ne correspondent pas.')
+            setLoading(false)
+            return
+        }
+
         try {
             const data = await registerApi(form)
 
             if (!data.user) {
-                setError(data.message || "Erreur lors de l'inscription")
+                if (data.errors?.email) {
+                    setError('Cette adresse email est déjà utilisée. Veuillez en choisir une autre.')
+                } else {
+                    setError(data.message || "Erreur lors de l'inscription")
+                }
                 return
             }
 
@@ -74,7 +84,6 @@ export default function Register() {
                 </div>
             </div>
 
-            
             <div className="w-full lg:w-3/5 flex items-center justify-center p-8 bg-gray-50 overflow-y-auto">
                 <div className="w-full max-w-lg py-8">
                     <div className="lg:hidden flex items-center gap-3 mb-8">
@@ -95,8 +104,7 @@ export default function Register() {
                                 <label className="block text-sm font-medium mb-2 text-[#1a1a2e]">Nom</label>
                                 <div className="relative">
                                     <div className="absolute left-3 top-1/2 -translate-y-1/2"><User size={16} className="text-gray-400" /></div>
-                                    <input type="text" name="nom" value={form.nom} onChange={handleChange}
-                                        required
+                                    <input type="text" name="nom" value={form.nom} onChange={handleChange} required
                                         className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                                 </div>
                             </div>
@@ -104,8 +112,7 @@ export default function Register() {
                                 <label className="block text-sm font-medium mb-2 text-[#1a1a2e]">Prénom</label>
                                 <div className="relative">
                                     <div className="absolute left-3 top-1/2 -translate-y-1/2"><User size={16} className="text-gray-400" /></div>
-                                    <input type="text" name="prenom" value={form.prenom} onChange={handleChange}
-                                        required
+                                    <input type="text" name="prenom" value={form.prenom} onChange={handleChange} required
                                         className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                                 </div>
                             </div>
@@ -114,8 +121,7 @@ export default function Register() {
                             <label className="block text-sm font-medium mb-2 text-[#1a1a2e]">Adresse email</label>
                             <div className="relative">
                                 <div className="absolute left-3 top-1/2 -translate-y-1/2"><Mail size={16} className="text-gray-400" /></div>
-                                <input type="email" name="email" value={form.email} onChange={handleChange}
-                                    required
+                                <input type="email" name="email" value={form.email} onChange={handleChange} required
                                     className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                             </div>
                         </div>
@@ -123,8 +129,7 @@ export default function Register() {
                             <label className="block text-sm font-medium mb-2 text-[#1a1a2e]">Téléphone</label>
                             <div className="relative">
                                 <div className="absolute left-3 top-1/2 -translate-y-1/2"><Phone size={16} className="text-gray-400" /></div>
-                                <input type="tel" name="telephone" value={form.telephone} onChange={handleChange}
-                                    required
+                                <input type="tel" name="telephone" value={form.telephone} onChange={handleChange} required
                                     className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                             </div>
                         </div>
@@ -132,8 +137,7 @@ export default function Register() {
                             <label className="block text-sm font-medium mb-2 text-[#1a1a2e]">Adresse</label>
                             <div className="relative">
                                 <div className="absolute left-3 top-1/2 -translate-y-1/2"><MapPin size={16} className="text-gray-400" /></div>
-                                <input type="text" name="adresse" value={form.adresse} onChange={handleChange}
-                                    required
+                                <input type="text" name="adresse" value={form.adresse} onChange={handleChange} required
                                     className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                             </div>
                         </div>
@@ -141,8 +145,7 @@ export default function Register() {
                             <label className="block text-sm font-medium mb-2 text-[#1a1a2e]">Mot de passe</label>
                             <div className="relative">
                                 <div className="absolute left-3 top-1/2 -translate-y-1/2"><Lock size={16} className="text-gray-400" /></div>
-                                <input type={showPassword ? 'text' : 'password'} name="password" value={form.password} onChange={handleChange}
-                                    required
+                                <input type={showPassword ? 'text' : 'password'} name="password" value={form.password} onChange={handleChange} required
                                     className="w-full pl-10 pr-10 py-3 rounded-xl border border-gray-200 bg-white text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                                 <button type="button" onClick={() => setShowPassword(!showPassword)}
                                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
@@ -154,13 +157,12 @@ export default function Register() {
                             <label className="block text-sm font-medium mb-2 text-[#1a1a2e]">Confirmer le mot de passe</label>
                             <div className="relative">
                                 <div className="absolute left-3 top-1/2 -translate-y-1/2"><Lock size={16} className="text-gray-400" /></div>
-                                <input type="password" name="password_confirmation" value={form.password_confirmation} onChange={handleChange}
-                                    required
+                                <input type="password" name="password_confirmation" value={form.password_confirmation} onChange={handleChange} required
                                     className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                             </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-4 rounded-xl  ">
+                        <div className="flex items-start gap-3 p-4 rounded-xl">
                             <input type="checkbox" id="rgpd" checked={rgpd} onChange={(e) => setRgpd(e.target.checked)} required
                                 className="mt-0.5 w-4 h-4 shrink-0 cursor-pointer accent-[#7bdff2]" />
                             <label htmlFor="rgpd" className="text-xs leading-relaxed cursor-pointer text-gray-600">
