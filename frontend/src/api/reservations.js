@@ -5,8 +5,9 @@ const headers = (token) => ({
     'Authorization': `Bearer ${token}`
 })
 
-export const getReservations = async (token, page = 1) => {
-    const response = await fetch(`${API_URL}/reservations?page=${page}`, {
+export const getReservations = async (token, page = 1, params = {}) => {
+    const query = new URLSearchParams({ page, ...params }).toString()
+    const response = await fetch(`${API_URL}/reservations?${query}`, {
         headers: headers(token)
     })
     return response.json()

@@ -1,29 +1,30 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { Plus, Pencil, Trash2, Maximize2, Users, ChevronLeft, ChevronRight } from 'lucide-react'
+import { CheckCircle, ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import { getEspaces, deleteEspace } from '../../api/espaces'
+import { getReservations, deleteReservation, acquitterFacture } from '../../api/reservations'
 import SidebarAdmin from '../../components/SidebarAdmin'
 import Modal from '../../components/Modal'
 
-export default function EspacesAdmin() {
+export default function ReservationsAdmin() {
     const { token } = useAuth()
-    const [espaces, setEspaces] = useState([])
+    const [reservations, setReservations] = useState([])
     const [loading, setLoading] = useState(true)
-    const [modal, setModal] = useState({ isOpen: false, id: null })
+    const [modalAnnuler, setModalAnnuler] = useState({ isOpen: false, id: null })
+    const [modalAcquitter, setModalAcquitter] = useState({ isOpen: false, id: null })
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
     const [total, setTotal] = useState(0)
+    const [filters, setFilters] = useState({ date_debut: '', date_fin: '', statut: '' })
 
     useEffect(() => {
-        fetchEspaces(1)
+        fetchReservations(1)
     }, [])
 
-    const fetchEspaces = async (page = 1) => {
+    const fetchReservations = async (page = 1, params = {}) => {
         setLoading(true)
         try {
-            const data = await getEspaces(token, { page })
-            setEspaces(data.data || [])
+            const data = await getReservations(token, page, params)
+            setReservations(data.data || [])
             setCurrentPage(data.meta?.current_page || 1)
             setLastPage(data.meta?.last_page || 1)
             setTotal(data.meta?.total || 0)
@@ -34,14 +35,30 @@ export default function EspacesAdmin() {
         }
     }
 
-    const handleDelete = async () => {
-        await deleteEspace(token, modal.id)
-        setModal({ isOpen: false, id: null })
-        fetchEspaces(currentPage)
+    const handleFilter = (e) => {
+        e.preventDefault()
+        fetchReservations(1, filters)
+    }
+
+    const handleReset = () => {
+        setFilters({ date_debut: '', date_fin: '', statut: '' })
+        fetchReservations(1)
+    }
+
+    const handleAnnuler = async () => {
+        await deleteReservation(token, modalAnnuler.id)
+        setModalAnnuler({ isOpen: false, id: null })
+        fetchReservations(currentPage, filters)
+    }
+
+    const handleAcquitter = async () => {
+        await acquitterFacture(token, modalAcquitter.id)
+        setModalAcquitter({ isOpen: false, id: null })
+        fetchReservations(currentPage, filters)
     }
 
     const handlePage = (page) => {
-        fetchEspaces(page)
+        fetchReservations(page, filters)
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
@@ -51,103 +68,151 @@ export default function EspacesAdmin() {
             <main className="ml-65 flex-1 min-h-screen bg-gray-50 p-8">
 
                 <Modal
-                    isOpen={modal.isOpen}
-                    title="Supprimer l'espace"
-                    message="Voulez-vous vraiment supprimer cet espace ? Cette action est irréversible."
-                    confirmText="Supprimer"
+                    isOpen={modalAnnuler.isOpen}
+                    title="Annuler la réservation"
+                    message="Voulez-vous vraiment annuler cette réservation ? Cette action est irréversible."
+                    confirmText="Annuler la réservation"
                     confirmColor="bg-red-500 text-white"
-                    onConfirm={handleDelete}
-                    onCancel={() => setModal({ isOpen: false, id: null })}
+                    onConfirm={handleAnnuler}
+                    onCancel={() => setModalAnnuler({ isOpen: false, id: null })}
                 />
 
-                <div className="flex items-center justify-between mb-8">
-                    <div>
-                        <h1 className="text-2xl font-bold text-[#1a1a2e] mb-1">Espaces</h1>
-                        <p className="text-gray-500 text-sm">Gérez les espaces de coworking</p>
-                    </div>
-                    <Link to="/admin/espaces/creer"
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all no-underline">
-                        <Plus size={16} />
-                        Ajouter un espace
-                    </Link>
+                <Modal
+                    isOpen={modalAcquitter.isOpen}
+                    title="Acquitter la facture"
+                    message="Voulez-vous marquer cette facture comme acquittée ?"
+                    confirmText="Acquitter"
+                    confirmColor="bg-[#0d9488] text-white"
+                    onConfirm={handleAcquitter}
+                    onCancel={() => setModalAcquitter({ isOpen: false, id: null })}
+                />
+
+                <div className="mb-8">
+                    <h1 className="text-2xl font-bold text-[#1a1a2e] mb-1">Réservations</h1>
+                    <p className="text-gray-500 text-sm">Gérez toutes les réservations</p>
                 </div>
 
-                {loading ? (
-                    <div className="flex items-center justify-center h-64 text-gray-400">Chargement...</div>
-                ) : (
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="bg-gray-50 border-b border-gray-100">
-                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Espace</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Type</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Surface</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Capacité</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Tarif/jour</th>
-                                    <th className="px-5 py-3"></th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50">
-                                {espaces.map((espace) => (
-                                    <tr key={espace.id} className="hover:bg-gray-50 transition-colors">
-                                        <td className="px-5 py-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0">
-                                                    {espace.images?.length > 0 ? (
-                                                        <img src={espace.images[0].url} alt="" className="w-full h-full object-cover" />
-                                                    ) : (
-                                                        <div className="w-full h-full bg-gray-100"></div>
-                                                    )}
-                                                </div>
-                                                <span className="font-medium text-sm text-[#1a1a2e]">{espace.nom}</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-5 py-4 text-sm text-gray-500">{espace.type}</td>
-                                        <td className="px-5 py-4 text-sm text-gray-500">
-                                            <span className="flex items-center gap-1"><Maximize2 size={14} />{espace.surface}m²</span>
-                                        </td>
-                                        <td className="px-5 py-4 text-sm text-gray-500"><span className="flex items-center gap-1"><Users size={14} />{espace.capacite}</span></td>
-                                        <td className="px-5 py-4 text-sm font-semibold text-[#7bdff2]">{espace.tarif_journalier}€</td>
-                                        <td className="px-5 py-4">
-                                            <div className="flex items-center gap-2 justify-end">
-                                                <Link to={`/admin/espaces/${espace.id}/modifier`}
-                                                    className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
-                                                    <Pencil size={14} />
-                                                </Link>
-                                                <button onClick={() => setModal({ isOpen: true, id: espace.id })}
-                                                    className="p-2 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition-colors">
-                                                    <Trash2 size={14} />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-
-                        {lastPage > 1 && (
-                            <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100">
-                                <p className="text-sm text-gray-400">{total} espace(s) au total</p>
-                                <div className="flex items-center gap-2">
-                                    <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1}
-                                        className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-                                        <ChevronLeft size={16} />
-                                    </button>
-                                    {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
-                                        <button key={page} onClick={() => handlePage(page)}
-                                            className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${currentPage === page ? 'bg-[#7bdff2] text-[#1a1a2e]' : 'border border-gray-200 text-gray-500 hover:bg-gray-50'}`}>
-                                            {page}
-                                        </button>
-                                    ))}
-                                    <button onClick={() => handlePage(currentPage + 1)} disabled={currentPage === lastPage}
-                                        className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-                                        <ChevronRight size={16} />
-                                    </button>
-                                </div>
-                            </div>
-                        )}
+                {/* Filtres */}
+                <form onSubmit={handleFilter} className="bg-white rounded-2xl p-5 mb-6 shadow-sm border border-gray-100">
+                    <div className="flex flex-wrap gap-4 items-end">
+                        <div className="flex-1 min-w-36">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date début</label>
+                            <input type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
+                        </div>
+                        <div className="flex-1 min-w-36">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date fin</label>
+                            <input type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
+                        </div>
+                        <div className="flex-1 min-w-36">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Statut</label>
+                            <select value={filters.statut} onChange={(e) => setFilters({ ...filters, statut: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]">
+                                <option value="">Tous les statuts</option>
+                                <option value="confirmée">Confirmée</option>
+                                <option value="annulée">Annulée</option>
+                            </select>
+                        </div>
+                        <div className="flex gap-2">
+                            <button type="submit"
+                                className="px-5 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center gap-2">
+                                <Search size={16} />
+                                Filtrer
+                            </button>
+                            <button type="button" onClick={handleReset}
+                                className="px-5 py-2.5 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all">
+                                Réinitialiser
+                            </button>
+                        </div>
                     </div>
-                )}
+                </form>
+
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    {loading ? (
+                        <div className="flex items-center justify-center h-32 text-gray-400 text-sm">Chargement...</div>
+                    ) : reservations.length === 0 ? (
+                        <div className="flex items-center justify-center h-32 text-gray-400 text-sm">Aucune réservation</div>
+                    ) : (
+                        <>
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="bg-gray-50 border-b border-gray-100">
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Utilisateur</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Espace</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Dates</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Total</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Statut</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Facture</th>
+                                        <th className="px-5 py-3"></th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-50">
+                                    {reservations.map((r) => (
+                                        <tr key={r.id} className="hover:bg-gray-50 transition-colors">
+                                            <td className="px-5 py-4 text-sm font-medium text-[#1a1a2e]">{r.user?.prenom} {r.user?.nom}</td>
+                                            <td className="px-5 py-4 text-sm text-gray-500">{r.espace?.nom}</td>
+                                            <td className="px-5 py-4 text-sm text-gray-500">{r.date_debut} → {r.date_fin}</td>
+                                            <td className="px-5 py-4 text-sm font-semibold text-[#7bdff2]">{r.prix_total}€</td>
+                                            <td className="px-5 py-4">
+                                                {r.statut === 'confirmée' ? (
+                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0d9488] border border-[#b2f7ef]">Confirmée</span>
+                                                ) : (
+                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500 border border-red-100">Annulée</span>
+                                                )}
+                                            </td>
+                                            <td className="px-5 py-4">
+                                                {r.facture_acquittee ? (
+                                                    <span className="flex items-center gap-1 text-xs font-medium text-[#0d9488]">
+                                                        <CheckCircle size={14} />
+                                                        Acquittée
+                                                    </span>
+                                                ) : r.statut === 'confirmée' ? (
+                                                    <button onClick={() => setModalAcquitter({ isOpen: true, id: r.id })}
+                                                        className="text-xs font-medium px-3 py-1.5 rounded-lg border border-[#b2f7ef] text-[#0d9488] hover:bg-[#eff7f6] transition-colors">
+                                                        Acquitter
+                                                    </button>
+                                                ) : (
+                                                    <span className="text-gray-300 text-sm">—</span>
+                                                )}
+                                            </td>
+                                            <td className="px-5 py-4 text-right">
+                                                {r.statut === 'confirmée' && (
+                                                    <button onClick={() => setModalAnnuler({ isOpen: true, id: r.id })}
+                                                        className="text-xs font-medium px-3 py-1.5 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition-colors">
+                                                        Annuler
+                                                    </button>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            {lastPage > 1 && (
+                                <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100">
+                                    <p className="text-sm text-gray-400">{total} réservation(s) au total</p>
+                                    <div className="flex items-center gap-2">
+                                        <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1}
+                                            className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                                            <ChevronLeft size={16} />
+                                        </button>
+                                        {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
+                                            <button key={page} onClick={() => handlePage(page)}
+                                                className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${currentPage === page ? 'bg-[#7bdff2] text-[#1a1a2e]' : 'border border-gray-200 text-gray-500 hover:bg-gray-50'}`}>
+                                                {page}
+                                            </button>
+                                        ))}
+                                        <button onClick={() => handlePage(currentPage + 1)} disabled={currentPage === lastPage}
+                                            className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                                            <ChevronRight size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
+                </div>
             </main>
         </div>
     )

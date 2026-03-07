@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Plus, Pencil, Trash2, Maximize2, Users, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Plus, Pencil, Trash2, Maximize2, Users, ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getEspaces, deleteEspace } from '../../api/espaces'
 import SidebarAdmin from '../../components/SidebarAdmin'
@@ -14,15 +14,16 @@ export default function EspacesAdmin() {
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
     const [total, setTotal] = useState(0)
+    const [filters, setFilters] = useState({ type: '', capacite: '', tarif_max: '', date_debut: '', date_fin: '' })
 
     useEffect(() => {
         fetchEspaces(1)
     }, [])
 
-    const fetchEspaces = async (page = 1) => {
+    const fetchEspaces = async (page = 1, params = {}) => {
         setLoading(true)
         try {
-            const data = await getEspaces(token, { page })
+            const data = await getEspaces(token, { page, ...params })
             setEspaces(data.data || [])
             setCurrentPage(data.meta?.current_page || 1)
             setLastPage(data.meta?.last_page || 1)
@@ -34,14 +35,24 @@ export default function EspacesAdmin() {
         }
     }
 
+    const handleFilter = (e) => {
+        e.preventDefault()
+        fetchEspaces(1, filters)
+    }
+
+    const handleReset = () => {
+        setFilters({ type: '', capacite: '', tarif_max: '', date_debut: '', date_fin: '' })
+        fetchEspaces(1)
+    }
+
     const handleDelete = async () => {
         await deleteEspace(token, modal.id)
         setModal({ isOpen: false, id: null })
-        fetchEspaces(currentPage)
+        fetchEspaces(currentPage, filters)
     }
 
     const handlePage = (page) => {
-        fetchEspaces(page)
+        fetchEspaces(page, filters)
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
@@ -72,13 +83,62 @@ export default function EspacesAdmin() {
                     </Link>
                 </div>
 
+                {/* Filtres */}
+                <form onSubmit={handleFilter} className="bg-white rounded-2xl p-5 mb-6 shadow-sm border border-gray-100">
+                    <div className="flex flex-wrap gap-4 items-end">
+                        <div className="flex-1 min-w-36">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Type</label>
+                            <select value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]">
+                                <option value="">Tous les types</option>
+                                <option value="bureau">Bureau</option>
+                                <option value="salle de réunion">Salle de réunion</option>
+                                <option value="conférence">Conférence</option>
+                            </select>
+                        </div>
+                        <div className="flex-1 min-w-36">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Capacité min.</label>
+                            <input type="number" min="1" value={filters.capacite} onChange={(e) => setFilters({ ...filters, capacite: e.target.value })}
+                                placeholder="Ex: 10"
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
+                        </div>
+                        <div className="flex-1 min-w-36">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Tarif max. (€/jour)</label>
+                            <input type="number" min="1" value={filters.tarif_max} onChange={(e) => setFilters({ ...filters, tarif_max: e.target.value })}
+                                placeholder="Ex: 200"
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
+                        </div>
+                        <div className="flex-1 min-w-36">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date début</label>
+                            <input type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
+                        </div>
+                        <div className="flex-1 min-w-36">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date fin</label>
+                            <input type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
+                        </div>
+                        <div className="flex gap-2">
+                            <button type="submit"
+                                className="px-5 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center gap-2">
+                                <Search size={16} />
+                                Filtrer
+                            </button>
+                            <button type="button" onClick={handleReset}
+                                className="px-5 py-2.5 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all">
+                                Réinitialiser
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
                 {loading ? (
                     <div className="flex items-center justify-center h-64 text-gray-400">Chargement...</div>
                 ) : (
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div className="bg-white rounded border border-gray-100 shadow-sm overflow-hidden">
                         <table className="w-full">
                             <thead>
-                                <tr className="bg-gray-50 border-b border-gray-100">
+                                <tr className="bg-gray-100 border-b border-gray-100">
                                     <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Espace</th>
                                     <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Type</th>
                                     <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Surface</th>
@@ -88,7 +148,11 @@ export default function EspacesAdmin() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50">
-                                {espaces.map((espace) => (
+                                {espaces.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="6" className="text-center py-10 text-gray-400 text-sm">Aucun espace trouvé</td>
+                                    </tr>
+                                ) : espaces.map((espace) => (
                                     <tr key={espace.id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-5 py-4">
                                             <div className="flex items-center gap-3">
@@ -106,7 +170,9 @@ export default function EspacesAdmin() {
                                         <td className="px-5 py-4 text-sm text-gray-500">
                                             <span className="flex items-center gap-1"><Maximize2 size={14} />{espace.surface}m²</span>
                                         </td>
-                                        <td className="px-5 py-4 text-sm text-gray-500"><span className="flex items-center gap-1"><Users size={14} />{espace.capacite}</span></td>
+                                        <td className="px-5 py-4 text-sm text-gray-500">
+                                            <span className="flex items-center gap-1"><Users size={14} />{espace.capacite}</span>
+                                        </td>
                                         <td className="px-5 py-4 text-sm font-semibold text-[#7bdff2]">{espace.tarif_journalier}€</td>
                                         <td className="px-5 py-4">
                                             <div className="flex items-center gap-2 justify-end">
