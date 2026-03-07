@@ -96,15 +96,14 @@ export default function EspaceForm() {
     return (
         <div className="flex">
             <SidebarAdmin />
-            <main className="ml-65 flex-1 min-h-screen bg-gray-50 p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
                 <div className="max-w-3xl mx-auto">
-
-                    <div className="flex items-center gap-3 mb-8">
-                        <Link to="/admin/espaces" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 no-underline">
+                    <div className="flex items-center gap-3 my-6 lg:mb-8">
+                        <Link to="/admin/espaces" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 no-underline shrink-0">
                             <ArrowLeft size={18} />
                         </Link>
                         <div>
-                            <h1 className="text-2xl font-bold text-[#1a1a2e]">{isEdit ? 'Modifier' : 'Ajouter'} un espace</h1>
+                            <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e]">{isEdit ? 'Modifier' : 'Ajouter'} un espace</h1>
                             <p className="text-gray-500 text-sm">{isEdit ? "Modifiez les informations de l'espace" : 'Remplissez les informations du nouvel espace'}</p>
                         </div>
                     </div>
@@ -114,8 +113,7 @@ export default function EspaceForm() {
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-5">
-
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-4">
+                        <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm space-y-4">
                             <h3 className="font-bold text-[#1a1a2e]">Informations générales</h3>
 
                             <div>
@@ -124,7 +122,7 @@ export default function EspaceForm() {
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Type</label>
                                     <select name="type" value={form.type} onChange={handleChange} required
@@ -142,7 +140,7 @@ export default function EspaceForm() {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Surface (m²)</label>
                                     <input type="number" name="surface" value={form.surface} onChange={handleChange} required
@@ -162,19 +160,18 @@ export default function EspaceForm() {
                             </div>
                         </div>
 
-                        {/* Équipements */}
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                        <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm">
                             <h3 className="font-bold text-[#1a1a2e] mb-4">Équipements</h3>
                             {listeEquipements.length === 0 ? (
                                 <p className="text-sm text-gray-400">Aucun équipement disponible</p>
                             ) : (
-                                <div className="grid grid-cols-2 gap-2">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                     {listeEquipements.map((eq) => (
                                         <label key={eq.id} className="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
                                             <input type="checkbox"
                                                 checked={form.equipements.includes(eq.id)}
                                                 onChange={() => toggleEquipement(eq.id)}
-                                                className="accent-[#7bdff2] w-4 h-4" />
+                                                className="accent-[#7bdff2] w-4 h-4 shrink-0" />
                                             <span className="text-sm text-[#1a1a2e]">{eq.nom}</span>
                                         </label>
                                     ))}
@@ -182,8 +179,7 @@ export default function EspaceForm() {
                             )}
                         </div>
 
-                        {/* Images */}
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                        <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm">
                             <h3 className="font-bold text-[#1a1a2e] mb-4">Images</h3>
                             <input type="file" accept="image/*" multiple onChange={(e) => setImages(Array.from(e.target.files))}
                                 className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-medium file:bg-[#eff7f6] file:text-[#0d9488] hover:file:bg-[#b2f7ef]" />
@@ -194,12 +190,12 @@ export default function EspaceForm() {
 
                         <div className="flex gap-3">
                             <button type="submit" disabled={loading}
-                                className="px-6 py-3 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all disabled:opacity-50 flex items-center gap-2">
+                                className="flex-1 sm:flex-none px-6 py-3 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
                                 <Save size={16} />
                                 {loading ? 'Enregistrement...' : 'Enregistrer'}
                             </button>
                             <Link to="/admin/espaces"
-                                className="px-6 py-3 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all no-underline">
+                                className="flex-1 sm:flex-none px-6 py-3 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all no-underline flex items-center justify-center">
                                 Annuler
                             </Link>
                         </div>

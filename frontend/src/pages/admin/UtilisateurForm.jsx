@@ -91,15 +91,15 @@ export default function UtilisateurForm() {
     return (
         <div className="flex">
             <SidebarAdmin />
-            <main className="ml-65 flex-1 min-h-screen bg-gray-50 p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
                 <div className="max-w-2xl mx-auto">
 
-                    <div className="flex items-center gap-3 mb-8">
-                        <Link to="/admin/utilisateurs" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 no-underline">
+                    <div className="flex items-center gap-3 my-6 lg:mb-8">
+                        <Link to="/admin/utilisateurs" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 no-underline shrink-0">
                             <ArrowLeft size={18} />
                         </Link>
                         <div>
-                            <h1 className="text-2xl font-bold text-[#1a1a2e]">{isEdit ? "Modifier l'utilisateur" : 'Ajouter un utilisateur'}</h1>
+                            <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e]">{isEdit ? "Modifier l'utilisateur" : 'Ajouter un utilisateur'}</h1>
                             <p className="text-gray-500 text-sm">{isEdit ? 'Modifiez les informations du compte' : 'Créez un nouveau compte utilisateur'}</p>
                         </div>
                     </div>
@@ -110,10 +110,10 @@ export default function UtilisateurForm() {
 
                     <form onSubmit={handleSubmit} className="space-y-5">
 
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-4">
+                        <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm space-y-4">
                             <h3 className="font-bold text-[#1a1a2e]">Informations personnelles</h3>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Nom</label>
                                     <input type="text" name="nom" value={form.nom} onChange={handleChange} required
@@ -132,7 +132,7 @@ export default function UtilisateurForm() {
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Téléphone</label>
                                     <input type="tel" name="telephone" value={form.telephone} onChange={handleChange}
@@ -155,9 +155,9 @@ export default function UtilisateurForm() {
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-4">
+                        <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm space-y-4">
                             <h3 className="font-bold text-[#1a1a2e]">{isEdit ? 'Changer le mot de passe' : 'Mot de passe'}</h3>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">{isEdit ? 'Nouveau mot de passe' : 'Mot de passe'}</label>
                                     <input type="password" name="password" value={form.password} onChange={handleChange}
@@ -175,12 +175,12 @@ export default function UtilisateurForm() {
 
                         <div className="flex gap-3">
                             <button type="submit" disabled={loading}
-                                className="px-6 py-3 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all disabled:opacity-50 flex items-center gap-2">
+                                className="flex-1 sm:flex-none px-6 py-3 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
                                 <Save size={16} />
                                 {loading ? 'Enregistrement...' : 'Enregistrer'}
                             </button>
                             <Link to="/admin/utilisateurs"
-                                className="px-6 py-3 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all no-underline">
+                                className="flex-1 sm:flex-none px-6 py-3 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all no-underline flex items-center justify-center">
                                 Annuler
                             </Link>
                         </div>

@@ -59,7 +59,7 @@ export default function Utilisateurs() {
     return (
         <div className="flex">
             <SidebarAdmin />
-            <main className="ml-65 flex-1 min-h-screen bg-gray-50 p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
 
                 <Modal
                     isOpen={modal.isOpen}
@@ -71,20 +71,21 @@ export default function Utilisateurs() {
                     onCancel={() => setModal({ isOpen: false, id: null })}
                 />
 
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center justify-between my-6 lg:mb-8 gap-3">
                     <div>
-                        <h1 className="text-2xl font-bold text-[#1a1a2e] mb-1">Utilisateurs</h1>
+                        <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e] mb-1">Utilisateurs</h1>
                         <p className="text-gray-500 text-sm">Gérez les comptes utilisateurs</p>
                     </div>
                     <Link to="/admin/utilisateurs/creer"
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all no-underline">
+                        className="flex items-center gap-2 px-3 lg:px-4 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all no-underline shrink-0">
                         <Plus size={16} />
-                        Ajouter un utilisateur
+                        <span className="hidden sm:inline">Ajouter un utilisateur</span>
+                        <span className="sm:hidden">Ajouter</span>
                     </Link>
                 </div>
 
-                <form onSubmit={handleFilter} className="bg-white rounded-2xl p-5 mb-6 shadow-sm border border-gray-100">
-                    <div className="flex gap-4 items-end">
+                <form onSubmit={handleFilter} className="bg-white rounded-2xl p-4 lg:p-5 mb-6 shadow-sm border border-gray-100">
+                    <div className="flex flex-col sm:flex-row gap-3">
                         <div className="flex-1">
                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Rechercher</label>
                             <div className="relative">
@@ -94,15 +95,17 @@ export default function Utilisateurs() {
                                     className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
                             </div>
                         </div>
-                        <button type="submit"
-                            className="px-5 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center gap-2">
-                            <Search size={16} />
-                            Rechercher
-                        </button>
-                        <button type="button" onClick={handleReset}
-                            className="px-5 py-2.5 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all">
-                            Réinitialiser
-                        </button>
+                        <div className="flex gap-2 sm:items-end">
+                            <button type="submit"
+                                className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center justify-center gap-2">
+                                <Search size={16} />
+                                Rechercher
+                            </button>
+                            <button type="button" onClick={handleReset}
+                                className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all">
+                                Réinitialiser
+                            </button>
+                        </div>
                     </div>
                 </form>
 
@@ -113,55 +116,89 @@ export default function Utilisateurs() {
                         <div className="flex items-center justify-center h-32 text-gray-400 text-sm">Aucun utilisateur trouvé</div>
                     ) : (
                         <>
-                            <table className="w-full">
-                                <thead>
-                                    <tr className="bg-gray-200 border-b border-gray-100">
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Nom</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Email</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Téléphone</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Rôle</th>
-                                        <th className="px-5 py-3"></th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-50">
-                                    {utilisateurs.map((u) => (
-                                        <tr key={u.id} className="hover:bg-gray-50 transition-colors">
-                                            <td className="px-5 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#eff7f6] text-[#0d9488] text-xs font-bold shrink-0">
-                                                        {u.prenom?.[0]}{u.nom?.[0]}
-                                                    </div>
-                                                    <span className="font-medium text-sm text-[#1a1a2e]">{u.prenom} {u.nom}</span>
-                                                </div>
-                                            </td>
-                                            <td className="px-5 py-4 text-sm text-gray-500">{u.email}</td>
-                                            <td className="px-5 py-4 text-sm text-gray-500">{u.telephone || '—'}</td>
-                                            <td className="px-5 py-4">
-                                                {u.role === 'admin' ? (
-                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#1a1a2e] text-[#7bdff2]">Admin</span>
-                                                ) : (
-                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">Utilisateur</span>
-                                                )}
-                                            </td>
-                                            <td className="px-5 py-4">
-                                                <div className="flex items-center gap-2 justify-end">
-                                                    <Link to={`/admin/utilisateurs/${u.id}/modifier`}
-                                                        className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
-                                                        <Pencil size={14} />
-                                                    </Link>
-                                                    <button onClick={() => setModal({ isOpen: true, id: u.id })}
-                                                        className="p-2 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition-colors">
-                                                        <Trash2 size={14} />
-                                                    </button>
-                                                </div>
-                                            </td>
+                            <div className="hidden lg:block">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="bg-gray-200 border-b border-gray-100">
+                                            <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Nom</th>
+                                            <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Email</th>
+                                            <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Téléphone</th>
+                                            <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Rôle</th>
+                                            <th className="px-5 py-3"></th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-50">
+                                        {utilisateurs.map((u) => (
+                                            <tr key={u.id} className="hover:bg-gray-50 transition-colors">
+                                                <td className="px-5 py-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#eff7f6] text-[#0d9488] text-xs font-bold shrink-0">
+                                                            {u.prenom?.[0]}{u.nom?.[0]}
+                                                        </div>
+                                                        <span className="font-medium text-sm text-[#1a1a2e]">{u.prenom} {u.nom}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-5 py-4 text-sm text-gray-500">{u.email}</td>
+                                                <td className="px-5 py-4 text-sm text-gray-500">{u.telephone || '—'}</td>
+                                                <td className="px-5 py-4">
+                                                    {u.role === 'admin' ? (
+                                                        <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#1a1a2e] text-[#7bdff2]">Admin</span>
+                                                    ) : (
+                                                        <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">Utilisateur</span>
+                                                    )}
+                                                </td>
+                                                <td className="px-5 py-4">
+                                                    <div className="flex items-center gap-2 justify-end">
+                                                        <Link to={`/admin/utilisateurs/${u.id}/modifier`}
+                                                            className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
+                                                            <Pencil size={14} />
+                                                        </Link>
+                                                        <button onClick={() => setModal({ isOpen: true, id: u.id })}
+                                                            className="p-2 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition-colors">
+                                                            <Trash2 size={14} />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div className="lg:hidden divide-y divide-gray-100">
+                                {utilisateurs.map((u) => (
+                                    <div key={u.id} className="flex items-center gap-3 p-4">
+                                        <div className="w-9 h-9 rounded-full flex items-center justify-center bg-[#eff7f6] text-[#0d9488] text-xs font-bold shrink-0">
+                                            {u.prenom?.[0]}{u.nom?.[0]}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2">
+                                                <span className="font-medium text-sm text-[#1a1a2e] truncate">{u.prenom} {u.nom}</span>
+                                                {u.role === 'admin' ? (
+                                                    <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-[#1a1a2e] text-[#7bdff2] shrink-0">Admin</span>
+                                                ) : (
+                                                    <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Utilisateur</span>
+                                                )}
+                                            </div>
+                                            <div className="text-xs text-gray-400 truncate mt-0.5">{u.email}</div>
+                                            {u.telephone && <div className="text-xs text-gray-400 mt-0.5">{u.telephone}</div>}
+                                        </div>
+                                        <div className="flex items-center gap-2 shrink-0">
+                                            <Link to={`/admin/utilisateurs/${u.id}/modifier`}
+                                                className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
+                                                <Pencil size={14} />
+                                            </Link>
+                                            <button onClick={() => setModal({ isOpen: true, id: u.id })}
+                                                className="p-2 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition-colors">
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
 
                             {lastPage > 1 && (
-                                <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100">
+                                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 lg:px-5 py-4 border-t border-gray-100">
                                     <p className="text-sm text-gray-400">{total} utilisateur(s) au total</p>
                                     <div className="flex items-center gap-2">
                                         <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1}
