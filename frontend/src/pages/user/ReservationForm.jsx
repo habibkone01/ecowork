@@ -41,21 +41,10 @@ export default function ReservationForm() {
         e.preventDefault()
         setError(null)
         setLoading(true)
-
         try {
-            const data = await createReservation(token, {
-                espace_id: id,
-                date_debut: dateDebut,
-                date_fin: dateFin
-            })
-
-            if (!data.reservation) {
-                setError(data.message || 'Erreur lors de la réservation')
-                return
-            }
-
+            const data = await createReservation(token, { espace_id: id, date_debut: dateDebut, date_fin: dateFin })
+            if (!data.reservation) { setError(data.message || 'Erreur lors de la réservation'); return }
             navigate('/reservation-confirm', { state: { reservation: data.reservation, espace } })
-
         } catch (err) {
             setError('Erreur de connexion au serveur')
         } finally {
@@ -66,25 +55,27 @@ export default function ReservationForm() {
     return (
         <div className="flex">
             <SidebarUser />
-            <main className="ml-65 flex-1 min-h-screen bg-gray-50 p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
                 <div className="max-w-4xl mx-auto">
-                    <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+
+                    <div className="flex items-center gap-2 text-sm text-gray-400 my-6 flex-wrap">
                         <Link to="/espaces" className="hover:text-gray-600 flex items-center gap-1 no-underline">
                             <ArrowLeft size={16} />
                             Les espaces
                         </Link>
                         <ChevronRight size={16} />
-                        <Link to={`/espaces/${id}`} className="hover:text-gray-600 no-underline text-gray-400">
+                        <Link to={`/espaces/${id}`} className="hover:text-gray-600 no-underline text-gray-400 truncate max-w-30">
                             {espace?.nom}
                         </Link>
                         <ChevronRight size={16} />
                         <span className="text-[#1a1a2e] font-medium">Réservation</span>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-6">
-                        <div className="col-span-2">
-                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                                <h1 className="text-xl font-bold text-[#1a1a2e] mb-1">Réserver {espace?.nom}</h1>
+                    <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6">
+
+                        <div className="lg:col-span-2">
+                            <div className="bg-white rounded-2xl p-5 lg:p-6 shadow-sm border border-gray-100">
+                                <h1 className="text-lg lg:text-xl font-bold text-[#1a1a2e] mb-1">Réserver {espace?.nom}</h1>
                                 <p className="text-sm text-gray-400 mb-6">Choisissez vos dates de réservation</p>
 
                                 {error && (
@@ -94,7 +85,7 @@ export default function ReservationForm() {
                                 )}
 
                                 <form onSubmit={handleSubmit}>
-                                    <div className="grid grid-cols-2 gap-4 mb-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                                         <div>
                                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date de début</label>
                                             <div className="relative">
@@ -117,14 +108,14 @@ export default function ReservationForm() {
                                         </div>
                                     </div>
 
-                                    <div className="flex gap-3">
+                                    <div className="flex flex-col sm:flex-row gap-3">
                                         <button type="submit" disabled={loading}
                                             className="flex-1 py-3 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
                                             <CalendarCheck size={16} />
                                             {loading ? 'En cours...' : 'Confirmer la réservation'}
                                         </button>
                                         <Link to={`/espaces/${id}`}
-                                            className="px-6 py-3 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all flex items-center no-underline">
+                                            className="px-6 py-3 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all flex items-center justify-center no-underline">
                                             Annuler
                                         </Link>
                                     </div>
@@ -136,8 +127,9 @@ export default function ReservationForm() {
                                 </form>
                             </div>
                         </div>
-                        <div>
-                            <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 sticky top-8">
+
+                        <div className="lg:col-span-1">
+                            <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 lg:sticky lg:top-8">
                                 <h2 className="font-bold text-base text-[#1a1a2e] mb-4">Récapitulatif</h2>
 
                                 {espace && (
@@ -155,12 +147,13 @@ export default function ReservationForm() {
                                         </div>
                                     </div>
                                 )}
+
                                 <div className="flex justify-between text-sm mb-2">
                                     <span className="text-gray-500">Tarif/jour</span>
                                     <span className="font-medium text-[#1a1a2e]">{espace?.tarif_journalier}€</span>
                                 </div>
 
-                                {getNbJours() > 0 && (
+                                {getNbJours() > 0 ? (
                                     <>
                                         <div className="flex justify-between text-sm mb-2">
                                             <span className="text-gray-500">Durée</span>
@@ -172,9 +165,7 @@ export default function ReservationForm() {
                                             <span className="text-lg text-[#7bdff2]">{getTotal()}€</span>
                                         </div>
                                     </>
-                                )}
-
-                                {getNbJours() === 0 && (
+                                ) : (
                                     <div className="mt-3 text-xs text-gray-400 text-center">
                                         Sélectionnez vos dates pour voir le total
                                     </div>

@@ -24,21 +24,19 @@ export default function ReservationConfirm() {
     return (
         <div className="flex">
             <SidebarUser />
-            <main className="ml-65 flex-1 min-h-screen bg-gray-50 flex items-center justify-center p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 flex items-center justify-center p-4 lg:p-8">
                 <div className="max-w-lg w-full text-center">
 
-                    {/* Icône succès */}
-                    <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 bg-[#eff7f6] border-4 border-[#7bdff2]">
-                        <Check size={40} className="text-[#7bdff2]" />
+                    <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center mx-auto mb-5 lg:mb-6 bg-[#eff7f6] border-4 border-[#7bdff2]">
+                        <Check size={36} className="text-[#7bdff2]" />
                     </div>
 
-                    <h1 className="text-3xl font-bold text-[#1a1a2e] mb-2">Réservation confirmée !</h1>
-                    <p className="text-gray-500 mb-8">Votre réservation a été enregistrée avec succès. Un récapitulatif est disponible ci-dessous.</p>
+                    <h1 className="text-2xl lg:text-3xl font-bold text-[#1a1a2e] mb-2">Réservation confirmée !</h1>
+                    <p className="text-gray-500 text-sm lg:text-base mb-6 lg:mb-8">Votre réservation a été enregistrée avec succès. Un récapitulatif est disponible ci-dessous.</p>
 
-                    {/* Recap card */}
-                    <div className="bg-white rounded-2xl p-6 border border-gray-100 text-left mb-6">
-                        <div className="flex items-center gap-4 mb-5 pb-5 border-b border-gray-100">
-                            <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+                    <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 text-left mb-5 lg:mb-6">
+                        <div className="flex items-center gap-3 lg:gap-4 mb-5 pb-5 border-b border-gray-100">
+                            <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-xl overflow-hidden shrink-0">
                                 {espace?.images?.length > 0 ? (
                                     <img src={espace.images[0].url} alt={espace.nom} className="w-full h-full object-cover" />
                                 ) : (
@@ -79,7 +77,7 @@ export default function ReservationConfirm() {
                         </div>
                     </div>
 
-                    <div className="flex gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3">
                         <Link to="/reservations"
                             className="flex-1 py-3 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center justify-center gap-2 no-underline">
                             <Calendar size={16} />
