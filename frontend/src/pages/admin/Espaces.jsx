@@ -138,12 +138,12 @@ export default function EspacesAdmin() {
                     <div className="bg-white rounded border border-gray-100 shadow-sm overflow-hidden">
                         <table className="w-full">
                             <thead>
-                                <tr className="bg-gray-100 border-b border-gray-100">
-                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Espace</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Type</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Surface</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Capacité</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Tarif/jour</th>
+                                <tr className="bg-gray-200 border-b border-gray-100">
+                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Espace</th>
+                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Type</th>
+                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Surface</th>
+                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Capacité</th>
+                                    <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Tarif/jour</th>
                                     <th className="px-5 py-3"></th>
                                 </tr>
                             </thead>

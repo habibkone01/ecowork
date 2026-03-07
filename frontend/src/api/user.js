@@ -5,13 +5,13 @@ const headers = (token) => ({
     'Authorization': `Bearer ${token}`
 })
 
-export const getUsers = async (token) => {
-    const response = await fetch(`${API_URL}/users`, {
+export const getUsers = async (token, page = 1, params = {}) => {
+    const query = new URLSearchParams({ page, ...params }).toString()
+    const response = await fetch(`${API_URL}/users?${query}`, {
         headers: headers(token)
     })
     return response.json()
 }
-
 export const updateUser = async (token, id, form) => {
     const response = await fetch(`${API_URL}/users/${id}`, {
         method: 'PUT',

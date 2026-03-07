@@ -128,7 +128,7 @@ export default function ReservationsAdmin() {
                     </div>
                 </form>
 
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="bg-white rounded border border-gray-200 shadow-sm overflow-hidden">
                     {loading ? (
                         <div className="flex items-center justify-center h-32 text-gray-400 text-sm">Chargement...</div>
                     ) : reservations.length === 0 ? (
@@ -137,13 +137,13 @@ export default function ReservationsAdmin() {
                         <>
                             <table className="w-full">
                                 <thead>
-                                    <tr className="bg-gray-50 border-b border-gray-100">
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Utilisateur</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Espace</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Dates</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Total</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Statut</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Facture</th>
+                                    <tr className="bg-gray-200 border-b border-gray-200">
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Utilisateur</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Espace</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Dates</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Total</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Statut</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Facture</th>
                                         <th className="px-5 py-3"></th>
                                     </tr>
                                 </thead>

@@ -25,6 +25,7 @@ class UserController extends Controller
                     ->orWhere('prenom', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%');
             })
+            ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
         return UserResource::collection($users);

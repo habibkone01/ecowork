@@ -76,7 +76,7 @@ export default function Equipements() {
                     </Link>
                 </div>
 
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="bg-white rounded border border-gray-100 shadow-sm overflow-hidden">
                     {loading ? (
                         <div className="flex items-center justify-center h-32 text-gray-400 text-sm">Chargement...</div>
                     ) : equipements.length === 0 ? (
@@ -85,9 +85,9 @@ export default function Equipements() {
                         <>
                             <table className="w-full">
                                 <thead>
-                                    <tr className="bg-gray-50 border-b border-gray-100">
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Nom</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Créé le</th>
+                                    <tr className="bg-[#F7D6E0] border-b border-gray-100">
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-black">Nom</th>
+                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-black">Créé le</th>
                                         <th className="px-5 py-3"></th>
                                     </tr>
                                 </thead>
