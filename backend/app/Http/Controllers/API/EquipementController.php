@@ -16,7 +16,7 @@ class EquipementController extends Controller
      */
     public function index()
     {
-        $equipements = Equipement::all();
+        $equipements = Equipement::orderBy('created_at', 'desc')->paginate(10);
         return EquipementResource::collection($equipements);
     }
 
