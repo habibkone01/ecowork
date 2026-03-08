@@ -1,0 +1,30 @@
+describe('Scénario 1 — Inscription', () => {
+  it('permet de créer un compte et redirige vers /login', () => {
+    const email = `test${Date.now()}@ecowork.fr`
+
+    cy.visit('/register')
+    cy.wait(500)
+
+    cy.get('input[name="nom"]').type('Dupont', { delay: 100 })
+    cy.wait(300)
+    cy.get('input[name="prenom"]').type('Jean', { delay: 100 })
+    cy.wait(300)
+    cy.get('input[name="email"]').type(email, { delay: 100 })
+    cy.wait(300)
+    cy.get('input[name="telephone"]').type('0612345678', { delay: 100 })
+    cy.wait(300)
+    cy.get('input[name="adresse"]').type('12 rue de la Paix, Paris', { delay: 100 })
+    cy.wait(300)
+    cy.get('input[name="password"]').type('Password123!', { delay: 100 })
+    cy.wait(300)
+    cy.get('input[name="password_confirmation"]').type('Password123!', { delay: 100 })
+    cy.wait(300)
+    cy.get('#rgpd').check()
+    cy.wait(500)
+
+    cy.contains('button', 'Créer mon compte').click()
+    cy.wait(1000)
+
+    cy.url().should('include', '/login')
+  })
+})
