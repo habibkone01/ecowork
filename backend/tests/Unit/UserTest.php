@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserTest extends TestCase
 {
@@ -39,6 +40,6 @@ class UserTest extends TestCase
     public function test_user_peut_avoir_des_reservations()
     {
         $user = User::factory()->create();
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->reservations);
+        $this->assertInstanceOf(Collection::class, $user->reservations);
     }
 }
