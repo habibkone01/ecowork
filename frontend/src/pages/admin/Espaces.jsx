@@ -201,7 +201,7 @@ export default function EspacesAdmin() {
                                 <div key={espace.id} className="p-4 flex items-center gap-3">
                                     <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0">
                                         {espace.images?.length > 0 ? (
-                                            <img src={espace.images[0].url} alt="" className="w-full h-full object-cover" />
+                                            <img src={espace.images[0].url} alt="" className="w-full h-full object-cover" loading="lazy"/>
                                         ) : (
                                             <div className="w-full h-full bg-gray-100"></div>
                                         )}

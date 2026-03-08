@@ -99,7 +99,7 @@ export default function Espaces() {
                                 <div key={espace.id} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all">
                                     <div className="relative h-44 lg:h-48 overflow-hidden">
                                         <img src={getImageUrl(espace)} alt={espace.nom}
-                                            className="w-full h-full object-cover" />
+                                            className="w-full h-full object-cover" loading="lazy"/>
                                         <div className="absolute top-3 left-3">
                                             <span className="text-xs font-medium px-3 py-1 rounded-full text-white bg-[#1a1a2e99]">{espace.type}</span>
                                         </div>
