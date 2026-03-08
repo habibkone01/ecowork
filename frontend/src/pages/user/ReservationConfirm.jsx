@@ -38,7 +38,7 @@ export default function ReservationConfirm() {
                         <div className="flex items-center gap-3 lg:gap-4 mb-5 pb-5 border-b border-gray-100">
                             <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-xl overflow-hidden shrink-0">
                                 {espace?.images?.length > 0 ? (
-                                    <img src={espace.images[0].url} alt={espace.nom} className="w-full h-full object-cover" />
+                                    <img src={espace.images[0].url} alt={espace.nom} className="w-full h-full object-cover" loading="lazy" />
                                 ) : (
                                     <div className="w-full h-full bg-gray-100 flex items-center justify-center">
                                         <Building2 size={24} className="text-gray-300" />

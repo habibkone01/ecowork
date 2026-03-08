@@ -151,7 +151,7 @@ export default function Reservations() {
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0">
                                                             {r.espace?.images?.length > 0 ? (
-                                                                <img src={r.espace.images[0].url} alt="" className="w-full h-full object-cover" />
+                                                                <img src={r.espace.images[0].url} alt="" className="w-full h-full object-cover" loading="lazy"/>
                                                             ) : (
                                                                 <div className="w-full h-full bg-gray-100"></div>
                                                             )}
@@ -195,7 +195,7 @@ export default function Reservations() {
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0">
                                                     {r.espace?.images?.length > 0 ? (
-                                                        <img src={r.espace.images[0].url} alt="" className="w-full h-full object-cover" />
+                                                        <img src={r.espace.images[0].url} alt="" className="w-full h-full object-cover" loading="lazy"/>
                                                     ) : (
                                                         <div className="w-full h-full bg-gray-100"></div>
                                                     )}

@@ -136,7 +136,7 @@ export default function ReservationForm() {
                                     <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-100">
                                         <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0">
                                             {espace.images?.length > 0 ? (
-                                                <img src={espace.images[0].url} alt={espace.nom} className="w-full h-full object-cover" />
+                                                <img src={espace.images[0].url} alt={espace.nom} className="w-full h-full object-cover" loading="lazy"/>
                                             ) : (
                                                 <div className="w-full h-full bg-gray-100"></div>
                                             )}
