@@ -63,7 +63,7 @@ export default function EspaceDetail() {
                     <div className="relative rounded-2xl overflow-hidden mb-4 h-48 lg:h-80">
                         {espace.images?.length > 0 ? (
                             <img src={getImageUrl(espace.images[0].url)} alt={espace.nom}
-                                className="w-full h-full object-cover" />
+                                className="w-full h-full object-cover" loading="lazy"/>
                         ) : (
                             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                                 <span className="text-gray-400">Pas d'image</span>
@@ -78,7 +78,7 @@ export default function EspaceDetail() {
                         <div className="grid grid-cols-3 gap-2 lg:gap-3 mb-6">
                             {espace.images.slice(1, 4).map((img) => (
                                 <div key={img.id} className="rounded-xl overflow-hidden h-16 lg:h-24 hover:scale-105 transition-all cursor-pointer">
-                                    <img src={getImageUrl(img.url)} alt="" className="w-full h-full object-cover" />
+                                    <img src={getImageUrl(img.url)} alt="" className="w-full h-full object-cover" loading="lazy" />
                                 </div>
                             ))}
                         </div>
