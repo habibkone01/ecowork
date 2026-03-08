@@ -9,6 +9,7 @@ use App\Http\Resources\EspaceResource;
 use App\Models\Espace;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EspaceController extends Controller
 {
@@ -109,13 +110,19 @@ class EspaceController extends Controller
             $espace->equipements()->sync($request->equipements);
         }
 
-        // Ajouter de nouvelles images
+        // Remplacer les images si de nouvelles sont envoyées
         if ($request->hasFile('images')) {
+
+            foreach ($espace->images as $oldImage) {
+                Storage::disk('public')->delete($oldImage->url);
+                $oldImage->delete();
+            }
+
+            // Ajouter les nouvelles images
             foreach ($request->file('images') as $image) {
                 $filename = uniqid() . '.webp';
                 $path = 'espaces/' . $filename;
 
-                // Conversion native PHP en WebP
                 $source = imagecreatefromstring(file_get_contents($image->getRealPath()));
                 imagewebp($source, storage_path('app/public/' . $path), 90);
                 unset($source);
