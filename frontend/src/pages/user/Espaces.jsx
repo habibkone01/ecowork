@@ -61,8 +61,8 @@ export default function Espaces() {
                 <form onSubmit={handleFilter} className="bg-white rounded-2xl p-4 lg:p-5 mb-6 shadow-sm border border-gray-100">
                     <div className="flex flex-col lg:flex-row gap-4 items-end">
                         <div className="w-full lg:flex-1">
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Type</label>
-                            <select value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+                            <label htmlFor="type" className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Type</label>
+                            <select id="type" value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]">
                                 <option value="">Tous les types</option>
                                 <option value="bureau">Bureau</option>
@@ -71,13 +71,13 @@ export default function Espaces() {
                             </select>
                         </div>
                         <div className="w-full lg:flex-1">
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date début</label>
-                            <input type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })}
+                            <label htmlFor="date_debut" className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date début</label>
+                            <input id="date_debut" type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
                         </div>
                         <div className="w-full lg:flex-1">
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date fin</label>
-                            <input type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })}
+                            <label htmlFor="date_fin" className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date fin</label>
+                            <input id="date_fin" type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
                         </div>
                         <button type="submit"
@@ -132,16 +132,19 @@ export default function Espaces() {
                                 <p className="text-sm text-gray-400">{total} espace(s) au total</p>
                                 <div className="flex items-center gap-2">
                                     <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1}
+                                        aria-label="Page précédente"
                                         className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                                         <ChevronLeft size={16} />
                                     </button>
                                     {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
                                         <button key={page} onClick={() => handlePage(page)}
+                                            aria-label={`Page ${page}`}
                                             className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${currentPage === page ? 'bg-[#7bdff2] text-[#1a1a2e]' : 'border border-gray-200 text-gray-500 hover:bg-gray-50'}`}>
                                             {page}
                                         </button>
                                     ))}
                                     <button onClick={() => handlePage(currentPage + 1)} disabled={currentPage === lastPage}
+                                        aria-label="Page suivante"
                                         className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                                         <ChevronRight size={16} />
                                     </button>
