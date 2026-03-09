@@ -30,7 +30,7 @@ export default function SidebarUser() {
                                 {user?.prenom?.[0]}{user?.nom?.[0]}
                             </span>
                         </div>
-                        <button onClick={() => setOpen(!open)} className="text-[#7bdff2] p-1">
+                        <button onClick={() => setOpen(!open)} className="text-[#7bdff2] p-1" aria-label="Ouvrir le menu">
                             {open ? <X size={22} /> : <Menu size={22} />}
                         </button>
                     </div>
