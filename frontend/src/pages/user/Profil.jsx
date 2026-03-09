@@ -85,8 +85,8 @@ export default function Profil() {
                         </div>
                         <div>
                             <h2 className="text-lg lg:text-xl font-bold text-[#1a1a2e]">{user?.prenom} {user?.nom}</h2>
-                            <p className="text-gray-400 text-sm mb-2">{user?.email}</p>
-                            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#eff7f6] text-[#0d9488] border border-[#b2f7ef]">
+                            <p className="text-gray-600 text-sm mb-2">{user?.email}</p>
+                            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70] border border-[#b2f7ef]">
                                 Collaborateur
                             </span>
                         </div>
@@ -96,7 +96,7 @@ export default function Profil() {
                         <h3 className="font-bold text-[#1a1a2e] mb-5">Informations personnelles</h3>
 
                         {success && (
-                            <div className="mb-4 p-3 rounded-xl bg-[#eff7f6] border border-[#b2f7ef] text-[#0d9488] text-sm">
+                            <div className="mb-4 p-3 rounded-xl bg-[#eff7f6] border border-[#b2f7ef] text-[#0a7a70] text-sm">
                                 Profil mis à jour avec succès !
                             </div>
                         )}
@@ -109,14 +109,14 @@ export default function Profil() {
                         <form onSubmit={handleSubmit}>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Nom</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Nom</label>
                                     <div className="relative">
                                         <div className="absolute left-3 top-1/2 -translate-y-1/2"><User size={16} className="text-gray-400" /></div>
                                         <input type="text" name="nom" value={form.nom} onChange={handleChange} className={inputClass} />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Prénom</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Prénom</label>
                                     <div className="relative">
                                         <div className="absolute left-3 top-1/2 -translate-y-1/2"><User size={16} className="text-gray-400" /></div>
                                         <input type="text" name="prenom" value={form.prenom} onChange={handleChange} className={inputClass} />
@@ -125,7 +125,7 @@ export default function Profil() {
                             </div>
 
                             <div className="mb-4">
-                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Email</label>
+                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Email</label>
                                 <div className="relative">
                                     <div className="absolute left-3 top-1/2 -translate-y-1/2"><Mail size={16} className="text-gray-400" /></div>
                                     <input type="email" name="email" value={form.email} onChange={handleChange} className={inputClass} />
@@ -134,14 +134,14 @@ export default function Profil() {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Téléphone</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Téléphone</label>
                                     <div className="relative">
                                         <div className="absolute left-3 top-1/2 -translate-y-1/2"><Phone size={16} className="text-gray-400" /></div>
                                         <input type="tel" name="telephone" value={form.telephone} onChange={handleChange} className={inputClass} />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Adresse</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Adresse</label>
                                     <div className="relative">
                                         <div className="absolute left-3 top-1/2 -translate-y-1/2"><MapPin size={16} className="text-gray-400" /></div>
                                         <input type="text" name="adresse" value={form.adresse} onChange={handleChange} className={inputClass} />
@@ -154,14 +154,14 @@ export default function Profil() {
                             <h3 className="font-semibold text-sm text-[#1a1a2e] mb-4">Changer le mot de passe</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Nouveau mot de passe</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Nouveau mot de passe</label>
                                     <div className="relative">
                                         <div className="absolute left-3 top-1/2 -translate-y-1/2"><Lock size={16} className="text-gray-400" /></div>
                                         <input type="password" name="password" value={form.password} onChange={handleChange} placeholder="••••••••" className={inputClass} />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Confirmation</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Confirmation</label>
                                     <div className="relative">
                                         <div className="absolute left-3 top-1/2 -translate-y-1/2"><Lock size={16} className="text-gray-400" /></div>
                                         <input type="password" name="password_confirmation" value={form.password_confirmation} onChange={handleChange} placeholder="••••••••" className={inputClass} />

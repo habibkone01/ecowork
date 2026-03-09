@@ -47,7 +47,7 @@ export default function ReservationConfirm() {
                             </div>
                             <div>
                                 <h3 className="font-bold text-base text-[#1a1a2e]">{espace?.nom}</h3>
-                                <span className="text-xs px-2 py-1 rounded-lg bg-[#eff7f6] text-[#0d9488]">{espace?.type}</span>
+                                <span className="text-xs px-2 py-1 rounded-lg bg-[#eff7f6] text-[#0a7a70]">{espace?.type}</span>
                             </div>
                         </div>
 
@@ -72,8 +72,8 @@ export default function ReservationConfirm() {
                         </div>
 
                         <div className="mt-4 flex items-center gap-2 p-3 rounded-xl bg-[#eff7f6]">
-                            <CheckCircle size={16} className="text-[#0d9488]" />
-                            <span className="text-xs font-medium text-[#0d9488]">Statut : Confirmée</span>
+                            <CheckCircle size={16} className="text-[#0a7a70]" />
+                            <span className="text-xs font-medium text-[#0a7a70]">Statut : Confirmée</span>
                         </div>
                     </div>
 

@@ -87,7 +87,7 @@ export default function Utilisateurs() {
                 <form onSubmit={handleFilter} className="bg-white rounded-2xl p-4 lg:p-5 mb-6 shadow-sm border border-gray-100">
                     <div className="flex flex-col sm:flex-row gap-3">
                         <div className="flex-1">
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Rechercher</label>
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Rechercher</label>
                             <div className="relative">
                                 <div className="absolute left-3 top-1/2 -translate-y-1/2"><Search size={16} className="text-gray-400" /></div>
                                 <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
@@ -132,7 +132,7 @@ export default function Utilisateurs() {
                                             <tr key={u.id} className="hover:bg-gray-50 transition-colors">
                                                 <td className="px-5 py-4">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#eff7f6] text-[#0d9488] text-xs font-bold shrink-0">
+                                                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#eff7f6] text-[#0a7a70] text-xs font-bold shrink-0">
                                                             {u.prenom?.[0]}{u.nom?.[0]}
                                                         </div>
                                                         <span className="font-medium text-sm text-[#1a1a2e]">{u.prenom} {u.nom}</span>
@@ -168,7 +168,7 @@ export default function Utilisateurs() {
                             <div className="lg:hidden divide-y divide-gray-100">
                                 {utilisateurs.map((u) => (
                                     <div key={u.id} className="flex items-center gap-3 p-4">
-                                        <div className="w-9 h-9 rounded-full flex items-center justify-center bg-[#eff7f6] text-[#0d9488] text-xs font-bold shrink-0">
+                                        <div className="w-9 h-9 rounded-full flex items-center justify-center bg-[#eff7f6] text-[#0a7a70] text-xs font-bold shrink-0">
                                             {u.prenom?.[0]}{u.nom?.[0]}
                                         </div>
                                         <div className="flex-1 min-w-0">
@@ -180,8 +180,8 @@ export default function Utilisateurs() {
                                                     <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Utilisateur</span>
                                                 )}
                                             </div>
-                                            <div className="text-xs text-gray-400 truncate mt-0.5">{u.email}</div>
-                                            {u.telephone && <div className="text-xs text-gray-400 mt-0.5">{u.telephone}</div>}
+                                            <div className="text-xs text-gray-600 truncate mt-0.5">{u.email}</div>
+                                            {u.telephone && <div className="text-xs text-gray-600 mt-0.5">{u.telephone}</div>}
                                         </div>
                                         <div className="flex items-center gap-2 shrink-0">
                                             <Link to={`/admin/utilisateurs/${u.id}/modifier`}
@@ -199,7 +199,7 @@ export default function Utilisateurs() {
 
                             {lastPage > 1 && (
                                 <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 lg:px-5 py-4 border-t border-gray-100">
-                                    <p className="text-sm text-gray-400">{total} utilisateur(s) au total</p>
+                                    <p className="text-sm text-gray-600">{total} utilisateur(s) au total</p>
                                     <div className="flex items-center gap-2">
                                         <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1}
                                             className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">

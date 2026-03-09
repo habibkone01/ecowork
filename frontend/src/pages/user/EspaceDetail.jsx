@@ -51,7 +51,7 @@ export default function EspaceDetail() {
             <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
                 <div className="max-w-5xl mx-auto">
 
-                    <div className="flex items-center gap-2 text-sm text-gray-400 my-6">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 my-6">
                         <Link to="/espaces" className="hover:text-gray-600 flex items-center gap-1 no-underline">
                             <ArrowLeft size={16} />
                             Les espaces
@@ -97,16 +97,16 @@ export default function EspaceDetail() {
                             </div>
 
                             <div className="bg-white rounded-2xl p-5 lg:p-6 shadow-sm border border-gray-100">
-                                <h3 className="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-3">Description</h3>
+                                <h3 className="font-semibold text-sm uppercase tracking-wider text-gray-600 mb-3">Description</h3>
                                 <p className="text-sm text-gray-600 leading-relaxed">{espace.description}</p>
                             </div>
 
                             <div className="bg-white rounded-2xl p-5 lg:p-6 shadow-sm border border-gray-100">
-                                <h3 className="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-3">Équipements</h3>
+                                <h3 className="font-semibold text-sm uppercase tracking-wider text-gray-600 mb-3">Équipements</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                     {espace.equipements?.map((eq) => (
                                         <div key={eq.id} className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[#eff7f6]">
-                                            <CheckCircle size={16} className="text-[#0d9488] shrink-0" />
+                                            <CheckCircle size={16} className="text-[#0a7a70] shrink-0" />
                                             <span className="text-sm text-[#1a1a2e]">{eq.nom}</span>
                                         </div>
                                     ))}
@@ -118,7 +118,7 @@ export default function EspaceDetail() {
                             <div className="bg-white rounded-2xl p-5 lg:p-6 shadow-sm border border-gray-100 lg:sticky lg:top-8 space-y-5">
                                 <div className="text-center">
                                     <div className="text-3xl font-bold text-[#7bdff2]">{espace.tarif_journalier}€</div>
-                                    <div className="text-xs text-gray-400">par jour</div>
+                                    <div className="text-xs text-gray-600">par jour</div>
                                 </div>
 
                                 <hr className="border-gray-100" />
@@ -144,7 +144,7 @@ export default function EspaceDetail() {
                                     className="w-full py-3.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center justify-center gap-2 no-underline">
                                     Réserver cet espace
                                 </Link>
-                                <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
+                                <div className="flex items-center justify-center gap-2 text-xs text-gray-600">
                                     <ShieldCheck size={12} />
                                     <span>Annulation gratuite jusqu'à 24h avant</span>
                                 </div>

@@ -115,31 +115,31 @@ export default function UtilisateurForm() {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Nom</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Nom</label>
                                     <input type="text" name="nom" value={form.nom} onChange={handleChange} required
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Prénom</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Prénom</label>
                                     <input type="text" name="prenom" value={form.prenom} onChange={handleChange} required
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Email</label>
+                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Email</label>
                                 <input type="email" name="email" value={form.email} onChange={handleChange} required
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Téléphone</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Téléphone</label>
                                     <input type="tel" name="telephone" value={form.telephone} onChange={handleChange}
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Rôle</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Rôle</label>
                                     <select name="role" value={form.role} onChange={handleChange}
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2]">
                                         <option value="utilisateur">Utilisateur</option>
@@ -149,7 +149,7 @@ export default function UtilisateurForm() {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Adresse</label>
+                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Adresse</label>
                                 <input type="text" name="adresse" value={form.adresse} onChange={handleChange}
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                             </div>
@@ -159,13 +159,13 @@ export default function UtilisateurForm() {
                             <h3 className="font-bold text-[#1a1a2e]">{isEdit ? 'Changer le mot de passe' : 'Mot de passe'}</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">{isEdit ? 'Nouveau mot de passe' : 'Mot de passe'}</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">{isEdit ? 'Nouveau mot de passe' : 'Mot de passe'}</label>
                                     <input type="password" name="password" value={form.password} onChange={handleChange}
                                         placeholder="••••••••" required={!isEdit}
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Confirmation</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Confirmation</label>
                                     <input type="password" name="password_confirmation" value={form.password_confirmation} onChange={handleChange}
                                         placeholder="••••••••" required={!isEdit}
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />

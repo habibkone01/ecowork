@@ -117,14 +117,14 @@ export default function EspaceForm() {
                             <h3 className="font-bold text-[#1a1a2e]">Informations générales</h3>
 
                             <div>
-                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Nom</label>
+                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Nom</label>
                                 <input type="text" name="nom" value={form.nom} onChange={handleChange} required
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Type</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Type</label>
                                     <select name="type" value={form.type} onChange={handleChange} required
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2]">
                                         <option value="">Choisir un type</option>
@@ -134,7 +134,7 @@ export default function EspaceForm() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Tarif/jour (€)</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Tarif/jour (€)</label>
                                     <input type="number" name="tarif_journalier" value={form.tarif_journalier} onChange={handleChange} required
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                                 </div>
@@ -142,19 +142,19 @@ export default function EspaceForm() {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Surface (m²)</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Surface (m²)</label>
                                     <input type="number" name="surface" value={form.surface} onChange={handleChange} required
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Capacité (personnes)</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Capacité (personnes)</label>
                                     <input type="number" name="capacite" value={form.capacite} onChange={handleChange} required
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Description</label>
+                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Description</label>
                                 <textarea name="description" value={form.description} onChange={handleChange} rows={4} required
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] resize-none" />
                             </div>
@@ -163,7 +163,7 @@ export default function EspaceForm() {
                         <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm">
                             <h3 className="font-bold text-[#1a1a2e] mb-4">Équipements</h3>
                             {listeEquipements.length === 0 ? (
-                                <p className="text-sm text-gray-400">Aucun équipement disponible</p>
+                                <p className="text-sm text-gray-600">Aucun équipement disponible</p>
                             ) : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                     {listeEquipements.map((eq) => (
@@ -182,9 +182,9 @@ export default function EspaceForm() {
                         <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm">
                             <h3 className="font-bold text-[#1a1a2e] mb-4">Images</h3>
                             <input type="file" accept="image/*" multiple onChange={(e) => setImages(Array.from(e.target.files))}
-                                className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-medium file:bg-[#eff7f6] file:text-[#0d9488] hover:file:bg-[#b2f7ef]" />
+                                className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-medium file:bg-[#eff7f6] file:text-[#0a7a70] hover:file:bg-[#b2f7ef]" />
                             {images.length > 0 && (
-                                <p className="text-xs text-gray-400 mt-2">{images.length} image(s) sélectionnée(s)</p>
+                                <p className="text-xs text-gray-600 mt-2">{images.length} image(s) sélectionnée(s)</p>
                             )}
                         </div>
 

@@ -121,7 +121,7 @@ export default function Equipements() {
                                     <div key={eq.id} className="flex items-center justify-between px-4 py-3">
                                         <div>
                                             <div className="font-medium text-sm text-[#1a1a2e]">{eq.nom}</div>
-                                            <div className="text-xs text-gray-400 mt-0.5">{formatDate(eq.created_at)}</div>
+                                            <div className="text-xs text-gray-600 mt-0.5">{formatDate(eq.created_at)}</div>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Link to={`/admin/equipements/${eq.id}/modifier`}
@@ -139,7 +139,7 @@ export default function Equipements() {
 
                             {lastPage > 1 && (
                                 <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 lg:px-5 py-4 border-t border-gray-100">
-                                    <p className="text-sm text-gray-400">{total} équipement(s) au total</p>
+                                    <p className="text-sm text-gray-600">{total} équipement(s) au total</p>
                                     <div className="flex items-center gap-2">
                                         <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1}
                                             className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">

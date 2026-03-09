@@ -61,7 +61,7 @@ export default function Espaces() {
                 <form onSubmit={handleFilter} className="bg-white rounded-2xl p-4 lg:p-5 mb-6 shadow-sm border border-gray-100">
                     <div className="flex flex-col lg:flex-row gap-4 items-end">
                         <div className="w-full lg:flex-1">
-                            <label htmlFor="type" className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Type</label>
+                            <label htmlFor="type" className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Type</label>
                             <select id="type" value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]">
                                 <option value="">Tous les types</option>
@@ -71,12 +71,12 @@ export default function Espaces() {
                             </select>
                         </div>
                         <div className="w-full lg:flex-1">
-                            <label htmlFor="date_debut" className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date début</label>
+                            <label htmlFor="date_debut" className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date début</label>
                             <input id="date_debut" type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
                         </div>
                         <div className="w-full lg:flex-1">
-                            <label htmlFor="date_fin" className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date fin</label>
+                            <label htmlFor="date_fin" className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date fin</label>
                             <input id="date_fin" type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
                         </div>
@@ -107,7 +107,7 @@ export default function Espaces() {
                                     <div className="p-4 lg:p-5">
                                         <div className="flex items-start justify-between mb-2">
                                             <h3 className="font-bold text-base text-[#1a1a2e]">{espace.nom}</h3>
-                                            <span className="font-bold text-base text-[#7bdff2] shrink-0 ml-2">{espace.tarif_journalier}€<span className="text-xs font-normal text-gray-400">/jour</span></span>
+                                            <span className="font-bold text-base text-[#7bdff2] shrink-0 ml-2">{espace.tarif_journalier}€<span className="text-xs font-normal text-gray-600">/jour</span></span>
                                         </div>
                                         <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
                                             <span className="flex items-center gap-1"><Maximize2 size={12} />{espace.surface}m²</span>
@@ -115,7 +115,7 @@ export default function Espaces() {
                                         </div>
                                         <div className="flex gap-1 mb-4 flex-wrap">
                                             {espace.equipements?.slice(0, 3).map((eq) => (
-                                                <span key={eq.id} className="text-xs px-2 py-1 rounded-lg bg-[#eff7f6] text-[#0d9488]">{eq.nom}</span>
+                                                <span key={eq.id} className="text-xs px-2 py-1 rounded-lg bg-[#eff7f6] text-[#0a7a70]">{eq.nom}</span>
                                             ))}
                                         </div>
                                         <Link to={`/espaces/${espace.id}`}
@@ -129,7 +129,7 @@ export default function Espaces() {
 
                         {lastPage > 1 && (
                             <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-                                <p className="text-sm text-gray-400">{total} espace(s) au total</p>
+                                <p className="text-sm text-gray-600">{total} espace(s) au total</p>
                                 <div className="flex items-center gap-2">
                                     <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1}
                                         aria-label="Page précédente"

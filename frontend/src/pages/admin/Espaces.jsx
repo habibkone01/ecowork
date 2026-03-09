@@ -87,7 +87,7 @@ export default function EspacesAdmin() {
                 <form onSubmit={handleFilter} className="bg-white rounded-2xl p-4 lg:p-5 mb-6 shadow-sm border border-gray-100">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 mb-4">
                         <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Type</label>
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Type</label>
                             <select value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]">
                                 <option value="">Tous les types</option>
@@ -97,24 +97,24 @@ export default function EspacesAdmin() {
                             </select>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Capacité min.</label>
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Capacité min.</label>
                             <input type="number" min="1" value={filters.capacite} onChange={(e) => setFilters({ ...filters, capacite: e.target.value })}
                                 placeholder="Ex: 10"
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Tarif max. (€/jour)</label>
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Tarif max. (€/jour)</label>
                             <input type="number" min="1" value={filters.tarif_max} onChange={(e) => setFilters({ ...filters, tarif_max: e.target.value })}
                                 placeholder="Ex: 200"
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date début</label>
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date début</label>
                             <input type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date fin</label>
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date fin</label>
                             <input type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
                         </div>
@@ -208,7 +208,7 @@ export default function EspacesAdmin() {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="font-medium text-sm text-[#1a1a2e] truncate">{espace.nom}</div>
-                                        <div className="text-xs text-gray-400 mt-0.5">{espace.type}</div>
+                                        <div className="text-xs text-gray-600 mt-0.5">{espace.type}</div>
                                         <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
                                             <span className="flex items-center gap-1"><Maximize2 size={11} />{espace.surface}m²</span>
                                             <span className="flex items-center gap-1"><Users size={11} />{espace.capacite}</span>
@@ -230,7 +230,7 @@ export default function EspacesAdmin() {
                         </div>
                         {lastPage > 1 && (
                             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 lg:px-5 py-4 border-t border-gray-100">
-                                <p className="text-sm text-gray-400">{total} espace(s) au total</p>
+                                <p className="text-sm text-gray-600">{total} espace(s) au total</p>
                                 <div className="flex items-center gap-2">
                                     <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1}
                                         className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">

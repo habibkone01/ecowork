@@ -58,13 +58,13 @@ export default function ReservationForm() {
             <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
                 <div className="max-w-4xl mx-auto">
 
-                    <div className="flex items-center gap-2 text-sm text-gray-400 my-6 flex-wrap">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 my-6 flex-wrap">
                         <Link to="/espaces" className="hover:text-gray-600 flex items-center gap-1 no-underline">
                             <ArrowLeft size={16} />
                             Les espaces
                         </Link>
                         <ChevronRight size={16} />
-                        <Link to={`/espaces/${id}`} className="hover:text-gray-600 no-underline text-gray-400 truncate max-w-30">
+                        <Link to={`/espaces/${id}`} className="hover:text-gray-600 no-underline text-gray-600 truncate max-w-30">
                             {espace?.nom}
                         </Link>
                         <ChevronRight size={16} />
@@ -76,7 +76,7 @@ export default function ReservationForm() {
                         <div className="lg:col-span-2">
                             <div className="bg-white rounded-2xl p-5 lg:p-6 shadow-sm border border-gray-100">
                                 <h1 className="text-lg lg:text-xl font-bold text-[#1a1a2e] mb-1">Réserver {espace?.nom}</h1>
-                                <p className="text-sm text-gray-400 mb-6">Choisissez vos dates de réservation</p>
+                                <p className="text-sm text-gray-600 mb-6">Choisissez vos dates de réservation</p>
 
                                 {error && (
                                     <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">
@@ -87,7 +87,7 @@ export default function ReservationForm() {
                                 <form onSubmit={handleSubmit}>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                                         <div>
-                                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date de début</label>
+                                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date de début</label>
                                             <div className="relative">
                                                 <div className="absolute left-3 top-1/2 -translate-y-1/2">
                                                     <Calendar size={16} className="text-gray-400" />
@@ -97,7 +97,7 @@ export default function ReservationForm() {
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Date de fin</label>
+                                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date de fin</label>
                                             <div className="relative">
                                                 <div className="absolute left-3 top-1/2 -translate-y-1/2">
                                                     <Calendar size={16} className="text-gray-400" />
@@ -120,7 +120,7 @@ export default function ReservationForm() {
                                         </Link>
                                     </div>
 
-                                    <div className="flex items-center gap-2 mt-4 text-xs text-gray-400">
+                                    <div className="flex items-center gap-2 mt-4 text-xs text-gray-600">
                                         <ShieldCheck size={12} />
                                         <span>Annulation gratuite jusqu'à 24h avant</span>
                                     </div>
@@ -143,7 +143,7 @@ export default function ReservationForm() {
                                         </div>
                                         <div>
                                             <div className="font-semibold text-sm text-[#1a1a2e]">{espace.nom}</div>
-                                            <div className="text-xs text-gray-400">{espace.type} · {espace.surface}m² · {espace.capacite} pers.</div>
+                                            <div className="text-xs text-gray-600">{espace.type} · {espace.surface}m² · {espace.capacite} pers.</div>
                                         </div>
                                     </div>
                                 )}
@@ -166,7 +166,7 @@ export default function ReservationForm() {
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="mt-3 text-xs text-gray-400 text-center">
+                                    <div className="mt-3 text-xs text-gray-600 text-center">
                                         Sélectionnez vos dates pour voir le total
                                     </div>
                                 )}
