@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
+import { ThemeProvider } from './context/ThemeContext'
 import ProtectedRoute from './components/ProtectedRoute'
 
 // Auth
@@ -26,31 +27,33 @@ export default function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
-                <Routes>
-                    {/* Public */}
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/" element={<Navigate to="/login" replace />} />
-                    {/* User */}
-                    <Route path="/espaces" element={<ProtectedRoute><Espaces /></ProtectedRoute>} />
-                    <Route path="/espaces/:id" element={<ProtectedRoute><EspaceDetail /></ProtectedRoute>} />
-                    <Route path="/espaces/:id/reserver" element={<ProtectedRoute><ReservationForm /></ProtectedRoute>} />
-                    <Route path="/reservation-confirm" element={<ProtectedRoute><ReservationConfirm /></ProtectedRoute>} />
-                    <Route path="/reservations" element={<ProtectedRoute><Reservations /></ProtectedRoute>} />
-                    <Route path="/profil" element={<ProtectedRoute><Profil /></ProtectedRoute>} />
-                    {/* Admin */}
-                    <Route path="/admin/dashboard" element={<ProtectedRoute adminOnly><Dashboard /></ProtectedRoute>} />
-                    <Route path="/admin/espaces" element={<ProtectedRoute adminOnly><AdminEspaces /></ProtectedRoute>} />
-                    <Route path="/admin/espaces/creer" element={<ProtectedRoute adminOnly><EspaceForm /></ProtectedRoute>} />
-                    <Route path="/admin/espaces/:id/modifier" element={<ProtectedRoute adminOnly><EspaceForm /></ProtectedRoute>} />
-                    <Route path="/admin/equipements" element={<ProtectedRoute adminOnly><Equipements /></ProtectedRoute>} />
-                    <Route path="/admin/equipements/creer" element={<ProtectedRoute adminOnly><EquipementForm /></ProtectedRoute>} />
-                    <Route path="/admin/equipements/:id/modifier" element={<ProtectedRoute adminOnly><EquipementForm /></ProtectedRoute>} />
-                    <Route path="/admin/reservations" element={<ProtectedRoute adminOnly><AdminReservations /></ProtectedRoute>} />
-                    <Route path="/admin/utilisateurs" element={<ProtectedRoute adminOnly><Utilisateurs /></ProtectedRoute>} />
-                    <Route path="/admin/utilisateurs/creer" element={<ProtectedRoute adminOnly><UtilisateurForm /></ProtectedRoute>} />
-                    <Route path="/admin/utilisateurs/:id/modifier" element={<ProtectedRoute adminOnly><UtilisateurForm /></ProtectedRoute>} />
-                </Routes>
+                <ThemeProvider>
+                    <Routes>
+                        {/* Public */}
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/" element={<Navigate to="/login" replace />} />
+                        {/* User */}
+                        <Route path="/espaces" element={<ProtectedRoute><Espaces /></ProtectedRoute>} />
+                        <Route path="/espaces/:id" element={<ProtectedRoute><EspaceDetail /></ProtectedRoute>} />
+                        <Route path="/espaces/:id/reserver" element={<ProtectedRoute><ReservationForm /></ProtectedRoute>} />
+                        <Route path="/reservation-confirm" element={<ProtectedRoute><ReservationConfirm /></ProtectedRoute>} />
+                        <Route path="/reservations" element={<ProtectedRoute><Reservations /></ProtectedRoute>} />
+                        <Route path="/profil" element={<ProtectedRoute><Profil /></ProtectedRoute>} />
+                        {/* Admin */}
+                        <Route path="/admin/dashboard" element={<ProtectedRoute adminOnly><Dashboard /></ProtectedRoute>} />
+                        <Route path="/admin/espaces" element={<ProtectedRoute adminOnly><AdminEspaces /></ProtectedRoute>} />
+                        <Route path="/admin/espaces/creer" element={<ProtectedRoute adminOnly><EspaceForm /></ProtectedRoute>} />
+                        <Route path="/admin/espaces/:id/modifier" element={<ProtectedRoute adminOnly><EspaceForm /></ProtectedRoute>} />
+                        <Route path="/admin/equipements" element={<ProtectedRoute adminOnly><Equipements /></ProtectedRoute>} />
+                        <Route path="/admin/equipements/creer" element={<ProtectedRoute adminOnly><EquipementForm /></ProtectedRoute>} />
+                        <Route path="/admin/equipements/:id/modifier" element={<ProtectedRoute adminOnly><EquipementForm /></ProtectedRoute>} />
+                        <Route path="/admin/reservations" element={<ProtectedRoute adminOnly><AdminReservations /></ProtectedRoute>} />
+                        <Route path="/admin/utilisateurs" element={<ProtectedRoute adminOnly><Utilisateurs /></ProtectedRoute>} />
+                        <Route path="/admin/utilisateurs/creer" element={<ProtectedRoute adminOnly><UtilisateurForm /></ProtectedRoute>} />
+                        <Route path="/admin/utilisateurs/:id/modifier" element={<ProtectedRoute adminOnly><UtilisateurForm /></ProtectedRoute>} />
+                    </Routes>
+                </ThemeProvider>
             </AuthProvider>
         </BrowserRouter>
     )

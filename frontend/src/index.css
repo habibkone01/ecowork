@@ -3,3 +3,18 @@
 * {
     font-family: system-ui, sans-serif;
 }
+
+.low-carbon img:not([data-no-lazy]) {
+    display: none !important;
+}
+
+.low-carbon * {
+    animation: none !important;
+    transition: none !important;
+}
+
+.low-carbon .bg-gradient-to-br,
+.low-carbon .bg-gradient-to-r,
+.low-carbon .bg-gradient-to-l {
+    background-image: none !important;
+}
