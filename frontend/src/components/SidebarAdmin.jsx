@@ -23,30 +23,48 @@ export default function SidebarAdmin() {
 
     return (
         <>
-            <div className="lg:hidden fixed top-0 left-0 right-0 z-50">
-                <div className="flex items-center justify-between px-5 py-3 bg-[#1a1a2e] border-b border-[#ffffff14]">
+            <div className="lg:hidden fixed top-0 left-0 right-0 z-50 px-4 pt-4">
+
+                <div className="flex items-center justify-between px-5 py-3 rounded-full bg-[#1a1a2e] shadow-lg shadow-black/30">
                     <div className="flex items-center gap-3">
-                        <img src={logo} alt="EcoWork" className="h-7" />
+                        <img src={logo} alt="EcoWork" className="h-6" />
                         <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-[#7bdff233] text-[#7bdff2]">ADMIN</span>
                     </div>
-                    <button onClick={() => setOpen(!open)} className="text-[#7bdff2] p-1" aria-label="Ouvrir le menu">
+                    <button
+                        onClick={() => setOpen(!open)}
+                        className="text-[#7bdff2] p-1"
+                        aria-label="Ouvrir le menu"
+                    >
                         {open ? <X size={22} /> : <Menu size={22} />}
                     </button>
                 </div>
 
                 {open && (
                     <>
-                        <div className="bg-[#1a1a2e] border-b border-[#ffffff14] px-4 py-3 space-y-1 shadow-xl">
-                            {navLinks.map(({ to, icon: Icon, label }) => (
-                                <Link key={to} to={to} onClick={() => setOpen(false)}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all no-underline ${isActive(to) ? 'bg-[#7bdff226] text-[#7bdff2] font-semibold' : 'text-[#ffffff8c]'}`}>
-                                    <Icon size={16} />
-                                    {label}
-                                </Link>
-                            ))}
-                            <div className="border-t border-[#ffffff14] mt-2 pt-2">
-                                <button onClick={toggleLowCarbon}
-                                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-[#ffffff8c] bg-transparent border-none cursor-pointer">
+                        <div className="mt-3 rounded-2xl bg-[#1a1a2e] shadow-xl shadow-black/40 overflow-hidden border border-[#ffffff14]">
+                            <div className="px-3 py-3 space-y-1">
+                                {navLinks.map(({ to, icon: Icon, label }) => (
+                                    <Link
+                                        key={to}
+                                        to={to}
+                                        onClick={() => setOpen(false)}
+                                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all no-underline ${
+                                            isActive(to)
+                                                ? 'bg-[#7bdff226] text-[#7bdff2] font-semibold'
+                                                : 'text-[#ffffff8c] hover:bg-[#ffffff0d] hover:text-white'
+                                        }`}
+                                    >
+                                        <Icon size={16} />
+                                        {label}
+                                    </Link>
+                                ))}
+                            </div>
+
+                            <div className="border-t border-[#ffffff14] px-3 py-2">
+                                <button
+                                    onClick={toggleLowCarbon}
+                                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm text-[#ffffff8c] bg-transparent border-none cursor-pointer hover:bg-[#ffffff0d]"
+                                >
                                     <span className="flex items-center gap-3">
                                         <Leaf size={16} />
                                         Mode Low Carbon
@@ -56,15 +74,22 @@ export default function SidebarAdmin() {
                                     </div>
                                 </button>
                             </div>
-                            <div className="border-t border-[#ffffff14] mt-2 pt-2">
-                                <button onClick={() => { logout(); setOpen(false) }}
-                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-[#ef444499] bg-transparent border-none cursor-pointer">
+
+                            <div className="border-t border-[#ffffff14] px-3 py-2">
+                                <button
+                                    onClick={() => { logout(); setOpen(false) }}
+                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-[#ef444499] bg-transparent border-none cursor-pointer hover:bg-[#ef444411]"
+                                >
                                     <LogOut size={16} />
                                     Se déconnecter
                                 </button>
                             </div>
                         </div>
-                        <div className="fixed inset-0 top-14.25 bg-black opacity-40 -z-10" onClick={() => setOpen(false)} />
+
+                        <div
+                            className="fixed inset-0 -z-10 bg-black/40"
+                            onClick={() => setOpen(false)}
+                        />
                     </>
                 )}
             </div>
@@ -109,7 +134,6 @@ export default function SidebarAdmin() {
                             <div className="text-xs truncate text-[#7bdff2]">Administrateur</div>
                         </div>
                     </div>
-
                     <button onClick={toggleLowCarbon}
                         className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm transition-all bg-transparent border-none cursor-pointer text-[#ffffff8c] mb-1">
                         <span className="flex items-center gap-3">
@@ -120,7 +144,6 @@ export default function SidebarAdmin() {
                             <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${lowCarbon ? 'left-5' : 'left-0.5'}`} />
                         </div>
                     </button>
-
                     <button onClick={logout}
                         className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all bg-transparent border-none cursor-pointer text-[#ef444499]">
                         <LogOut size={16} />Se déconnecter
