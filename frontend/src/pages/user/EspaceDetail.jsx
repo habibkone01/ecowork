@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronRight, Maximize2, Users, Tag, CheckCircle, ShieldChec
 import { useAuth } from '../../context/AuthContext'
 import { getEspace } from '../../api/espaces'
 import SidebarUser from '../../components/SidebarUser'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function EspaceDetail() {
     const { id } = useParams()
@@ -26,7 +27,8 @@ export default function EspaceDetail() {
     }, [id])
 
     const getImageUrl = (url) => url
-
+    usePageTitle(espace?.nom)
+    
     if (loading) return (
         <div className="flex">
             <SidebarUser />

@@ -5,8 +5,10 @@ import { useAuth } from '../../context/AuthContext'
 import { getEspaces, deleteEspace } from '../../api/espaces'
 import SidebarAdmin from '../../components/SidebarAdmin'
 import Modal from '../../components/Modal'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function EspacesAdmin() {
+    usePageTitle('Espaces')
     const { token } = useAuth()
     const [espaces, setEspaces] = useState([])
     const [loading, setLoading] = useState(true)

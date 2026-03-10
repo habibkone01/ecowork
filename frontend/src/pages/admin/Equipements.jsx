@@ -5,8 +5,10 @@ import { useAuth } from '../../context/AuthContext'
 import { getEquipements, deleteEquipement } from '../../api/equipements'
 import SidebarAdmin from '../../components/SidebarAdmin'
 import Modal from '../../components/Modal'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function Equipements() {
+    usePageTitle('Équipements')
     const { token } = useAuth()
     const [equipements, setEquipements] = useState([])
     const [loading, setLoading] = useState(true)

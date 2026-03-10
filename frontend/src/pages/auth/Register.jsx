@@ -4,8 +4,10 @@ import { Mail, Lock, Eye, EyeOff, User, Phone, MapPin, CheckCircle } from 'lucid
 import { register as registerApi } from '../../api/auth'
 import logo from '../../assets/logo.png'
 import imgRegister from '../../assets/imgregister.jpeg'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function Register() {
+    usePageTitle('Inscription')
     const [form, setForm] = useState({
         nom: '', prenom: '', email: '', telephone: '',
         adresse: '', password: '', password_confirmation: ''

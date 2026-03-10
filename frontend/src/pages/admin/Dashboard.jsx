@@ -6,8 +6,10 @@ import { getEspaces } from '../../api/espaces'
 import { getReservations } from '../../api/reservations'
 import { getUsers } from '../../api/user'
 import SidebarAdmin from '../../components/SidebarAdmin'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function Dashboard() {
+    usePageTitle('Dashboard')
     const { token, user } = useAuth()
     const [stats, setStats] = useState({ espaces: 0, reservations: 0, users: 0, revenus: 0 })
     const [reservationsRecentes, setReservationsRecentes] = useState([])

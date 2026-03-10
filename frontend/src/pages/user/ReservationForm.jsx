@@ -5,8 +5,10 @@ import { useAuth } from '../../context/AuthContext'
 import { getEspace } from '../../api/espaces'
 import { createReservation } from '../../api/reservations'
 import SidebarUser from '../../components/SidebarUser'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function ReservationForm() {
+    usePageTitle('Réservation')
     const { id } = useParams()
     const { token } = useAuth()
     const navigate = useNavigate()

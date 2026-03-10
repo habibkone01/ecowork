@@ -4,8 +4,10 @@ import { Search, Maximize2, Users, ChevronLeft, ChevronRight } from 'lucide-reac
 import { useAuth } from '../../context/AuthContext'
 import { getEspaces } from '../../api/espaces'
 import SidebarUser from '../../components/SidebarUser'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function Espaces() {
+    usePageTitle('Les espaces')
     const { token } = useAuth()
     const [espaces, setEspaces] = useState([])
     const [loading, setLoading] = useState(true)

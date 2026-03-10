@@ -5,13 +5,15 @@ import { useAuth } from '../../context/AuthContext'
 import { getEspace, createEspace, updateEspace } from '../../api/espaces'
 import { getEquipements } from '../../api/equipements'
 import SidebarAdmin from '../../components/SidebarAdmin'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function EspaceForm() {
     const { id } = useParams()
     const { token } = useAuth()
     const navigate = useNavigate()
     const isEdit = !!id
-
+    usePageTitle(isEdit ? 'Modifier un espace' : 'Ajouter un espace')
+    
     const [form, setForm] = useState({
         nom: '',
         type: '',

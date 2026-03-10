@@ -4,8 +4,10 @@ import { useAuth } from '../../context/AuthContext'
 import { updateUser, deleteUser } from '../../api/user'
 import SidebarUser from '../../components/SidebarUser'
 import Modal from '../../components/Modal'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function Profil() {
+    usePageTitle('Mon profil')
     const { user, token, logout, updateUserContext } = useAuth()
     const [form, setForm] = useState({
         nom: user?.nom || '',

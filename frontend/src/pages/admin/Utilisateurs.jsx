@@ -5,8 +5,10 @@ import { useAuth } from '../../context/AuthContext'
 import { getUsers, deleteUser } from '../../api/user'
 import SidebarAdmin from '../../components/SidebarAdmin'
 import Modal from '../../components/Modal'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function Utilisateurs() {
+    usePageTitle('Utilisateurs')
     const { token } = useAuth()
     const [utilisateurs, setUtilisateurs] = useState([])
     const [loading, setLoading] = useState(true)

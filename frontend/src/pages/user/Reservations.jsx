@@ -5,8 +5,10 @@ import { useAuth } from '../../context/AuthContext'
 import { getReservations, deleteReservation } from '../../api/reservations'
 import SidebarUser from '../../components/SidebarUser'
 import Modal from '../../components/Modal'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function Reservations() {
+    usePageTitle('Mes réservations')
     const { token } = useAuth()
     const [reservations, setReservations] = useState([])
     const [loading, setLoading] = useState(true)

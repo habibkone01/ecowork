@@ -4,13 +4,15 @@ import { ArrowLeft, Save } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getUsers, updateUser, createUser } from '../../api/user'
 import SidebarAdmin from '../../components/SidebarAdmin'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function UtilisateurForm() {
     const { id } = useParams()
     const { token } = useAuth()
     const navigate = useNavigate()
     const isEdit = !!id
-
+    usePageTitle(isEdit ? 'Modifier un utilisateur' : 'Ajouter un utilisateur')
+    
     const [form, setForm] = useState({
         nom: '',
         prenom: '',

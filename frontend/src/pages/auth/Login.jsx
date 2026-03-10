@@ -5,8 +5,10 @@ import { useAuth } from '../../context/AuthContext'
 import { login as loginApi } from '../../api/auth'
 import logo from '../../assets/logo.png'
 import imgLogin from '../../assets/imglogin.jpeg'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function Login() {
+    usePageTitle('Connexion')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)

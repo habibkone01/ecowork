@@ -4,6 +4,7 @@ import { ArrowLeft, Save } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getEquipements, createEquipement, updateEquipement } from '../../api/equipements'
 import SidebarAdmin from '../../components/SidebarAdmin'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function EquipementForm() {
     const { id } = useParams()
@@ -13,7 +14,8 @@ export default function EquipementForm() {
     const [nom, setNom] = useState('')
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
-
+    usePageTitle(isEdit ? 'Modifier un équipement' : 'Ajouter un équipement')
+    
     useEffect(() => {
         if (isEdit) {
             const fetchEquipement = async () => {

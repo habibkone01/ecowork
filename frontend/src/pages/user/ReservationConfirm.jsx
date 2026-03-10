@@ -2,8 +2,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Calendar, Clock, Check, CheckCircle, Building2 } from 'lucide-react'
 import { useEffect } from 'react'
 import SidebarUser from '../../components/SidebarUser'
+import usePageTitle from '../../hooks/usePageTitle'
 
 export default function ReservationConfirm() {
+    usePageTitle('Confirmation de réservation')
     const { state } = useLocation()
     const navigate = useNavigate()
 
