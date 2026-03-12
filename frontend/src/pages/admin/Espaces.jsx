@@ -16,7 +16,7 @@ export default function EspacesAdmin() {
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
     const [total, setTotal] = useState(0)
-    const [filters, setFilters] = useState({ type: '', capacite: '', tarif_max: '', date_debut: '', date_fin: '' })
+    const [filters, setFilters] = useState({ type: '', date_debut: '', date_fin: '' })
 
     useEffect(() => {
         fetchEspaces(1)
@@ -43,7 +43,7 @@ export default function EspacesAdmin() {
     }
 
     const handleReset = () => {
-        setFilters({ type: '', capacite: '', tarif_max: '', date_debut: '', date_fin: '' })
+        setFilters({ type: '', date_debut: '', date_fin: '' })
         fetchEspaces(1)
     }
 
@@ -97,18 +97,6 @@ export default function EspacesAdmin() {
                                 <option value="salle de réunion">Salle de réunion</option>
                                 <option value="conférence">Conférence</option>
                             </select>
-                        </div>
-                        <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Capacité min.</label>
-                            <input type="number" min="1" value={filters.capacite} onChange={(e) => setFilters({ ...filters, capacite: e.target.value })}
-                                placeholder="Ex: 10"
-                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
-                        </div>
-                        <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Tarif max. (€/jour)</label>
-                            <input type="number" min="1" value={filters.tarif_max} onChange={(e) => setFilters({ ...filters, tarif_max: e.target.value })}
-                                placeholder="Ex: 200"
-                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
                         </div>
                         <div>
                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date début</label>
