@@ -116,9 +116,9 @@ export default function Dashboard() {
                                                     <td className="p-4 text-sm text-gray-500">{r.date_debut} → {r.date_fin}</td>
                                                     <td className="p-4">
                                                         {r.statut === 'confirmée' ? (
-                                                            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70] border border-[#b2f7ef]">Confirmée</span>
+                                                            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#e6f7f5] text-[#0a7a70] ">Confirmée</span>
                                                         ) : (
-                                                            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500 border border-red-100">Annulée</span>
+                                                            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-100 text-red-500 ">Annulée</span>
                                                         )}
                                                     </td>
                                                 </tr>
@@ -132,9 +132,9 @@ export default function Dashboard() {
                                             <div className="flex items-center justify-between">
                                                 <span className="text-sm font-semibold text-[#1a1a2e]">{r.user?.prenom} {r.user?.nom}</span>
                                                 {r.statut === 'confirmée' ? (
-                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70] border border-[#b2f7ef]">Confirmée</span>
+                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70] ">Confirmée</span>
                                                 ) : (
-                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500 border border-red-100">Annulée</span>
+                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500 ">Annulée</span>
                                                 )}
                                             </div>
                                             <div className="text-xs text-gray-500">{r.espace?.nom}</div>

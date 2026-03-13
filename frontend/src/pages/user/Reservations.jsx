@@ -161,9 +161,9 @@ export default function Reservations() {
                                             <td className="p-4 text-sm font-bold text-[#7bdff2]">{r.prix_total}€</td>
                                             <td className="p-4">
                                                 {r.statut === 'confirmée' ? (
-                                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70] border border-[#b2f7ef]">Confirmée</span>
+                                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
                                                 ) : (
-                                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-red-50 text-red-600 border border-red-200">Annulée</span>
+                                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-red-50 text-red-600 ">Annulée</span>
                                                 )}
                                             </td>
                                             <td className="p-4">

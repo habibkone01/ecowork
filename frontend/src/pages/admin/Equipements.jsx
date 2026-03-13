@@ -79,7 +79,7 @@ export default function Equipements() {
                     </Link>
                 </div>
 
-                <div className="bg-white rounded border border-gray-100 shadow-sm overflow-hidden">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                     {loading ? (
                         <div className="flex items-center justify-center h-32 text-gray-400 text-sm">Chargement...</div>
                     ) : equipements.length === 0 ? (

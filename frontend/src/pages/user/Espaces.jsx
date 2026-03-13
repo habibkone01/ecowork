@@ -72,11 +72,11 @@ export default function Espaces() {
                             </select>
                         </div>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
-                            <Calendar size={14} className="text-gray-400 shrink-0" />
+                            <span className="text-gray-600 shrink-0">Du</span>
                             <input type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full" />
                         </div>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 flex-1 border-b sm:border-b-0 border-gray-100">
-                            <Calendar size={14} className="text-gray-400 shrink-0" />
+                            <span className="text-gray-600 shrink-0">au</span>
                             <input type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full" />
                         </div>
                         <button type="submit" className="flex items-center justify-center gap-2 px-6 py-3 sm:py-0 sm:h-12 text-sm font-medium text-[#1A1A2E] hover:opacity-90 transition-opacity shrink-0" style={{ backgroundColor: '#7BDFF2' }}>
@@ -92,47 +92,53 @@ export default function Espaces() {
                     </div>
                 ) : (
                     <>
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6 mb-8">
-                            {espaces.map((espace) => (
-                                <div key={espace.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col" style={{ border: '1px solid #f0f0f0' }}>
-                                    <div className="relative h-64 overflow-hidden rounded-2xl m-3">
-                                        <img src={getImageUrl(espace)} alt={espace.nom} className="w-full h-full object-cover" loading="lazy" />
-                                    </div>
-                                    <div className="px-4 pb-4 flex flex-col flex-1">
-                                        <div className="flex items-start justify-between gap-2 mb-3">
-                                            <h3 className="font-extrabold text-lg text-[#1a1a2e] leading-tight">{espace.nom}</h3>
-                                            <span className="shrink-0 text-xs font-bold px-3 py-1.5 rounded-full text-[#1A1A2E] whitespace-nowrap" style={{ backgroundColor: '#7BDFF2' }}>{espace.tarif_journalier}€/j</span>
+                        {espaces.length === 0 ? (
+                            <div className="flex items-center justify-center h-64 text-gray-400">Aucun espace trouvé</div>
+                        ) : (
+                            <>
+                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6 mb-8">
+                                    {espaces.map((espace) => (
+                                        <div key={espace.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col" style={{ border: '1px solid #f0f0f0' }}>
+                                            <div className="relative h-64 overflow-hidden rounded-2xl m-3">
+                                                <img src={getImageUrl(espace)} alt={espace.nom} className="w-full h-full object-cover" loading="lazy" />
+                                            </div>
+                                            <div className="px-4 pb-4 flex flex-col flex-1">
+                                                <div className="flex items-start justify-between gap-2 mb-3">
+                                                    <h3 className="font-extrabold text-lg text-[#1a1a2e] leading-tight">{espace.nom}</h3>
+                                                    <span className="shrink-0 text-xs font-bold px-3 py-1.5 rounded-full text-[#1A1A2E] whitespace-nowrap" style={{ backgroundColor: '#7BDFF2' }}>{espace.tarif_journalier}€/j</span>
+                                                </div>
+                                                <div className="flex flex-wrap gap-2 mb-4">
+                                                    <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600">{espace.type}</span>
+                                                    <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600 flex items-center gap-1"><Maximize2 size={10} /> {espace.surface}m²</span>
+                                                    <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600 flex items-center gap-1"><Users size={10} /> {espace.capacite} pers.</span>
+                                                </div>
+                                                <Link to={`/espaces/${espace.id}`} className="mt-auto w-full py-3 rounded-2xl font-bold text-sm text-[#1A1A2E] text-center no-underline flex items-center justify-center transition-opacity hover:opacity-90" style={{ backgroundColor: '#7BDFF2' }}>
+                                                    Voir l'espace
+                                                </Link>
+                                            </div>
                                         </div>
-                                        <div className="flex flex-wrap gap-2 mb-4">
-                                            <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600">{espace.type}</span>
-                                            <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600 flex items-center gap-1"><Maximize2 size={10} /> {espace.surface}m²</span>
-                                            <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600 flex items-center gap-1"><Users size={10} /> {espace.capacite} pers.</span>
-                                        </div>
-                                        <Link to={`/espaces/${espace.id}`} className="mt-auto w-full py-3 rounded-2xl font-bold text-sm text-[#1A1A2E] text-center no-underline flex items-center justify-center transition-opacity hover:opacity-90" style={{ backgroundColor: '#7BDFF2' }}>
-                                            Voir l'espace
-                                        </Link>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {lastPage > 1 && (
-                            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-                                <p className="text-sm text-gray-600">{total} espace(s) au total</p>
-                                <div className="flex items-center gap-2">
-                                    <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1} aria-label="Page précédente" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-                                        <ChevronLeft size={16} />
-                                    </button>
-                                    {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
-                                        <button key={page} onClick={() => handlePage(page)} aria-label={`Page ${page}`} className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${currentPage === page ? 'bg-[#7bdff2] text-[#1a1a2e]' : 'border border-gray-200 text-gray-500 hover:bg-gray-50'}`}>
-                                            {page}
-                                        </button>
                                     ))}
-                                    <button onClick={() => handlePage(currentPage + 1)} disabled={currentPage === lastPage} aria-label="Page suivante" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-                                        <ChevronRight size={16} />
-                                    </button>
                                 </div>
-                            </div>
+
+                                {lastPage > 1 && (
+                                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                                        <p className="text-sm text-gray-600">{total} espace(s) au total</p>
+                                        <div className="flex items-center gap-2">
+                                            <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1} aria-label="Page précédente" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                                                <ChevronLeft size={16} />
+                                            </button>
+                                            {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
+                                                <button key={page} onClick={() => handlePage(page)} aria-label={`Page ${page}`} className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${currentPage === page ? 'bg-[#7bdff2] text-[#1a1a2e]' : 'border border-gray-200 text-gray-500 hover:bg-gray-50'}`}>
+                                                    {page}
+                                                </button>
+                                            ))}
+                                            <button onClick={() => handlePage(currentPage + 1)} disabled={currentPage === lastPage} aria-label="Page suivante" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                                                <ChevronRight size={16} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </>
                         )}
                     </>
                 )}

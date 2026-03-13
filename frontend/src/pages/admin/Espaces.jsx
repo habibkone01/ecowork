@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Plus, Pencil, Trash2, Maximize2, Users, ChevronLeft, ChevronRight, Search } from 'lucide-react'
+import { Plus, Pencil, Trash2, Maximize2, Users, ChevronLeft, ChevronRight, Search, LayoutGrid, Calendar } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getEspaces, deleteEspace } from '../../api/espaces'
 import SidebarAdmin from '../../components/SidebarAdmin'
@@ -58,10 +58,17 @@ export default function EspacesAdmin() {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
+    const typeBadge = (type) => {
+        if (type === 'bureau') return 'bg-[#e0f2fe] text-[#0369a1]'
+        if (type === 'salle de réunion') return 'bg-[#f3e8ff] text-[#7c3aed]'
+        if (type === 'conférence') return 'bg-[#fef3c7] text-[#d97706]'
+        return 'bg-gray-100 text-gray-600'
+    }
+
     return (
         <div className="flex">
             <SidebarAdmin />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8 overflow-x-hidden">
 
                 <Modal
                     isOpen={modal.isOpen}
@@ -78,65 +85,56 @@ export default function EspacesAdmin() {
                         <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e] mb-1">Espaces</h1>
                         <p className="text-gray-500 text-sm">Gérez les espaces de coworking</p>
                     </div>
-                    <Link to="/admin/espaces/creer"
-                        className="flex items-center gap-2 px-3 lg:px-4 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all no-underline shrink-0">
+                    <Link to="/admin/espaces/creer" className="flex items-center gap-2 px-3 lg:px-4 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all no-underline shrink-0">
                         <Plus size={16} />
                         <span className="hidden sm:inline">Ajouter un espace</span>
                         <span className="sm:hidden">Ajouter</span>
                     </Link>
                 </div>
 
-                <form onSubmit={handleFilter} className="bg-white rounded-2xl p-4 lg:p-5 mb-6 shadow-sm border border-gray-100">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 mb-4">
-                        <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Type</label>
-                            <select value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]">
+                <div className="flex justify-center mb-6">
+                    <form onSubmit={handleFilter} className="w-full max-w-3xl bg-white overflow-hidden flex flex-col sm:flex-row" style={{ border: '0.5px solid #e0e0d8', borderRadius: '14px' }}>
+                        <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100 sm:min-w-45">
+                            <LayoutGrid size={14} className="text-gray-500 shrink-0" />
+                            <select value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0">
                                 <option value="">Tous les types</option>
                                 <option value="bureau">Bureau</option>
                                 <option value="salle de réunion">Salle de réunion</option>
                                 <option value="conférence">Conférence</option>
                             </select>
                         </div>
-                        <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date début</label>
-                            <input type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })}
-                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
+                        <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
+                            <span className="text-gray-500 shrink-0">Du</span>
+                            <input type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0" />
                         </div>
-                        <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date fin</label>
-                            <input type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })}
-                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
+                        <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 sm:min-w-40 sm:max-w-45 border-b sm:border-b-0 sm:border-r border-gray-100">
+                            <span className="text-gray-500 shrink-0">Au</span>
+                            <input type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0" />
                         </div>
-                    </div>
-                    <div className="flex gap-2">
-                        <button type="submit"
-                            className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center justify-center gap-2">
-                            <Search size={16} />
-                            Filtrer
-                        </button>
-                        <button type="button" onClick={handleReset}
-                            className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all">
+                        <button type="button" onClick={handleReset} className="flex items-center justify-center gap-2 px-5 py-3 sm:py-0 sm:h-12 text-sm text-gray-500 border-b sm:border-b-0 sm:border-r border-gray-100 shrink-0 transition-colors">
                             Réinitialiser
                         </button>
-                    </div>
-                </form>
+                        <button type="submit" className="flex items-center justify-center gap-2 px-7 py-3 sm:py-0 sm:h-12 text-sm font-medium text-[#1A1A2E] hover:opacity-90 transition-opacity shrink-0" style={{ backgroundColor: '#7BDFF2' }}>
+                            <Search size={13} />
+                            Filtrer
+                        </button>
+                    </form>
+                </div>
 
                 {loading ? (
                     <div className="flex items-center justify-center h-64 text-gray-400">Chargement...</div>
                 ) : (
-                    <div className="bg-white rounded border border-gray-100 shadow-sm overflow-hidden">
-
-                        <div className="hidden lg:block">
+                    <>
+                        <div className="hidden lg:block bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                             <table className="w-full">
                                 <thead>
-                                    <tr className="bg-gray-200 border-b border-gray-100">
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Espace</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Type</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Surface</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Capacité</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-900">Tarif/jour</th>
-                                        <th className="px-5 py-3"></th>
+                                    <tr className="border-b border-gray-100">
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Espace</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Type</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Surface</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Capacité</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Tarif/jour</th>
+                                        <th className="px-5 py-3.5"></th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-50">
@@ -150,30 +148,32 @@ export default function EspacesAdmin() {
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0">
                                                         {espace.images?.length > 0 ? (
-                                                            <img src={espace.images[0].url} alt="" className="w-full h-full object-cover" loading="lazy"/>
+                                                            <img src={espace.images[0].url} alt="" className="w-full h-full object-cover" loading="lazy" />
                                                         ) : (
                                                             <div className="w-full h-full bg-gray-100"></div>
                                                         )}
                                                     </div>
-                                                    <span className="font-medium text-sm text-[#1a1a2e]">{espace.nom}</span>
+                                                    <span className="font-semibold text-sm text-[#1a1a2e]">{espace.nom}</span>
                                                 </div>
                                             </td>
-                                            <td className="px-5 py-4 text-sm text-gray-500">{espace.type}</td>
-                                            <td className="px-5 py-4 text-sm text-gray-500">
-                                                <span className="flex items-center gap-1"><Maximize2 size={14} />{espace.surface}m²</span>
+                                            <td className="px-5 py-4">
+                                                <span className={`text-xs font-medium px-2.5 py-1 rounded-full whitespace-nowrap ${typeBadge(espace.type)}`}>{espace.type}</span>
                                             </td>
-                                            <td className="px-5 py-4 text-sm text-gray-500">
-                                                <span className="flex items-center gap-1"><Users size={14} />{espace.capacite}</span>
+                                            <td className="px-5 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                                <span className="flex items-center gap-1.5"><Maximize2 size={13} className="shrink-0" />{espace.surface}m²</span>
                                             </td>
-                                            <td className="px-5 py-4 text-sm font-semibold text-[#7bdff2]">{espace.tarif_journalier}€</td>
+                                            <td className="px-5 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                                <span className="flex items-center gap-1.5"><Users size={13} className="shrink-0" />{espace.capacite} pers.</span>
+                                            </td>
+                                            <td className="px-5 py-4 whitespace-nowrap">
+                                                <span className="text-sm font-bold text-[#7bdff2]">{espace.tarif_journalier}€</span>
+                                            </td>
                                             <td className="px-5 py-4">
                                                 <div className="flex items-center gap-2 justify-end">
-                                                    <Link to={`/admin/espaces/${espace.id}/modifier`}
-                                                        className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
+                                                    <Link to={`/admin/espaces/${espace.id}/modifier`} className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
                                                         <Pencil size={14} />
                                                     </Link>
-                                                    <button onClick={() => setModal({ isOpen: true, id: espace.id })}
-                                                        className="p-2 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition-colors">
+                                                    <button onClick={() => setModal({ isOpen: true, id: espace.id })} className="p-2 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition-colors">
                                                         <Trash2 size={14} />
                                                     </button>
                                                 </div>
@@ -182,64 +182,88 @@ export default function EspacesAdmin() {
                                     ))}
                                 </tbody>
                             </table>
+                            {lastPage > 1 && (
+                                <div className="flex items-center justify-between gap-3 px-5 py-4 border-t border-gray-100">
+                                    <p className="text-sm text-gray-600">{total} espace(s) au total</p>
+                                    <div className="flex items-center gap-2">
+                                        <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1} className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                                            <ChevronLeft size={16} />
+                                        </button>
+                                        {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
+                                            <button key={page} onClick={() => handlePage(page)} className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${currentPage === page ? 'bg-[#7bdff2] text-[#1a1a2e]' : 'border border-gray-200 text-gray-500 hover:bg-gray-50'}`}>
+                                                {page}
+                                            </button>
+                                        ))}
+                                        <button onClick={() => handlePage(currentPage + 1)} disabled={currentPage === lastPage} className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                                            <ChevronRight size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
-                        <div className="lg:hidden divide-y divide-gray-100">
+                        <div className="lg:hidden flex flex-col gap-3">
                             {espaces.length === 0 ? (
                                 <div className="text-center py-10 text-gray-400 text-sm">Aucun espace trouvé</div>
                             ) : espaces.map((espace) => (
-                                <div key={espace.id} className="p-4 flex items-center gap-3">
-                                    <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0">
-                                        {espace.images?.length > 0 ? (
-                                            <img src={espace.images[0].url} alt="" className="w-full h-full object-cover" loading="lazy"/>
-                                        ) : (
-                                            <div className="w-full h-full bg-gray-100"></div>
-                                        )}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="font-medium text-sm text-[#1a1a2e] truncate">{espace.nom}</div>
-                                        <div className="text-xs text-gray-600 mt-0.5">{espace.type}</div>
-                                        <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
-                                            <span className="flex items-center gap-1"><Maximize2 size={11} />{espace.surface}m²</span>
-                                            <span className="flex items-center gap-1"><Users size={11} />{espace.capacite}</span>
-                                            <span className="font-semibold text-[#7bdff2]">{espace.tarif_journalier}€/j</span>
+                                <div key={espace.id} className="bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #f0f0f0' }}>
+                                    <div className="flex items-center gap-3 p-4 pb-3">
+                                        <div className="w-11 h-11 rounded-xl overflow-hidden shrink-0">
+                                            {espace.images?.length > 0 ? (
+                                                <img src={espace.images[0].url} alt="" className="w-full h-full object-cover" loading="lazy" />
+                                            ) : (
+                                                <div className="w-full h-full bg-gray-100"></div>
+                                            )}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="font-semibold text-sm text-[#1a1a2e] truncate">{espace.nom}</div>
+                                            <span className={`text-xs font-medium px-2 py-0.5 rounded-full mt-0.5 inline-block ${typeBadge(espace.type)}`}>{espace.type}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 shrink-0">
+                                            <Link to={`/admin/espaces/${espace.id}/modifier`} className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
+                                                <Pencil size={14} />
+                                            </Link>
+                                            <button onClick={() => setModal({ isOpen: true, id: espace.id })} className="p-2 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition-colors">
+                                                <Trash2 size={14} />
+                                            </button>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-2 shrink-0">
-                                        <Link to={`/admin/espaces/${espace.id}/modifier`}
-                                            className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
-                                            <Pencil size={14} />
-                                        </Link>
-                                        <button onClick={() => setModal({ isOpen: true, id: espace.id })}
-                                            className="p-2 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 transition-colors">
-                                            <Trash2 size={14} />
-                                        </button>
+                                    <div className="flex items-center divide-x divide-gray-100 border-t border-gray-100 mx-4 mb-3">
+                                        <div className="flex-1 py-2.5 pr-3">
+                                            <div className="text-xs text-gray-400 mb-0.5">Surface</div>
+                                            <div className="text-xs font-semibold text-[#1a1a2e] flex items-center gap-1"><Maximize2 size={11} />{espace.surface}m²</div>
+                                        </div>
+                                        <div className="flex-1 py-2.5 px-3">
+                                            <div className="text-xs text-gray-400 mb-0.5">Capacité</div>
+                                            <div className="text-xs font-semibold text-[#1a1a2e] flex items-center gap-1"><Users size={11} />{espace.capacite} pers.</div>
+                                        </div>
+                                        <div className="flex-1 py-2.5 pl-3">
+                                            <div className="text-xs text-gray-400 mb-0.5">Tarif/jour</div>
+                                            <div className="text-sm font-bold text-[#7bdff2]">{espace.tarif_journalier}€</div>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
-                        </div>
-                        {lastPage > 1 && (
-                            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 lg:px-5 py-4 border-t border-gray-100">
-                                <p className="text-sm text-gray-600">{total} espace(s) au total</p>
-                                <div className="flex items-center gap-2">
-                                    <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1}
-                                        className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-                                        <ChevronLeft size={16} />
-                                    </button>
-                                    {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
-                                        <button key={page} onClick={() => handlePage(page)}
-                                            className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${currentPage === page ? 'bg-[#7bdff2] text-[#1a1a2e]' : 'border border-gray-200 text-gray-500 hover:bg-gray-50'}`}>
-                                            {page}
+                            {lastPage > 1 && (
+                                <div className="flex flex-col items-center gap-3 pt-2">
+                                    <p className="text-sm text-gray-600">{total} espace(s) au total</p>
+                                    <div className="flex items-center gap-2">
+                                        <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1} className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                                            <ChevronLeft size={16} />
                                         </button>
-                                    ))}
-                                    <button onClick={() => handlePage(currentPage + 1)} disabled={currentPage === lastPage}
-                                        className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-                                        <ChevronRight size={16} />
-                                    </button>
+                                        {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
+                                            <button key={page} onClick={() => handlePage(page)} className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${currentPage === page ? 'bg-[#7bdff2] text-[#1a1a2e]' : 'border border-gray-200 text-gray-500 hover:bg-gray-50'}`}>
+                                                {page}
+                                            </button>
+                                        ))}
+                                        <button onClick={() => handlePage(currentPage + 1)} disabled={currentPage === lastPage} className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                                            <ChevronRight size={16} />
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
+                            )}
+                        </div>
+                    </>
                 )}
             </main>
         </div>
