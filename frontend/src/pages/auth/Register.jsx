@@ -88,8 +88,8 @@ export default function Register() {
 
             <div className="w-full lg:w-3/5 flex items-center justify-center p-8 bg-gray-50 overflow-y-auto">
                 <div className="w-full max-w-lg py-8">
-                    <div className="lg:hidden flex items-center gap-3 mb-8">
-                        <img src={logo} alt="EcoWork" className="h-7 object-contain" />
+                    <div className="lg:hidden flex items-center  gap-3 mb-8">
+                        <img src={logo} alt="EcoWork" className="h-12 sm:h-10 object-contain" />
                     </div>
                     <h2 className="text-3xl font-bold mb-2 text-[#1a1a2e]">Créer un compte</h2>
                     <p className="text-gray-500 mb-8">Remplissez le formulaire pour rejoindre EcoWork</p>

@@ -50,7 +50,7 @@ export default function Login() {
         <div className="min-h-screen flex">
 
             <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#1a1a2e]">
-                
+
                 <img src={imgLogin} alt="" className="absolute inset-0 w-full h-full object-cover opacity-10" />
                 <div className="absolute inset-0 bg-linear-to-br from-[#7bdff226] via-transparent to-transparent"></div>
 
@@ -97,11 +97,11 @@ export default function Login() {
                 </div>
             </div>
 
-            
+
             <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50">
                 <div className="w-full max-w-md">
-                    <div className="lg:hidden flex items-center gap-3 mb-8">
-                        <img src={logo} alt="EcoWork" className="h-7 object-contain" />
+                    <div className="lg:hidden flex justify-center mb-14">
+                        <img src={logo} alt="EcoWork" className="h-16  sm:h-10 object-contain" />
                     </div>
                     <h2 className="text-3xl font-bold mb-2 text-[#1a1a2e]">Bon retour !</h2>
                     <p className="text-gray-500 mb-8">Connectez-vous pour accéder à votre espace</p>
