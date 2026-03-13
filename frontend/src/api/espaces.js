@@ -21,7 +21,7 @@ export const getEspace = async (token, id) => {
 }
 
 export const createEspace = async (token, formData) => {
-    const response = await fetch(`http://localhost:8000/api/espaces`, {
+    const response = await fetch(`${API_URL}/espaces`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
@@ -30,7 +30,7 @@ export const createEspace = async (token, formData) => {
 }
 
 export const updateEspace = async (token, id, formData) => {
-    const response = await fetch(`http://localhost:8000/api/espaces/${id}`, {
+    const response = await fetch(`${API_URL}/espaces/${id}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
@@ -39,13 +39,9 @@ export const updateEspace = async (token, id, formData) => {
 }
 
 export const deleteEspace = async (token, id) => {
-    const response = await fetch(`http://localhost:8000/api/espaces/${id}`, {
+    const response = await fetch(`${API_URL}/espaces/${id}`, {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
+        headers: headers(token)
     })
     return response.json()
 }
-

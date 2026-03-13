@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, Maximize2, Users, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Search, Maximize2, Users, ChevronLeft, ChevronRight, LayoutGrid, Calendar } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getEspaces } from '../../api/espaces'
 import SidebarUser from '../../components/SidebarUser'
@@ -60,35 +60,31 @@ export default function Espaces() {
                     <p className="text-gray-500 text-sm">Trouvez et réservez votre espace de travail idéal</p>
                 </div>
 
-                <form onSubmit={handleFilter} className="bg-white rounded-2xl p-4 lg:p-5 mb-6 shadow-sm border border-gray-100">
-                    <div className="flex flex-col lg:flex-row gap-4 items-end">
-                        <div className="w-full lg:flex-1">
-                            <label htmlFor="type" className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Type</label>
-                            <select id="type" value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]">
+                <div className="flex justify-center mb-6">
+                    <form onSubmit={handleFilter} className="w-full max-w-2xl bg-white overflow-hidden flex flex-col sm:flex-row" style={{ border: '0.5px solid #e0e0d8', borderRadius: '14px' }}>
+                        <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
+                            <LayoutGrid size={14} className="text-gray-400 shrink-0" />
+                            <select value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full">
                                 <option value="">Tous les types</option>
                                 <option value="bureau">Bureau</option>
                                 <option value="salle de réunion">Salle de réunion</option>
                                 <option value="conférence">Conférence</option>
                             </select>
                         </div>
-                        <div className="w-full lg:flex-1">
-                            <label htmlFor="date_debut" className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date début</label>
-                            <input id="date_debut" type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })}
-                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
+                        <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
+                            <Calendar size={14} className="text-gray-400 shrink-0" />
+                            <input type="date" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full" />
                         </div>
-                        <div className="w-full lg:flex-1">
-                            <label htmlFor="date_fin" className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date fin</label>
-                            <input id="date_fin" type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })}
-                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-[#7bdff2]" />
+                        <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 flex-1 border-b sm:border-b-0 border-gray-100">
+                            <Calendar size={14} className="text-gray-400 shrink-0" />
+                            <input type="date" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full" />
                         </div>
-                        <button type="submit"
-                            className="w-full lg:w-auto px-6 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center justify-center gap-2">
-                            <Search size={16} />
+                        <button type="submit" className="flex items-center justify-center gap-2 px-6 py-3 sm:py-0 sm:h-12 text-sm font-medium text-[#1A1A2E] hover:opacity-90 transition-opacity shrink-0" style={{ backgroundColor: '#7BDFF2' }}>
+                            <Search size={13} />
                             Rechercher
                         </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
 
                 {loading ? (
                     <div className="flex items-center justify-center h-64">
@@ -98,30 +94,21 @@ export default function Espaces() {
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6 mb-8">
                             {espaces.map((espace) => (
-                                <div key={espace.id} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all">
-                                    <div className="relative h-44 lg:h-48 overflow-hidden">
-                                        <img src={getImageUrl(espace)} alt={espace.nom}
-                                            className="w-full h-full object-cover" loading="lazy"/>
-                                        <div className="absolute top-3 left-3">
-                                            <span className="text-xs font-medium px-3 py-1 rounded-full text-white bg-[#1a1a2e99]">{espace.type}</span>
-                                        </div>
+                                <div key={espace.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col" style={{ border: '1px solid #f0f0f0' }}>
+                                    <div className="relative h-64 overflow-hidden rounded-2xl m-3">
+                                        <img src={getImageUrl(espace)} alt={espace.nom} className="w-full h-full object-cover" loading="lazy" />
                                     </div>
-                                    <div className="p-4 lg:p-5">
-                                        <div className="flex items-start justify-between mb-2">
-                                            <h3 className="font-bold text-base text-[#1a1a2e]">{espace.nom}</h3>
-                                            <span className="font-bold text-base text-[#7bdff2] shrink-0 ml-2">{espace.tarif_journalier}€<span className="text-xs font-normal text-gray-600">/jour</span></span>
+                                    <div className="px-4 pb-4 flex flex-col flex-1">
+                                        <div className="flex items-start justify-between gap-2 mb-3">
+                                            <h3 className="font-extrabold text-lg text-[#1a1a2e] leading-tight">{espace.nom}</h3>
+                                            <span className="shrink-0 text-xs font-bold px-3 py-1.5 rounded-full text-[#1A1A2E] whitespace-nowrap" style={{ backgroundColor: '#7BDFF2' }}>{espace.tarif_journalier}€/j</span>
                                         </div>
-                                        <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
-                                            <span className="flex items-center gap-1"><Maximize2 size={12} />{espace.surface}m²</span>
-                                            <span className="flex items-center gap-1"><Users size={12} />{espace.capacite} pers.</span>
+                                        <div className="flex flex-wrap gap-2 mb-4">
+                                            <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600">{espace.type}</span>
+                                            <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600 flex items-center gap-1"><Maximize2 size={10} /> {espace.surface}m²</span>
+                                            <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600 flex items-center gap-1"><Users size={10} /> {espace.capacite} pers.</span>
                                         </div>
-                                        <div className="flex gap-1 mb-4 flex-wrap">
-                                            {espace.equipements?.slice(0, 3).map((eq) => (
-                                                <span key={eq.id} className="text-xs px-2 py-1 rounded-lg bg-[#eff7f6] text-[#0a7a70]">{eq.nom}</span>
-                                            ))}
-                                        </div>
-                                        <Link to={`/espaces/${espace.id}`}
-                                            className="w-full py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all flex items-center justify-center gap-2 no-underline">
+                                        <Link to={`/espaces/${espace.id}`} className="mt-auto w-full py-3 rounded-2xl font-bold text-sm text-[#1A1A2E] text-center no-underline flex items-center justify-center transition-opacity hover:opacity-90" style={{ backgroundColor: '#7BDFF2' }}>
                                             Voir l'espace
                                         </Link>
                                     </div>
@@ -133,21 +120,15 @@ export default function Espaces() {
                             <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
                                 <p className="text-sm text-gray-600">{total} espace(s) au total</p>
                                 <div className="flex items-center gap-2">
-                                    <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1}
-                                        aria-label="Page précédente"
-                                        className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                                    <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1} aria-label="Page précédente" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                                         <ChevronLeft size={16} />
                                     </button>
                                     {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
-                                        <button key={page} onClick={() => handlePage(page)}
-                                            aria-label={`Page ${page}`}
-                                            className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${currentPage === page ? 'bg-[#7bdff2] text-[#1a1a2e]' : 'border border-gray-200 text-gray-500 hover:bg-gray-50'}`}>
+                                        <button key={page} onClick={() => handlePage(page)} aria-label={`Page ${page}`} className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${currentPage === page ? 'bg-[#7bdff2] text-[#1a1a2e]' : 'border border-gray-200 text-gray-500 hover:bg-gray-50'}`}>
                                             {page}
                                         </button>
                                     ))}
-                                    <button onClick={() => handlePage(currentPage + 1)} disabled={currentPage === lastPage}
-                                        aria-label="Page suivante"
-                                        className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                                    <button onClick={() => handlePage(currentPage + 1)} disabled={currentPage === lastPage} aria-label="Page suivante" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                                         <ChevronRight size={16} />
                                     </button>
                                 </div>
