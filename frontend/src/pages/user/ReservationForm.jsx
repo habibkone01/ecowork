@@ -88,31 +88,28 @@ export default function ReservationForm() {
 
                                 <form onSubmit={handleSubmit}>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                                        <div>
+                                        <div className="min-w-0">
                                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date de début</label>
                                             <div className="relative">
-                                                <div className="absolute left-3 top-1/2 -translate-y-1/2">
+                                                <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
                                                     <Calendar size={16} className="text-gray-400" />
                                                 </div>
-                                                <input type="date" value={dateDebut} onChange={(e) => setDateDebut(e.target.value)} required
-                                                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
+                                                <input type="date" value={dateDebut} onChange={(e) => setDateDebut(e.target.value)} required className="w-full min-w-0 pl-10 pr-2 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border" />
                                             </div>
                                         </div>
-                                        <div>
+                                        <div className="min-w-0">
                                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date de fin</label>
                                             <div className="relative">
-                                                <div className="absolute left-3 top-1/2 -translate-y-1/2">
+                                                <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
                                                     <Calendar size={16} className="text-gray-400" />
                                                 </div>
-                                                <input type="date" value={dateFin} onChange={(e) => setDateFin(e.target.value)} required
-                                                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]" />
+                                                <input type="date" value={dateFin} onChange={(e) => setDateFin(e.target.value)} required className="w-full min-w-0 pl-10 pr-2 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border" />
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="flex flex-col sm:flex-row gap-3">
-                                        <button type="submit" disabled={loading}
-                                            className="flex-1 py-3 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+                                        <button type="submit" disabled={loading} className="flex-1 py-3 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
                                             <CalendarCheck size={16} />
                                             {loading ? 'En cours...' : 'Confirmer la réservation'}
                                         </button>
@@ -122,9 +119,9 @@ export default function ReservationForm() {
                                         </Link>
                                     </div>
 
-                                    <div className="flex items-center gap-2 mt-4 text-xs text-gray-600">
+                                    <div className="flex justify-center gap-2 mt-4 text-xs text-gray-600">
                                         <ShieldCheck size={12} />
-                                        <span>Annulation gratuite jusqu'à 24h avant</span>
+                                        <span>Annulation possible jusqu'à 24h avant</span>
                                     </div>
                                 </form>
                             </div>
@@ -138,13 +135,13 @@ export default function ReservationForm() {
                                     <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-100">
                                         <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0">
                                             {espace.images?.length > 0 ? (
-                                                <img src={espace.images[0].url} alt={espace.nom} className="w-full h-full object-cover" loading="lazy"/>
+                                                <img src={espace.images[0].url} alt={espace.nom} className="w-full h-full object-cover" loading="lazy" />
                                             ) : (
                                                 <div className="w-full h-full bg-gray-100"></div>
                                             )}
                                         </div>
-                                        <div>
-                                            <div className="font-semibold text-sm text-[#1a1a2e]">{espace.nom}</div>
+                                        <div className="min-w-0">
+                                            <div className="font-semibold text-sm text-[#1a1a2e] truncate">{espace.nom}</div>
                                             <div className="text-xs text-gray-600">{espace.type} · {espace.surface}m² · {espace.capacite} pers.</div>
                                         </div>
                                     </div>
