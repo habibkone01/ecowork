@@ -46,12 +46,12 @@ export default function Dashboard() {
     }, [])
 
     return (
-        <div className="flex">
+        <div className="flex bg-gray-100">
             <SidebarAdmin />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8">
                 <div className="my-6 lg:mb-8">
                     <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e] mb-1">Bonjour, {user?.prenom} </h1>
-                    <p className="text-gray-500 text-sm">Voici un aperçu de votre plateforme EcoWork</p>
+                    <p className="text-gray-700 text-sm">Voici un aperçu de votre plateforme EcoWork</p>
                 </div>
 
                

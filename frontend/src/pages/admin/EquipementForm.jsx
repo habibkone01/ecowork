@@ -46,9 +46,9 @@ export default function EquipementForm() {
     }
 
     return (
-        <div className="flex">
+        <div className="flex bg-gray-100">
             <SidebarAdmin />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8">
                 <div className="max-w-lg mx-auto">
 
                     <div className="flex items-center gap-3 my-6 lg:mb-8">
@@ -57,7 +57,7 @@ export default function EquipementForm() {
                         </Link>
                         <div>
                             <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e]">{isEdit ? 'Modifier' : 'Ajouter'} un équipement</h1>
-                            <p className="text-gray-500 text-sm">{isEdit ? "Modifiez le nom de l'équipement" : 'Ajoutez un nouvel équipement'}</p>
+                            <p className="text-gray-700 text-sm">{isEdit ? "Modifiez le nom de l'équipement" : 'Ajoutez un nouvel équipement'}</p>
                         </div>
                     </div>
 

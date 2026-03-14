@@ -59,9 +59,9 @@ export default function Utilisateurs() {
     }
 
     return (
-        <div className="flex">
+        <div className="flex bg-gray-100">
             <SidebarAdmin />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8 overflow-x-hidden">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8 overflow-x-hidden">
 
                 <Modal
                     isOpen={modal.isOpen}
@@ -76,7 +76,7 @@ export default function Utilisateurs() {
                 <div className="flex items-center justify-between my-6 lg:mb-8 gap-3">
                     <div>
                         <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e] mb-1">Utilisateurs</h1>
-                        <p className="text-gray-500 text-sm">Gérez les comptes utilisateurs</p>
+                        <p className="text-gray-700 text-sm">Gérez les comptes utilisateurs</p>
                     </div>
                     <Link to="/admin/utilisateurs/creer" className="flex items-center gap-2 px-3 lg:px-4 py-2.5 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all no-underline shrink-0">
                         <Plus size={16} />

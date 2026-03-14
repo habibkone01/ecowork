@@ -65,9 +65,9 @@ export default function ReservationsAdmin() {
     }
 
     return (
-        <div className="flex">
+        <div className="flex bg-gray-100">
             <SidebarAdmin />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8 overflow-x-hidden">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8 overflow-x-hidden">
 
                 <Modal
                     isOpen={modalAnnuler.isOpen}
@@ -90,7 +90,7 @@ export default function ReservationsAdmin() {
 
                 <div className="my-6 lg:mb-8">
                     <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e] mb-1">Réservations</h1>
-                    <p className="text-gray-500 text-sm">Gérez toutes les réservations</p>
+                    <p className="text-gray-700 text-sm">Gérez toutes les réservations</p>
                 </div>
 
                 <div className="flex justify-center mb-6">
