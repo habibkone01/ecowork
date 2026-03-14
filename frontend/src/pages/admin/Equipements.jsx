@@ -48,7 +48,10 @@ export default function Equipements() {
     }
 
     const formatDate = (dateStr) => {
-        return new Date(dateStr).toLocaleDateString('fr-FR')
+        if (!dateStr) return '-'
+        const [datePart] = dateStr.split(' ')
+        const [day, month, year] = datePart.split('-')
+        return new Date(`${year}-${month}-${day}`).toLocaleDateString('fr-FR')
     }
 
     return (
