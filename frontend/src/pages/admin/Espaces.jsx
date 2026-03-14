@@ -129,11 +129,11 @@ export default function EspacesAdmin() {
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b border-gray-100">
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Espace</th>
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Type</th>
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Surface</th>
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Capacité</th>
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Tarif/jour</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Espace</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Type</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Surface</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Capacité</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Tarif/jour</th>
                                         <th className="px-5 py-3.5"></th>
                                     </tr>
                                 </thead>
@@ -159,10 +159,10 @@ export default function EspacesAdmin() {
                                             <td className="px-5 py-4">
                                                 <span className={`text-xs font-medium px-2.5 py-1 rounded-full whitespace-nowrap ${typeBadge(espace.type)}`}>{espace.type}</span>
                                             </td>
-                                            <td className="px-5 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">
                                                 <span className="flex items-center gap-1.5"><Maximize2 size={13} className="shrink-0" />{espace.surface}m²</span>
                                             </td>
-                                            <td className="px-5 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">
                                                 <span className="flex items-center gap-1.5"><Users size={13} className="shrink-0" />{espace.capacite} pers.</span>
                                             </td>
                                             <td className="px-5 py-4 whitespace-nowrap">

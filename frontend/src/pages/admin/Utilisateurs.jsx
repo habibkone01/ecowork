@@ -130,13 +130,13 @@ export default function Utilisateurs() {
                                                         <span className="font-medium text-sm text-[#1a1a2e]">{u.prenom} {u.nom}</span>
                                                     </div>
                                                 </td>
-                                                <td className="px-5 py-4 text-sm text-gray-500">{u.email}</td>
-                                                <td className="px-5 py-4 text-sm text-gray-500">{u.telephone || '—'}</td>
+                                                <td className="px-5 py-4 text-sm text-gray-600">{u.email}</td>
+                                                <td className="px-5 py-4 text-sm text-gray-600">{u.telephone || '—'}</td>
                                                 <td className="px-5 py-4">
                                                     {u.role === 'admin' ? (
                                                         <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#1a1a2e] text-[#7bdff2]">Admin</span>
                                                     ) : (
-                                                        <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">Utilisateur</span>
+                                                        <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">Utilisateur</span>
                                                     )}
                                                 </td>
                                                 <td className="px-5 py-4">

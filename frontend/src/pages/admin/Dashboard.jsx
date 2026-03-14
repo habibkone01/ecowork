@@ -102,18 +102,18 @@ export default function Dashboard() {
                                     <table className="w-full">
                                         <thead>
                                             <tr className="bg-gray-100">
-                                                <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-600">Utilisateur</th>
-                                                <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-600">Espace</th>
-                                                <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-600">Dates</th>
-                                                <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-600">Statut</th>
+                                                <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-700">Utilisateur</th>
+                                                <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-700">Espace</th>
+                                                <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-700">Dates</th>
+                                                <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-700">Statut</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-50">
                                             {reservationsRecentes.map((r) => (
                                                 <tr key={r.id} className="hover:bg-gray-50 transition-colors">
                                                     <td className="p-4 text-sm font-medium text-[#1a1a2e]">{r.user?.prenom} {r.user?.nom}</td>
-                                                    <td className="p-4 text-sm text-gray-500">{r.espace?.nom}</td>
-                                                    <td className="p-4 text-sm text-gray-500">{r.date_debut} → {r.date_fin}</td>
+                                                    <td className="p-4 text-sm text-gray-600">{r.espace?.nom}</td>
+                                                    <td className="p-4 text-sm text-gray-600">{r.date_debut} → {r.date_fin}</td>
                                                     <td className="p-4">
                                                         {r.statut === 'confirmée' ? (
                                                             <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#e6f7f5] text-[#0a7a70] ">Confirmée</span>

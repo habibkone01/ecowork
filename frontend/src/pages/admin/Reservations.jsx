@@ -130,12 +130,12 @@ export default function ReservationsAdmin() {
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b border-gray-100">
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Utilisateur</th>
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Espace</th>
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Dates</th>
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Statut</th>
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Total</th>
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-600">Facture</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Utilisateur</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Espace</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Dates</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Statut</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Total</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Facture</th>
                                         <th className="px-5 py-3.5"></th>
                                     </tr>
                                 </thead>
@@ -143,8 +143,8 @@ export default function ReservationsAdmin() {
                                     {reservations.map((r) => (
                                         <tr key={r.id} className="hover:bg-gray-50 transition-colors">
                                             <td className="px-5 py-4 text-sm font-semibold text-[#1a1a2e] whitespace-nowrap">{r.user?.prenom} {r.user?.nom}</td>
-                                            <td className="px-5 py-4 text-sm text-gray-500">{r.espace?.nom}</td>
-                                            <td className="px-5 py-4 text-sm text-gray-500 whitespace-nowrap">{r.date_debut} → {r.date_fin}</td>
+                                            <td className="px-5 py-4 text-sm text-gray-600">{r.espace?.nom}</td>
+                                            <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">{r.date_debut} → {r.date_fin}</td>
                                             <td className="px-5 py-4">
                                                 {r.statut === 'confirmée' ? (
                                                     <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70] ">Confirmée</span>
@@ -152,7 +152,7 @@ export default function ReservationsAdmin() {
                                                     <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500 ">Annulée</span>
                                                 )}
                                             </td>
-                                            <td className="px-5 py-4 text-sm text-gray-500 whitespace-nowrap">{r.prix_total}€</td>
+                                            <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">{r.prix_total}€</td>
                                             <td className="px-5 py-4">
                                                 {r.facture_acquittee ? (
                                                     <span className="flex items-center gap-1 text-xs font-medium text-[#0a7a70]"><CheckCircle size={14} />Acquittée</span>

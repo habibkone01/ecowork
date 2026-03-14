@@ -99,11 +99,11 @@ export default function Equipements() {
                                         {equipements.map((eq) => (
                                             <tr key={eq.id} className="hover:bg-gray-50 transition-colors">
                                                 <td className="px-5 py-4 font-medium text-sm text-[#1a1a2e]">{eq.nom}</td>
-                                                <td className="px-5 py-4 text-sm text-gray-500">{formatDate(eq.created_at)}</td>
+                                                <td className="px-5 py-4 text-sm text-gray-600">{formatDate(eq.created_at)}</td>
                                                 <td className="px-5 py-4">
                                                     <div className="flex items-center gap-2 justify-end">
                                                         <Link to={`/admin/equipements/${eq.id}/modifier`}
-                                                            className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
+                                                            className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors no-underline">
                                                             <Pencil size={14} />
                                                         </Link>
                                                         <button onClick={() => setModal({ isOpen: true, id: eq.id })}
