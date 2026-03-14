@@ -97,14 +97,14 @@ export default function ReservationsAdmin() {
                     <form onSubmit={handleFilter} className="w-full max-w-3xl bg-white overflow-hidden flex flex-col sm:flex-row" style={{ border: '0.5px solid #e0e0d8', borderRadius: '14px' }}>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
                             <span className="text-gray-500 shrink-0">Du</span>
-                            <input type="date" min={new Date().toISOString().split('T')[0]} value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0" />
+                            <input type="date" min={new Date().toISOString().split('T')[0]} aria-label="Date de début" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0" />
                         </div>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 sm:min-w-40 sm:max-w-45 border-b sm:border-b-0 sm:border-r border-gray-100">
                             <span className="text-gray-500 shrink-0">Au</span>
-                            <input type="date" min={new Date().toISOString().split('T')[0]} value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0" />
+                            <input type="date" min={new Date().toISOString().split('T')[0]} aria-label="Date de fin" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0" />
                         </div>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 sm:min-w-40 border-b sm:border-b-0 sm:border-r border-gray-100">
-                            <select value={filters.statut} onChange={(e) => setFilters({ ...filters, statut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0">
+                            <select aria-label="Statut de la réservation" value={filters.statut} onChange={(e) => setFilters({ ...filters, statut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0">
                                 <option value="">Tous les statuts</option>
                                 <option value="confirmée">Confirmée</option>
                                 <option value="annulée">Annulée</option>
