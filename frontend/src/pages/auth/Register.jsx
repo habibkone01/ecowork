@@ -27,6 +27,12 @@ export default function Register() {
         setError(null)
         setLoading(true)
 
+        if (form.password.length < 8) {
+            setError('Le mot de passe doit contenir au moins 8 caractères.')
+            setLoading(false)
+            return
+        }
+
         if (form.password !== form.password_confirmation) {
             setError('Les mots de passe ne correspondent pas.')
             setLoading(false)
@@ -39,6 +45,8 @@ export default function Register() {
             if (!data.user) {
                 if (data.errors?.email) {
                     setError('Cette adresse email est déjà utilisée. Veuillez en choisir une autre.')
+                } else if (data.errors?.password) {
+                    setError('Le mot de passe doit contenir au moins 8 caractères.')
                 } else {
                     setError(data.message || "Erreur lors de l'inscription")
                 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { CalendarCheck, CalendarX, Euro } from 'lucide-react'
+import { CalendarCheck, CalendarX, Euro, X } from 'lucide-react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getReservations, deleteReservation } from '../../api/reservations'
@@ -47,10 +47,23 @@ export default function Reservations() {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
+    const canCancel = (dateDebut) => {
+        return new Date(dateDebut) - new Date() > 24 * 60 * 60 * 1000
+    }
+
     const getNbJours = (debut, fin) => {
         const d1 = new Date(debut)
         const d2 = new Date(fin)
         return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24)) + 1
+    }
+
+    const formatDate = (dateStr) => {
+        const date = new Date(dateStr)
+        return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }).replace('.', '')
+    }
+
+    const formatPrix = (prix) => {
+        return `${parseFloat(prix).toFixed(0)} €`
     }
 
     const confirmees = reservations.filter(r => r.statut === 'confirmée')
@@ -61,9 +74,9 @@ export default function Reservations() {
         .toFixed(2)
 
     return (
-        <div className="flex">
+        <div className="flex overflow-x-hidden w-full">
             <SidebarUser />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8 overflow-x-hidden">
 
                 <Modal
                     isOpen={modal.isOpen}
@@ -160,14 +173,16 @@ export default function Reservations() {
                                             <td className="p-4 text-sm text-gray-500">{getNbJours(r.date_debut, r.date_fin)} jours</td>
                                             <td className="p-4 text-sm font-bold text-[#7bdff2]">{r.prix_total}€</td>
                                             <td className="p-4">
-                                                {r.statut === 'confirmée' ? (
+                                                {new Date(r.date_fin) < new Date() && r.statut === 'confirmée' ? (
+                                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-50 text-orange-500">Terminée</span>
+                                                ) : r.statut === 'confirmée' ? (
                                                     <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
                                                 ) : (
-                                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-red-50 text-red-600 ">Annulée</span>
+                                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-red-50 text-red-600">Annulée</span>
                                                 )}
                                             </td>
                                             <td className="p-4">
-                                                {r.statut === 'confirmée' ? (
+                                                {r.statut === 'confirmée' && canCancel(r.date_debut) ? (
                                                     <button onClick={() => setModal({ isOpen: true, id: r.id })}
                                                         className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-all">
                                                         Annuler
@@ -206,9 +221,10 @@ export default function Reservations() {
 
                         <div className="lg:hidden flex flex-col gap-3">
                             {reservations.map((r) => (
-                                <div key={r.id} className="bg-white rounded-2xl overflow-hidden shadow-sm" style={{ border: '1px solid #f0f0f0' }}>
-                                    <div className="flex items-center gap-3 p-4 pb-3">
-                                        <div className="w-11 h-11 rounded-xl overflow-hidden shrink-0">
+                                <div key={r.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 w-full">
+
+                                    <div className="flex items-center gap-3 p-4 overflow-hidden">
+                                        <div className="w-12 h-12 rounded-2xl overflow-hidden shrink-0">
                                             {r.espace?.images?.length > 0 ? (
                                                 <img src={r.espace.images[0].url} alt="" className="w-full h-full object-cover" loading="lazy" />
                                             ) : (
@@ -219,35 +235,50 @@ export default function Reservations() {
                                             <div className="font-semibold text-sm text-[#1a1a2e] truncate">{r.espace?.nom}</div>
                                             <div className="text-xs text-gray-400 mt-0.5">{getNbJours(r.date_debut, r.date_fin)} jour(s)</div>
                                         </div>
-                                        {r.statut === 'confirmée' ? (
-                                            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70] border border-[#b2f7ef] shrink-0">Confirmée</span>
-                                        ) : (
-                                            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-200 shrink-0">Annulée</span>
+                                        {r.statut === 'confirmée' && canCancel(r.date_debut) && (
+                                            <button
+                                                onClick={() => setModal({ isOpen: true, id: r.id })}
+                                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 transition-colors text-xs font-medium shrink-0"
+                                            >
+                                                <X size={11} />
+                                                Annuler
+                                            </button>
                                         )}
                                     </div>
 
-                                    <div className="flex items-center divide-x divide-gray-100 border-t border-b border-gray-100 mx-3 sm:mx-4">
-                                        <div className="flex-1 py-2.5 pr-3">
-                                            <div className="text-xs text-gray-400 mb-0.5">Début</div>
-                                            <div className="text-xs font-semibold text-[#1a1a2e]">{r.date_debut}</div>
+                                    <div className="grid grid-cols-4 border-t border-gray-100">
+                                        <div className="py-2.5 px-3 border-r border-gray-100 min-w-0">
+                                            <div className="text-[10px] text-gray-400 mb-1 truncate">Début</div>
+                                            <div className="text-xs font-semibold text-[#1a1a2e] truncate">{formatDate(r.date_debut)}</div>
                                         </div>
-                                        <div className="flex-1 py-2.5 px-3">
-                                            <div className="text-xs text-gray-400 mb-0.5">Fin</div>
-                                            <div className="text-xs font-semibold text-[#1a1a2e]">{r.date_fin}</div>
+                                        <div className="py-2.5 px-3 border-r border-gray-100 min-w-0">
+                                            <div className="text-[10px] text-gray-400 mb-1 truncate">Fin</div>
+                                            <div className="text-xs font-semibold text-[#1a1a2e] truncate">{formatDate(r.date_fin)}</div>
                                         </div>
-                                        <div className="flex-1 py-2.5 pl-3">
-                                            <div className="text-xs text-gray-400 mb-0.5">Total</div>
-                                            <div className="text-sm font-bold text-[#7bdff2]">{r.prix_total}€</div>
+                                        <div className="py-2.5 px-3 border-r border-gray-100 min-w-0">
+                                            <div className="text-[10px] text-gray-400 mb-1 truncate">Total</div>
+                                            <div className="text-sm font-bold text-[#7bdff2] truncate">{formatPrix(r.prix_total)}</div>
+                                        </div>
+                                        <div className="py-2.5 px-3 min-w-0">
+                                            <div className="text-[10px] text-gray-400 mb-1 truncate">Statut</div>
+                                            {new Date(r.date_fin) < new Date() && r.statut === 'confirmée' ? (
+                                                <span className="inline-flex items-center gap-1 bg-orange-50 px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-orange-500 max-w-full">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
+                                                    <span className="truncate">Terminée</span>
+                                                </span>
+                                            ) : r.statut === 'confirmée' ? (
+                                                <span className="inline-flex items-center gap-1 bg-[#eff7f6] px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-[#0a7a70] max-w-full">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-[#0a7a70] shrink-0" />
+                                                    <span className="truncate">Confirmée</span>
+                                                </span>
+                                            ) : (
+                                                <span className="inline-flex items-center gap-1 bg-red-50 px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-red-600 max-w-full">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
+                                                    <span className="truncate">Annulée</span>
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
-
-                                    {r.statut === 'confirmée' && (
-                                        <div className="p-4 pt-3">
-                                            <button onClick={() => setModal({ isOpen: true, id: r.id })} className="w-full py-2.5 rounded-xl text-xs font-semibold bg-red-500 text-white hover:bg-red-600 transition-all">
-                                                Annuler la réservation
-                                            </button>
-                                        </div>
-                                    )}
                                 </div>
                             ))}
 

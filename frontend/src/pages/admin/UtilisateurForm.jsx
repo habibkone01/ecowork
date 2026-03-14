@@ -55,6 +55,18 @@ export default function UtilisateurForm() {
         setError(null)
         setLoading(true)
 
+        if (form.password && form.password.length < 8) {
+            setError('Le mot de passe doit contenir au moins 8 caractères.')
+            setLoading(false)
+            return
+        }
+
+        if (form.password && form.password !== form.password_confirmation) {
+            setError('Les mots de passe ne correspondent pas.')
+            setLoading(false)
+            return
+        }
+
         try {
             const payload = {
                 nom: form.nom,
@@ -70,15 +82,27 @@ export default function UtilisateurForm() {
                 payload.password_confirmation = form.password_confirmation
             }
 
+            let data
             if (isEdit) {
-                await updateUser(token, id, payload)
+                data = await updateUser(token, id, payload)
             } else {
                 if (!form.password) {
-                    setError('Le mot de passe est obligatoire pour créer un compte')
+                    setError('Le mot de passe est obligatoire pour créer un compte.')
                     setLoading(false)
                     return
                 }
-                await createUser(token, payload)
+                data = await createUser(token, payload)
+            }
+
+            if (data?.errors) {
+                if (data.errors.email) {
+                    setError('Cette adresse email est déjà utilisée. Veuillez en choisir une autre.')
+                } else if (data.errors.password) {
+                    setError('Le mot de passe doit contenir au moins 8 caractères.')
+                } else {
+                    setError('Une erreur est survenue. Veuillez vérifier les informations saisies.')
+                }
+                return
             }
 
             navigate('/admin/utilisateurs')

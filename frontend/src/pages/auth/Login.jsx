@@ -23,6 +23,12 @@ export default function Login() {
         setError(null)
         setLoading(true)
 
+        if (password.length < 8) {
+            setError('Le mot de passe doit contenir au moins 8 caractères.')
+            setLoading(false)
+            return
+        }
+
         try {
             const data = await loginApi(email, password)
 
