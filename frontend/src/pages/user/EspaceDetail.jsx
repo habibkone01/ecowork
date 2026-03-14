@@ -48,9 +48,9 @@ export default function EspaceDetail() {
     )
 
     return (
-        <div className="flex">
+        <div className="flex bg-gray-100">
             <SidebarUser />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8">
                 <div className="max-w-5xl mx-auto">
                     <div className="flex items-center gap-2 text-sm text-gray-600 my-6">
                         <Link to="/espaces" className="hover:text-gray-600 flex items-center gap-1 no-underline transition-colors">

@@ -60,9 +60,9 @@ export default function Profil() {
     const inputClass = "w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]"
 
     return (
-        <div className="flex">
+        <div className="flex bg-gray-100">
             <SidebarUser />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8">
                 <div className="max-w-3xl mx-auto">
 
                     <Modal
@@ -77,7 +77,7 @@ export default function Profil() {
 
                     <div className="my-6 lg:mb-8">
                         <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e] mb-1">Mon profil</h1>
-                        <p className="text-gray-500 text-sm">Gérez vos informations personnelles</p>
+                        <p className="text-gray-700 text-sm">Gérez vos informations personnelles</p>
                     </div>
 
                     <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 mb-5 flex items-center gap-4 lg:gap-6">

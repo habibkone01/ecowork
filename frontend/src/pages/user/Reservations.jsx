@@ -74,9 +74,9 @@ export default function Reservations() {
         .toFixed(2)
 
     return (
-        <div className="flex overflow-x-hidden w-full">
+        <div className="flex overflow-x-hidden w-full bg-gray-100">
             <SidebarUser />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-50 p-4 lg:p-8 overflow-x-hidden">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8 overflow-x-hidden">
 
                 <Modal
                     isOpen={modal.isOpen}
@@ -90,7 +90,7 @@ export default function Reservations() {
 
                 <div className="my-6 lg:mb-8">
                     <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e] mb-1">Mes réservations</h1>
-                    <p className="text-gray-500 text-sm">Historique de toutes vos réservations</p>
+                    <p className="text-gray-700 text-sm">Historique de toutes vos réservations</p>
                 </div>
 
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 mb-6">
