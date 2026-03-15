@@ -94,7 +94,7 @@ export default function ReservationForm() {
                                                 <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
                                                     <Calendar size={16} className="text-gray-400" />
                                                 </div>
-                                                <input type="date" min={new Date().toISOString().split('T')[0]} value={dateDebut} onChange={(e) => setDateDebut(e.target.value)} required className="w-full min-w-0 pl-10 pr-2 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border" />
+                                                <input type="date" min={new Date().toISOString().split('T')[0]} value={dateDebut} onChange={(e) => setDateDebut(e.target.value)} required className="w-full max-w-full min-w-0 pl-10 pr-2 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border" />
                                             </div>
                                         </div>
                                         <div className="min-w-0">
@@ -103,7 +103,7 @@ export default function ReservationForm() {
                                                 <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
                                                     <Calendar size={16} className="text-gray-400" />
                                                 </div>
-                                                <input type="date" min={new Date().toISOString().split('T')[0]} value={dateFin} onChange={(e) => setDateFin(e.target.value)} required className="w-full min-w-0 pl-10 pr-2 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border" />
+                                                <input type="date"  min={new Date().toISOString().split('T')[0]} value={dateFin} onChange={(e) => setDateFin(e.target.value)} required className="w-full max-w-full min-w-0 pl-10 pr-2 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border"/>
                                             </div>
                                         </div>
                                     </div>

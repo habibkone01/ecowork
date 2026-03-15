@@ -40,6 +40,12 @@ export default function Espaces() {
         fetchEspaces(filters, 1)
     }
 
+    const handleReset = () => {
+        setFilters({ type: '', date_debut: '', date_fin: '' })
+        fetchEspaces({}, 1)
+    }
+
+
     const handlePage = (page) => {
         fetchEspaces(filters, page)
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -79,6 +85,9 @@ export default function Espaces() {
                             <span className="text-gray-600 shrink-0">au</span>
                             <input type="date" min={new Date().toISOString().split('T')[0]} aria-label="Date de fin" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full" />
                         </div>
+                        <button type="button" onClick={handleReset} className="flex items-center justify-center gap-2 px-5 py-3 sm:py-0 sm:h-12 text-sm text-gray-500 border-b sm:border-b-0 sm:border-r border-gray-100 shrink-0 transition-colors">
+                            Réinitialiser
+                        </button>
                         <button type="submit" className="flex items-center justify-center gap-2 px-6 py-3 sm:py-0 sm:h-12 text-sm font-medium text-[#1A1A2E] hover:opacity-90 transition-opacity shrink-0" style={{ backgroundColor: '#7BDFF2' }}>
                             <Search size={13} />
                             Rechercher
