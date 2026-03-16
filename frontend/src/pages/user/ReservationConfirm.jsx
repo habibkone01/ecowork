@@ -29,7 +29,7 @@ export default function ReservationConfirm() {
             <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 flex items-center justify-center p-4 lg:p-8">
                 <div className="max-w-lg w-full text-center">
 
-                    <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center mx-auto mb-5 lg:mb-6 bg-[#eff7f6] border-4 border-[#7bdff2]">
+                    <div className="w-20 h-20 mt-4 lg:w-24 lg:h-24 rounded-full flex items-center justify-center mx-auto mb-5 lg:mb-6 bg-[#eff7f6] border-4 border-[#7bdff2]">
                         <Check size={36} className="text-[#7bdff2]" />
                     </div>
 

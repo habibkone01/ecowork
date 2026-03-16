@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronRight, Calendar, CalendarCheck, ShieldCheck } from 'lucide-react'
+import { ArrowLeft, ChevronRight, CalendarCheck, ShieldCheck } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getEspace } from '../../api/espaces'
 import { createReservation } from '../../api/reservations'
@@ -91,32 +91,28 @@ export default function ReservationForm() {
                                         <div className="min-w-0 w-full">
                                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date de début</label>
                                             <div className="relative w-full">
-                                                <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                                                    <Calendar size={16} className="text-gray-400" />
-                                                </div>
                                                 <input
                                                     type="date"
                                                     min={new Date().toISOString().split('T')[0]}
                                                     value={dateDebut}
                                                     onChange={(e) => setDateDebut(e.target.value)}
                                                     required
-                                                    className="block w-full min-w-0 pl-10 pr-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border overflow-hidden"
+                                                    style={{ WebkitAppearance: 'none', appearance: 'none' }}
+                                                    className="block w-full min-w-0 px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border"
                                                 />
                                             </div>
                                         </div>
                                         <div className="min-w-0 w-full">
                                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date de fin</label>
                                             <div className="relative w-full">
-                                                <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                                                    <Calendar size={16} className="text-gray-400" />
-                                                </div>
                                                 <input
                                                     type="date"
                                                     min={new Date().toISOString().split('T')[0]}
                                                     value={dateFin}
                                                     onChange={(e) => setDateFin(e.target.value)}
                                                     required
-                                                    className="block w-full min-w-0 pl-10 pr-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border overflow-hidden"
+                                                    style={{ WebkitAppearance: 'none', appearance: 'none' }}
+                                                    className="block w-full min-w-0 px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border"
                                                 />
                                             </div>
                                         </div>
