@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, Maximize2, Users, ChevronLeft, ChevronRight, LayoutGrid, Calendar } from 'lucide-react'
+import { Search, Maximize2, Users, ChevronLeft, ChevronRight, LayoutGrid, X } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getEspaces } from '../../api/espaces'
 import SidebarUser from '../../components/SidebarUser'
@@ -45,7 +45,6 @@ export default function Espaces() {
         fetchEspaces({}, 1)
     }
 
-
     const handlePage = (page) => {
         fetchEspaces(filters, page)
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -59,39 +58,77 @@ export default function Espaces() {
     return (
         <div className="flex bg-gray-100">
             <SidebarUser />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8 overflow-x-hidden w-full">
 
                 <div className="my-6 lg:mb-8">
                     <h1 className="text-xl lg:text-2xl font-bold text-[#1a1a2e] mb-1">Les espaces</h1>
                     <p className="text-gray-700 text-sm">Trouvez et réservez votre espace de travail idéal</p>
                 </div>
 
-                <div className="flex justify-center mb-6">
-                    <form onSubmit={handleFilter} className="w-full max-w-2xl bg-white overflow-hidden flex flex-col sm:flex-row" style={{ border: '0.5px solid #e0e0d8', borderRadius: '14px' }}>
+                {/* Formulaire filtre */}
+                <div className="flex justify-center mb-6 w-full">
+                    <form onSubmit={handleFilter} className="w-full max-w-3xl bg-white overflow-hidden flex flex-col sm:flex-row" style={{ border: '0.5px solid #e0e0d8', borderRadius: '14px' }}>
+
+                        {/* Type */}
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
                             <LayoutGrid size={14} className="text-gray-400 shrink-0" />
-                            <select aria-label="Type d'espace" value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full">
+                            <select
+                                aria-label="Type d'espace"
+                                value={filters.type}
+                                onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+                                className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full"
+                            >
                                 <option value="">Tous les types</option>
                                 <option value="bureau">Bureau</option>
                                 <option value="salle de réunion">Salle de réunion</option>
                                 <option value="conférence">Conférence</option>
                             </select>
                         </div>
-                        <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
-                            <span className="text-gray-600 shrink-0">Du</span>
-                            <input type="date" min={new Date().toISOString().split('T')[0]} aria-label="Date de début" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full" />
+
+                        {/* Date début */}
+                        <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100 min-w-0">
+                            <span className="text-gray-600 shrink-0 text-sm">Du</span>
+                            <input
+                                type="date"
+                                min={new Date().toISOString().split('T')[0]}
+                                aria-label="Date de début"
+                                value={filters.date_debut}
+                                onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })}
+                                className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0"
+                            />
                         </div>
-                        <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 flex-1 border-b sm:border-b-0 border-gray-100">
-                            <span className="text-gray-600 shrink-0">au</span>
-                            <input type="date" min={new Date().toISOString().split('T')[0]} aria-label="Date de fin" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full" />
+
+                        {/* Date fin */}
+                        <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 flex-1 border-b sm:border-b-0 border-gray-100 min-w-0">
+                            <span className="text-gray-600 shrink-0 text-sm">au</span>
+                            <input
+                                type="date"
+                                min={new Date().toISOString().split('T')[0]}
+                                aria-label="Date de fin"
+                                value={filters.date_fin}
+                                onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })}
+                                className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0"
+                            />
                         </div>
-                        <button type="button" onClick={handleReset} className="flex items-center justify-center gap-2 px-5 py-3 sm:py-0 sm:h-12 text-sm text-gray-500 border-b sm:border-b-0 sm:border-r border-gray-100 shrink-0 transition-colors">
-                            Réinitialiser
-                        </button>
-                        <button type="submit" className="flex items-center justify-center gap-2 px-6 py-3 sm:py-0 sm:h-12 text-sm font-medium text-[#1A1A2E] hover:opacity-90 transition-opacity shrink-0" style={{ backgroundColor: '#7BDFF2' }}>
-                            <Search size={13} />
-                            Rechercher
-                        </button>
+
+                        {/* Boutons — côte à côte sur mobile, inline sur desktop */}
+                        <div className="flex sm:contents">
+                            <button
+                                type="button"
+                                onClick={handleReset}
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-3 sm:py-0 sm:h-12 text-sm text-gray-500 border-r border-gray-100 shrink-0 transition-colors"
+                            >
+                                Réinitialiser
+                            </button>
+                            <button
+                                type="submit"
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3 sm:py-0 sm:h-12 text-sm font-medium text-[#1A1A2E] hover:opacity-90 transition-opacity shrink-0"
+                                style={{ backgroundColor: '#7BDFF2' }}
+                            >
+                                <Search size={13} />
+                                Rechercher
+                            </button>
+                        </div>
                     </form>
                 </div>
 
@@ -108,12 +145,12 @@ export default function Espaces() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6 mb-8">
                                     {espaces.map((espace) => (
                                         <div key={espace.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col" style={{ border: '1px solid #f0f0f0' }}>
-                                            <div className="relative h-64 overflow-hidden rounded-2xl m-3">
+                                            <div className="relative h-48 sm:h-64 overflow-hidden rounded-2xl m-3">
                                                 <img src={getImageUrl(espace)} alt={espace.nom} className="w-full h-full object-cover" loading="lazy" />
                                             </div>
                                             <div className="px-4 pb-4 flex flex-col flex-1">
                                                 <div className="flex items-start justify-between gap-2 mb-3">
-                                                    <h3 className="font-extrabold text-lg text-[#1a1a2e] leading-tight">{espace.nom}</h3>
+                                                    <h3 className="font-extrabold text-base lg:text-lg text-[#1a1a2e] leading-tight">{espace.nom}</h3>
                                                     <span className="shrink-0 text-xs font-bold px-3 py-1.5 rounded-full text-[#1A1A2E] whitespace-nowrap" style={{ backgroundColor: '#7BDFF2' }}>{espace.tarif_journalier}€/j</span>
                                                 </div>
                                                 <div className="flex flex-wrap gap-2 mb-4">
@@ -132,7 +169,7 @@ export default function Espaces() {
                                 {lastPage > 1 && (
                                     <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
                                         <p className="text-sm text-gray-600">{total} espace(s) au total</p>
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-2 flex-wrap justify-center">
                                             <button onClick={() => handlePage(currentPage - 1)} disabled={currentPage === 1} aria-label="Page précédente" className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                                                 <ChevronLeft size={16} />
                                             </button>

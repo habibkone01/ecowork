@@ -114,7 +114,7 @@ export default function EspacesAdmin() {
                         <button type="button" onClick={handleReset} className="flex items-center justify-center gap-2 px-5 py-3 sm:py-0 sm:h-12 text-sm text-gray-500 border-b sm:border-b-0 sm:border-r border-gray-100 shrink-0 transition-colors">
                             Réinitialiser
                         </button>
-                        <button type="submit" className="flex items-center justify-center gap-2 px-7 py-3 sm:py-0 sm:h-12 text-sm font-medium text-[#1A1A2E] hover:opacity-90 transition-opacity shrink-0" style={{ backgroundColor: '#7BDFF2' }}>
+                        <button type="submit" className="flex items-center justify-center gap-2 px-7 py-3 sm:py-0 sm:h-12 text-sm xl:px-8 font-medium text-[#1A1A2E] hover:opacity-90 transition-opacity shrink-0" style={{ backgroundColor: '#7BDFF2' }}>
                             <Search size={13} />
                             Filtrer
                         </button>
