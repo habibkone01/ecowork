@@ -7,7 +7,7 @@ import logo from '../assets/logo.png'
 
 export default function SidebarAdmin() {
     const location = useLocation()
-    const { logout } = useAuth()
+    const { logout, user } = useAuth()
     const { lowCarbon, toggleLowCarbon } = useTheme()
     const [open, setOpen] = useState(false)
 
@@ -89,7 +89,7 @@ export default function SidebarAdmin() {
                     <div className="flex items-center gap-3 p-3 rounded-xl mb-3 bg-[#ffffff0d]">
                         <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 bg-[#7bdff2]"><Shield size={16} className="text-[#1a1a2e]" /></div>
                         <div className="flex-1 min-w-0">
-                            <div className="text-white text-sm font-medium truncate">Admin GreenSpace</div>
+                            <div className="text-white text-sm font-medium truncate">{user?.prenom} {user?.nom}</div>
                             <div className="text-xs truncate text-[#ffffffa0]">Administrateur</div>
                         </div>
                     </div>
