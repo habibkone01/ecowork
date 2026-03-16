@@ -54,7 +54,7 @@ export default function Reservations() {
     const getNbJours = (debut, fin) => {
         const d1 = new Date(debut)
         const d2 = new Date(fin)
-        return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24)) + 1
+        return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24)) 
     }
 
     const formatDate = (dateStr) => {

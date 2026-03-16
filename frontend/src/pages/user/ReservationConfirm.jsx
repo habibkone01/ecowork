@@ -20,7 +20,7 @@ export default function ReservationConfirm() {
     const getNbJours = () => {
         const d1 = new Date(reservation.date_debut)
         const d2 = new Date(reservation.date_fin)
-        return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24)) + 1
+        return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24)) 
     }
 
     return (

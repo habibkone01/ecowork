@@ -75,7 +75,7 @@ class ReservationController extends Controller
         $espace = Espace::findOrFail($request->espace_id);
         $dateDebut = Carbon::parse($request->date_debut);
         $dateFin = Carbon::parse($request->date_fin);
-        $jours = $dateDebut->diffInDays($dateFin) + 1;
+        $jours = $dateDebut->diffInDays($dateFin) ;
         $prixTotal = $espace->tarif_journalier * $jours;
 
         // Créer la réservation

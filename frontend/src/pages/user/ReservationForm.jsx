@@ -30,7 +30,7 @@ export default function ReservationForm() {
         if (!dateDebut || !dateFin) return 0
         const d1 = new Date(dateDebut)
         const d2 = new Date(dateFin)
-        const jours = Math.floor((d2 - d1) / (1000 * 60 * 60 * 24)) + 1
+        const jours = Math.floor((d2 - d1) / (1000 * 60 * 60 * 24))
         return jours > 0 ? jours : 0
     }
 
@@ -42,10 +42,21 @@ export default function ReservationForm() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError(null)
+
+        const today = new Date().toISOString().split('T')[0]
+
+        if (!dateDebut) { setError('Veuillez sélectionner une date de début.'); return }
+        if (dateDebut < today) { setError("La date de début doit être aujourd'hui ou dans le futur."); return }
+        if (!dateFin) { setError('Veuillez sélectionner une date de fin.'); return }
+        if (dateFin <= dateDebut) { setError("La date de fin doit être supérieure à la date de début."); return }
+
         setLoading(true)
         try {
             const data = await createReservation(token, { espace_id: id, date_debut: dateDebut, date_fin: dateFin })
-            if (!data.reservation) { setError(data.message || 'Erreur lors de la réservation'); return }
+            if (!data.reservation) {
+                setError(data.message || 'Erreur lors de la réservation')
+                return
+            }
             navigate('/reservation-confirm', { state: { reservation: data.reservation, espace } })
         } catch (err) {
             setError('Erreur de connexion au serveur')
@@ -86,34 +97,18 @@ export default function ReservationForm() {
                                     </div>
                                 )}
 
-                                <form onSubmit={handleSubmit} className="w-full">
+                                <form onSubmit={handleSubmit} className="w-full" noValidate>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                                         <div className="min-w-0 w-full">
                                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date de début</label>
                                             <div className="relative w-full">
-                                                <input
-                                                    type="date"
-                                                    min={new Date().toISOString().split('T')[0]}
-                                                    value={dateDebut}
-                                                    onChange={(e) => setDateDebut(e.target.value)}
-                                                    required
-                                                    style={{ WebkitAppearance: 'none', appearance: 'none' }}
-                                                    className="block w-full min-w-0 px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border"
-                                                />
+                                                <input type="date" value={dateDebut} onChange={(e) => { setDateDebut(e.target.value); setError(null) }} style={{ WebkitAppearance: 'none', appearance: 'none' }} className="block w-full min-w-0 px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border" />
                                             </div>
                                         </div>
                                         <div className="min-w-0 w-full">
                                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Date de fin</label>
                                             <div className="relative w-full">
-                                                <input
-                                                    type="date"
-                                                    min={new Date().toISOString().split('T')[0]}
-                                                    value={dateFin}
-                                                    onChange={(e) => setDateFin(e.target.value)}
-                                                    required
-                                                    style={{ WebkitAppearance: 'none', appearance: 'none' }}
-                                                    className="block w-full min-w-0 px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border"
-                                                />
+                                                <input  type="date" value={dateFin} onChange={(e) => { setDateFin(e.target.value); setError(null) }} style={{ WebkitAppearance: 'none', appearance: 'none' }} className="block w-full min-w-0 px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border"/>
                                             </div>
                                         </div>
                                     </div>
