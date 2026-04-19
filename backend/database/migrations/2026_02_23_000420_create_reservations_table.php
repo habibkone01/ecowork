@@ -18,6 +18,10 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('espace_id')->constrained('espaces')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
+            $table->index('statut');
+            $table->index('date_debut');
+            $table->index('date_fin');
         });
     }
 
