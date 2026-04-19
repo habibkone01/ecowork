@@ -14,9 +14,11 @@ return new class extends Migration
             $table->float('surface');
             $table->enum('type', ['bureau', 'salle de réunion', 'conférence']);
             $table->integer('capacite');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->decimal('tarif_journalier', 8, 2);
             $table->timestamps();
+            $table->index('type');
+            $table->index('tarif_journalier');
         });
     }
 
