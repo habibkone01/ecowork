@@ -21,7 +21,7 @@ class EquipementController extends Controller
     }
 
     /**
-     * Créer un équipement (admin uniquement)
+     * Créer un équipement
      */
     public function store(StoreEquipementRequest $request)
     {
@@ -35,7 +35,7 @@ class EquipementController extends Controller
     }
 
     /**
-     * Modifier un équipement (admin uniquement)
+     * Modifier un équipement
      */
     public function update(UpdateEquipementRequest $request, $id)
     {
@@ -50,8 +50,7 @@ class EquipementController extends Controller
     }
 
     /**
-     * Supprimer un équipement (admin uniquement)
-     * Retiré automatiquement de tous les espaces via cascade
+     * Supprimer un équipement
      */
     public function destroy($id)
     {

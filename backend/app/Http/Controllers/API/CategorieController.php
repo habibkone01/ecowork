@@ -21,7 +21,7 @@ class CategorieController extends Controller
     }
 
     /**
-     * Créer une catégorie (admin uniquement)
+     * Créer une catégorie
      */
     public function store(StoreCategorieRequest $request)
     {
@@ -35,7 +35,7 @@ class CategorieController extends Controller
     }
 
     /**
-     * Modifier une catégorie (admin uniquement)
+     * Modifier une catégorie
      */
     public function update(UpdateCategorieRequest $request, $id)
     {
@@ -50,8 +50,7 @@ class CategorieController extends Controller
     }
 
     /**
-     * Supprimer une catégorie (admin uniquement)
-     * Les espaces liés perdront leur catégorie
+     * Supprimer une catégorie
      */
     public function destroy($id)
     {

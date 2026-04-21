@@ -15,7 +15,6 @@ class EspaceController extends Controller
 {
     /**
      * Liste des espaces avec filtres
-     * Filtre par categorie, équipement, dates de disponibilité
      */
     public function index(Request $request)
     {
@@ -50,19 +49,11 @@ class EspaceController extends Controller
     }
 
     /**
-     * Créer un espace (admin uniquement)
-     * Images converties automatiquement en WebP
+     * Créer un espace
      */
     public function store(StoreEspaceRequest $request)
     {
-        $espace = Espace::create($request->only([
-            'nom',
-            'surface',
-            'categorie_id',
-            'capacite',
-            'description',
-            'tarif_journalier',
-        ]));
+        $espace = Espace::create($request->validated());
 
         // Associer les équipements
         if ($request->has('equipements')) {
@@ -71,19 +62,7 @@ class EspaceController extends Controller
 
         // Uploader et convertir les images en WebP
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = uniqid() . '.webp';
-                $path = 'espaces/' . $filename;
-
-                $source = imagecreatefromstring(file_get_contents($image->getRealPath()));
-                imagewebp($source, storage_path('app/public/' . $path), 90);
-                unset($source);
-
-                Image::create([
-                    'url'      => $path,
-                    'espace_id' => $espace->id,
-                ]);
-            }
+            $this->uploadImages($request->file('images'), $espace->id);
         }
 
         return response()->json([
@@ -103,22 +82,13 @@ class EspaceController extends Controller
     }
 
     /**
-     * Modifier un espace (admin uniquement)
-     * Sync des équipements et ajout de nouvelles images
+     * Modifier un espace
      */
     public function update(UpdateEspaceRequest $request, $id)
     {
         $espace = Espace::findOrFail($id);
-        $espace->update($request->only([
-            'nom',
-            'surface',
-            'categorie_id',
-            'capacite',
-            'description',
-            'tarif_journalier',
-        ]));
+        $espace->update($request->validated());
 
-        // Mettre à jour les équipements
         if ($request->has('equipements')) {
             $espace->equipements()->sync($request->equipements);
         }
@@ -130,19 +100,7 @@ class EspaceController extends Controller
                 $oldImage->delete();
             }
 
-            foreach ($request->file('images') as $image) {
-                $filename = uniqid() . '.webp';
-                $path = 'espaces/' . $filename;
-
-                $source = imagecreatefromstring(file_get_contents($image->getRealPath()));
-                imagewebp($source, storage_path('app/public/' . $path), 90);
-                unset($source);
-
-                Image::create([
-                    'url'      => $path,
-                    'espace_id' => $espace->id,
-                ]);
-            }
+            $this->uploadImages($request->file('images'), $espace->id);
         }
 
         return response()->json([
@@ -153,8 +111,7 @@ class EspaceController extends Controller
     }
 
     /**
-     * Supprimer un espace (admin uniquement)
-     * Supprime aussi les images et réservations associées via cascade
+     * Supprimer un espace
      */
     public function destroy($id)
     {
@@ -165,5 +122,25 @@ class EspaceController extends Controller
             'success' => true,
             'message' => 'Espace supprimé avec succès',
         ], 200);
+    }
+
+    /**
+     * Convertir et uploader les images en WebP
+     */
+    private function uploadImages(array $images, int $espaceId): void
+    {
+        foreach ($images as $image) {
+            $filename = uniqid() . '.webp';
+            $path     = 'espaces/' . $filename;
+
+            $source = imagecreatefromstring(file_get_contents($image->getRealPath()));
+            imagewebp($source, storage_path('app/public/' . $path), 90);
+            unset($source);
+
+            Image::create([
+                'url'      => $path,
+                'espace_id' => $espaceId,
+            ]);
+        }
     }
 }

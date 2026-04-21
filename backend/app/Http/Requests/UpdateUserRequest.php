@@ -21,17 +21,21 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'nom' => 'sometimes|string|max:255',
             'prenom' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|email|max:255|unique:users,email,'.$this->route('id'),
+            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $this->route('id'),
             'password' => 'sometimes|string|min:8|confirmed',
             'telephone' => 'sometimes|string|max:20',
             'adresse' => 'sometimes|string|max:255',
         ];
+
+        if ($this->user()->role === 'admin') {
+            $rules['role'] = 'sometimes|in:admin,utilisateur';
+        }
+
+        return $rules;
     }
-
-
 
     /**
      * Handle a failed validation attempt.
@@ -41,7 +45,7 @@ class UpdateUserRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'success' => false,
             'message' => 'Erreur de validation',
-            'errors' => $validator->errors()
+            'errors'  => $validator->errors()
         ], 422));
     }
 }

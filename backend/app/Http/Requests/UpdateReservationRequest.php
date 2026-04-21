@@ -21,15 +21,19 @@ class UpdateReservationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'date_debut' => 'sometimes|date|after_or_equal:today',
             'date_fin' => 'sometimes|date|after:date_debut',
             'espace_id' => 'sometimes|exists:espaces,id',
-            'statut' => 'sometimes|in:confirmée,annulée',
             'facture_acquittee' => 'sometimes|boolean',
         ];
-    }
 
+        if ($this->user()->role === 'admin') {
+            $rules['statut'] = 'sometimes|in:confirmée,annulée';
+        }
+
+        return $rules;
+    }
 
     /**
      * Handle a failed validation attempt.
@@ -39,7 +43,7 @@ class UpdateReservationRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'success' => false,
             'message' => 'Erreur de validation',
-            'errors' => $validator->errors()
+            'errors'  => $validator->errors()
         ], 422));
     }
 }

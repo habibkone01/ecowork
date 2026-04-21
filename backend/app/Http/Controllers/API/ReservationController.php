@@ -49,19 +49,7 @@ class ReservationController extends Controller
     public function store(StoreReservationRequest $request)
     {
         // Vérifier la disponibilité de l'espace aux dates choisies
-        $disponible = !Reservation::where('espace_id', $request->espace_id)
-            ->where('statut', 'confirmée')
-            ->where(function ($query) use ($request) {
-                $query->whereBetween('date_debut', [$request->date_debut, $request->date_fin])
-                    ->orWhereBetween('date_fin', [$request->date_debut, $request->date_fin])
-                    ->orWhere(function ($query) use ($request) {
-                        $query->where('date_debut', '<=', $request->date_debut)
-                            ->where('date_fin', '>=', $request->date_fin);
-                    });
-            })
-            ->exists();
-
-        if (!$disponible) {
+        if (!$this->estDisponible($request->espace_id, $request->date_debut, $request->date_fin)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Cet espace n\'est pas disponible aux dates choisies, veuillez choisir d\'autres dates',
@@ -69,7 +57,7 @@ class ReservationController extends Controller
         }
 
         // Calculer le prix total automatiquement
-        $espace = Espace::findOrFail($request->espace_id);
+        $espace    = Espace::findOrFail($request->espace_id);
         $dateDebut = Carbon::parse($request->date_debut);
         $dateFin   = Carbon::parse($request->date_fin);
         $jours     = $dateDebut->diffInDays($dateFin);
@@ -111,7 +99,7 @@ class ReservationController extends Controller
     }
 
     /**
-     * Modifier une réservation (admin uniquement)
+     * Modifier une réservation
      */
     public function update(UpdateReservationRequest $request, $id)
     {
@@ -132,7 +120,6 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::findOrFail($id);
 
-        // Vérifier que l'utilisateur annule bien sa propre réservation
         if ($request->user()->role !== 'admin' && $reservation->user_id !== $request->user()->id) {
             return response()->json([
                 'success' => false,
@@ -140,7 +127,6 @@ class ReservationController extends Controller
             ], 403);
         }
 
-        // Vérifier que la réservation n'est pas déjà annulée
         if ($reservation->statut === 'annulée') {
             return response()->json([
                 'success' => false,
@@ -148,7 +134,6 @@ class ReservationController extends Controller
             ], 409);
         }
 
-        // Vérifier la règle des 24h pour les utilisateurs
         if ($request->user()->role !== 'admin') {
             $heuresAvant = Carbon::now()->diffInHours(Carbon::parse($reservation->date_debut), false);
             if ($heuresAvant < 24) {
@@ -168,18 +153,34 @@ class ReservationController extends Controller
     }
 
     /**
-     * Supprimer une réservation (admin uniquement)
+     * Supprimer une réservation
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         $reservation = Reservation::findOrFail($id);
-
-        // Soft delete
         $reservation->delete();
 
         return response()->json([
             'success' => true,
             'message' => 'Réservation supprimée avec succès',
         ], 200);
+    }
+
+    /**
+     * Vérifier si un espace est disponible aux dates choisies
+     */
+    private function estDisponible(string $espaceId, string $dateDebut, string $dateFin): bool
+    {
+        return !Reservation::where('espace_id', $espaceId)
+            ->where('statut', 'confirmée')
+            ->where(function ($query) use ($dateDebut, $dateFin) {
+                $query->whereBetween('date_debut', [$dateDebut, $dateFin])
+                    ->orWhereBetween('date_fin', [$dateDebut, $dateFin])
+                    ->orWhere(function ($query) use ($dateDebut, $dateFin) {
+                        $query->where('date_debut', '<=', $dateDebut)
+                            ->where('date_fin', '>=', $dateFin);
+                    });
+            })
+            ->exists();
     }
 }

@@ -8,23 +8,21 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     /**
-     * Liste des utilisateurs (admin uniquement)
-     * Recherche par nom, prénom ou email
+     * Liste des utilisateurs
      */
     public function index(Request $request)
     {
         $perPage = $request->query('per_page', 10);
 
         $users = User::when($request->search, function ($query) use ($request) {
-                $query->where('nom', 'like', '%' . $request->search . '%')
-                    ->orWhere('prenom', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%');
-            })
+            $query->where('nom', 'like', '%' . $request->search . '%')
+                ->orWhere('prenom', 'like', '%' . $request->search . '%')
+                ->orWhere('email', 'like', '%' . $request->search . '%');
+        })
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
@@ -32,8 +30,7 @@ class UserController extends Controller
     }
 
     /**
-     * Créer un utilisateur (admin uniquement)
-     * L'admin peut créer un compte avec un rôle spécifique
+     * Créer un utilisateur
      */
     public function store(StoreUserRequest $request)
     {
@@ -48,8 +45,6 @@ class UserController extends Controller
 
     /**
      * Voir un utilisateur
-     * Admin : peut voir n'importe quel utilisateur
-     * Utilisateur : peut voir uniquement son propre profil
      */
     public function show(Request $request, $id)
     {
@@ -67,8 +62,6 @@ class UserController extends Controller
 
     /**
      * Modifier un utilisateur
-     * Admin : peut modifier n'importe quel utilisateur y compris le rôle
-     * Utilisateur : peut modifier uniquement son propre profil sans changer son rôle
      */
     public function update(UpdateUserRequest $request, $id)
     {
@@ -81,19 +74,7 @@ class UserController extends Controller
             ], 403);
         }
 
-        $data = $request->validated();
-
-        // Seul l'admin peut modifier le rôle
-        if ($request->user()->role !== 'admin') {
-            unset($data['role']);
-        }
-
-        // Hasher le mot de passe si modifié
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
-        $user->update($data);
+        $user->update($request->validated());
 
         return response()->json([
             'success' => true,
@@ -104,8 +85,6 @@ class UserController extends Controller
 
     /**
      * Supprimer un utilisateur
-     * Admin : peut supprimer n'importe quel utilisateur
-     * Utilisateur : peut supprimer uniquement son propre compte
      */
     public function destroy(Request $request, $id)
     {
