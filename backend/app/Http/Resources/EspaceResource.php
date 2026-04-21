@@ -13,17 +13,17 @@ class EspaceResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'               => $this->id,
-            'nom'              => $this->nom,
-            'surface'          => $this->surface,
-            'capacite'         => $this->capacite,
-            'description'      => $this->description,
+            'id' => $this->id,
+            'nom' => $this->nom,
+            'surface' => $this->surface,
+            'capacite' => $this->capacite,
+            'description' => $this->description,
             'tarif_journalier' => $this->tarif_journalier,
-            'categorie'        => new CategorieResource($this->whenLoaded('categorie')),
-            'equipements'      => EquipementResource::collection($this->whenLoaded('equipements')),
-            'images'           => ImageResource::collection($this->whenLoaded('images')),
-            'created_at'       => $this->created_at->format('d-m-Y H:i'),
-            'updated_at'       => $this->updated_at->format('d-m-Y H:i'),
+            'categorie' => new CategorieResource($this->whenLoaded('categorie')),
+            'equipements' => EquipementResource::collection($this->whenLoaded('equipements')),
+            'images' => ImageResource::collection($this->whenLoaded('images')),
+            'created_at' => $this->created_at->format('d-m-Y H:i'),
+            'updated_at' => $this->updated_at->format('d-m-Y H:i'),
         ];
     }
 }

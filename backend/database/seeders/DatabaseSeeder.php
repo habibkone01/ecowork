@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             EquipementSeeder::class,
-            CategorieSeeder::class, // Doit être avant EspaceFactory
+            CategorieSeeder::class, 
         ]);
 
         User::factory(10)->create();
