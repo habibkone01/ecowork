@@ -12,12 +12,12 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->float('surface');
-            $table->enum('type', ['bureau', 'salle de réunion', 'conférence']);
             $table->integer('capacite');
             $table->text('description')->nullable();
             $table->decimal('tarif_journalier', 8, 2);
+            $table->foreignId('categorie_id')->constrained('categories')->onDelete('restrict');
             $table->timestamps();
-            $table->index('type');
+            $table->index('categorie_id');
             $table->index('tarif_journalier');
         });
     }

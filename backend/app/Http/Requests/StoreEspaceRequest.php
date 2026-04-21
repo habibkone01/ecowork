@@ -22,20 +22,18 @@ class StoreEspaceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => 'required|string|max:255',
-            'surface' => 'required|numeric|min:1',
-            'type' => 'required|in:bureau,salle de réunion,conférence',
-            'capacite' => 'required|integer|min:1',
-            'description' => 'required|string',
+            'nom'              => 'required|string|max:255',
+            'surface'          => 'required|numeric|min:1',
+            'categorie_id'     => 'required|exists:categories,id',
+            'capacite'         => 'required|integer|min:1',
+            'description'      => 'required|string',
             'tarif_journalier' => 'required|numeric|min:0',
-            'equipements' => 'nullable|array',
-            'equipements.*' => 'exists:equipements,id',
-            'images' => 'nullable|array',
-            'images.*' => 'image|mimes:webp,jpg,jpeg,png|max:2048',
+            'equipements'      => 'nullable|array',
+            'equipements.*'    => 'exists:equipements,id',
+            'images'           => 'nullable|array',
+            'images.*'         => 'image|mimes:webp,jpg,jpeg,png|max:2048',
         ];
     }
-
-
 
     /**
      * Handle a failed validation attempt.
@@ -45,7 +43,7 @@ class StoreEspaceRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'success' => false,
             'message' => 'Erreur de validation',
-            'errors' => $validator->errors()
+            'errors'  => $validator->errors()
         ], 422));
     }
 }

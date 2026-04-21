@@ -22,20 +22,18 @@ class UpdateEspaceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => 'sometimes|string|max:255',
-            'surface' => 'sometimes|numeric|min:1',
-            'type' => 'sometimes|in:bureau,salle de réunion,conférence',
-            'capacite' => 'sometimes|integer|min:1',
-            'description' => 'sometimes|string',
+            'nom'              => 'sometimes|string|max:255',
+            'surface'          => 'sometimes|numeric|min:1',
+            'categorie_id'     => 'sometimes|exists:categories,id',
+            'capacite'         => 'sometimes|integer|min:1',
+            'description'      => 'sometimes|string',
             'tarif_journalier' => 'sometimes|numeric|min:0',
-            'equipements' => 'nullable|array',
-            'equipements.*' => 'exists:equipements,id',
-            'images' => 'nullable|array',
-            'images.*' => 'image|mimes:webp,jpg,jpeg,png|max:2048',
+            'equipements'      => 'nullable|array',
+            'equipements.*'    => 'exists:equipements,id',
+            'images'           => 'nullable|array',
+            'images.*'         => 'image|mimes:webp,jpg,jpeg,png|max:2048',
         ];
     }
-
-
 
     /**
      * Handle a failed validation attempt.
@@ -45,7 +43,7 @@ class UpdateEspaceRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'success' => false,
             'message' => 'Erreur de validation',
-            'errors' => $validator->errors()
+            'errors'  => $validator->errors()
         ], 422));
     }
 }

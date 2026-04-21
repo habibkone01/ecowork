@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategorieController;
 use App\Http\Controllers\Api\EspaceController;
 use App\Http\Controllers\Api\EquipementController;
 use App\Http\Controllers\Api\ImageController;
@@ -28,6 +29,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/espaces', [EspaceController::class, 'index'])->name('api.espaces.index');
     Route::get('/espaces/{id}', [EspaceController::class, 'show'])->name('api.espaces.show');
 
+    // Categories (accessible par tous les utilisateurs connectés)
+    Route::get('/categories', [CategorieController::class, 'index'])->name('api.categories.index');
+
     // Equipements
     Route::get('/equipements', [EquipementController::class, 'index'])->name('api.equipements.index');
 
@@ -36,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('api.reservations.show');
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('api.reservations.destroy');
 
-    // utilisateur
+    // Utilisateur
     Route::get('/users/{id}', [UserController::class, 'show'])->name('api.users.show');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('api.users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('api.users.destroy');
@@ -61,6 +65,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/equipements', [EquipementController::class, 'store'])->name('api.equipements.store');
         Route::put('/equipements/{id}', [EquipementController::class, 'update'])->name('api.equipements.update');
         Route::delete('/equipements/{id}', [EquipementController::class, 'destroy'])->name('api.equipements.destroy');
+
+        // Gestion des categories
+        Route::post('/categories', [CategorieController::class, 'store'])->name('api.categories.store');
+        Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('api.categories.update');
+        Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('api.categories.destroy');
 
         // Gestion des réservations
         Route::put('/reservations/{id}', [ReservationController::class, 'update'])->name('api.reservations.update');

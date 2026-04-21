@@ -14,13 +14,18 @@ class Espace extends Model
     protected $fillable = [
         'nom',
         'surface',
-        'type',
         'capacite',
         'description',
         'tarif_journalier',
+        'categorie_id',
     ];
 
-      public function reservations()
+    public function categorie()
+    {
+        return $this->belongsTo(Categorie::class);
+    }
+
+    public function reservations()
     {
         return $this->hasMany(Reservation::class);
     }
@@ -34,6 +39,4 @@ class Espace extends Model
     {
         return $this->hasMany(Image::class);
     }
-
-
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Categorie;
 use App\Models\Equipement;
 use Tests\TestCase;
 use App\Models\User;
@@ -29,19 +30,21 @@ class EspaceTest extends TestCase
         $this->getJson('/api/espaces')->assertStatus(401);
     }
 
-    public function test_filtre_par_type_fonctionne()
+    public function test_filtre_par_categorie_fonctionne()
     {
         /** @var User $user */
         $user = User::factory()->create(['role' => 'utilisateur']);
-        Espace::factory()->create(['type' => 'bureau']);
-        Espace::factory()->create(['type' => 'salle de réunion']);
+        $categorie1 = Categorie::factory()->create(['libelle' => 'bureau']);
+        $categorie2 = Categorie::factory()->create(['libelle' => 'salle de réunion']);
+        Espace::factory()->create(['categorie_id' => $categorie1->id]);
+        Espace::factory()->create(['categorie_id' => $categorie2->id]);
 
         $response = $this->actingAs($user, 'sanctum')
-            ->getJson('/api/espaces?type=bureau');
+            ->getJson("/api/espaces?categorie_id={$categorie1->id}");
 
         $response->assertStatus(200);
         foreach ($response->json('data') as $espace) {
-            $this->assertEquals('bureau', $espace['type']);
+            $this->assertEquals($categorie1->id, $espace['categorie']['id']);
         }
     }
 
@@ -71,14 +74,15 @@ class EspaceTest extends TestCase
     {
         /** @var User $admin */
         $admin = User::factory()->create(['role' => 'admin']);
+        $categorie = Categorie::factory()->create();
 
         $this->actingAs($admin, 'sanctum')
             ->postJson('/api/espaces', [
-                'nom' => 'Nouveau Bureau',
-                'surface' => 25,
-                'type' => 'bureau',
-                'capacite' => 4,
-                'description' => 'Un beau bureau',
+                'nom'              => 'Nouveau Bureau',
+                'surface'          => 25,
+                'categorie_id'     => $categorie->id,
+                'capacite'         => 4,
+                'description'      => 'Un beau bureau',
                 'tarif_journalier' => 100,
             ])
             ->assertStatus(201)
@@ -91,14 +95,15 @@ class EspaceTest extends TestCase
     {
         /** @var User $user */
         $user = User::factory()->create(['role' => 'utilisateur']);
+        $categorie = Categorie::factory()->create();
 
         $this->actingAs($user, 'sanctum')
             ->postJson('/api/espaces', [
-                'nom' => 'Bureau Pirate',
-                'surface' => 20,
-                'type' => 'bureau',
-                'capacite' => 2,
-                'description' => 'Test',
+                'nom'              => 'Bureau Pirate',
+                'surface'          => 20,
+                'categorie_id'     => $categorie->id,
+                'capacite'         => 2,
+                'description'      => 'Test',
                 'tarif_journalier' => 50,
             ])
             ->assertStatus(403);
@@ -109,14 +114,15 @@ class EspaceTest extends TestCase
         /** @var User $admin */
         $admin = User::factory()->create(['role' => 'admin']);
         $espace = Espace::factory()->create(['nom' => 'Ancien Nom']);
+        $categorie = Categorie::factory()->create();
 
         $this->actingAs($admin, 'sanctum')
             ->putJson('/api/espaces/' . $espace->id, [
-                'nom' => 'Nouveau Nom',
-                'surface' => $espace->surface,
-                'type' => $espace->type,
-                'capacite' => $espace->capacite,
-                'description' => $espace->description,
+                'nom'              => 'Nouveau Nom',
+                'surface'          => $espace->surface,
+                'categorie_id'     => $categorie->id,
+                'capacite'         => $espace->capacite,
+                'description'      => $espace->description,
                 'tarif_journalier' => $espace->tarif_journalier,
             ])
             ->assertStatus(200)

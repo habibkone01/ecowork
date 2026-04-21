@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Espace;
@@ -18,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             EquipementSeeder::class,
+            CategorieSeeder::class, // Doit être avant EspaceFactory
         ]);
 
         User::factory(10)->create();

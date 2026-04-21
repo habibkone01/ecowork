@@ -15,15 +15,15 @@ class EspaceController extends Controller
 {
     /**
      * Liste des espaces avec filtres
-     * Filtre par type, équipement, dates de disponibilité
+     * Filtre par categorie, équipement, dates de disponibilité
      */
     public function index(Request $request)
     {
         $perPage = $request->query('per_page', 9);
 
-        $espaces = Espace::with(['equipements', 'images'])
-            ->when($request->type, function ($query) use ($request) {
-                $query->where('type', $request->type);
+        $espaces = Espace::with(['categorie', 'equipements', 'images'])
+            ->when($request->categorie_id, function ($query) use ($request) {
+                $query->where('categorie_id', $request->categorie_id);
             })
             ->when($request->equipement_id, function ($query) use ($request) {
                 $query->whereHas('equipements', function ($query) use ($request) {
@@ -55,7 +55,14 @@ class EspaceController extends Controller
      */
     public function store(StoreEspaceRequest $request)
     {
-        $espace = Espace::create($request->only(['nom', 'surface', 'type', 'capacite', 'description', 'tarif_journalier']));
+        $espace = Espace::create($request->only([
+            'nom',
+            'surface',
+            'categorie_id',
+            'capacite',
+            'description',
+            'tarif_journalier',
+        ]));
 
         // Associer les équipements
         if ($request->has('equipements')) {
@@ -68,13 +75,12 @@ class EspaceController extends Controller
                 $filename = uniqid() . '.webp';
                 $path = 'espaces/' . $filename;
 
-                // Conversion native PHP en WebP
                 $source = imagecreatefromstring(file_get_contents($image->getRealPath()));
                 imagewebp($source, storage_path('app/public/' . $path), 90);
                 unset($source);
 
                 Image::create([
-                    'url' => $path,
+                    'url'      => $path,
                     'espace_id' => $espace->id,
                 ]);
             }
@@ -83,16 +89,16 @@ class EspaceController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Espace créé avec succès',
-            'espace' => new EspaceResource($espace->load(['equipements', 'images'])),
+            'espace'  => new EspaceResource($espace->load(['categorie', 'equipements', 'images'])),
         ], 201);
     }
 
     /**
-     * Voir un espace avec ses équipements et images
+     * Voir un espace avec sa categorie, ses équipements et images
      */
     public function show($id)
     {
-        $espace = Espace::with(['equipements', 'images'])->findOrFail($id);
+        $espace = Espace::with(['categorie', 'equipements', 'images'])->findOrFail($id);
         return new EspaceResource($espace);
     }
 
@@ -103,7 +109,14 @@ class EspaceController extends Controller
     public function update(UpdateEspaceRequest $request, $id)
     {
         $espace = Espace::findOrFail($id);
-        $espace->update($request->only(['nom', 'surface', 'type', 'capacite', 'description', 'tarif_journalier']));
+        $espace->update($request->only([
+            'nom',
+            'surface',
+            'categorie_id',
+            'capacite',
+            'description',
+            'tarif_journalier',
+        ]));
 
         // Mettre à jour les équipements
         if ($request->has('equipements')) {
@@ -112,13 +125,11 @@ class EspaceController extends Controller
 
         // Remplacer les images si de nouvelles sont envoyées
         if ($request->hasFile('images')) {
-
             foreach ($espace->images as $oldImage) {
                 Storage::disk('public')->delete($oldImage->url);
                 $oldImage->delete();
             }
 
-            // Ajouter les nouvelles images
             foreach ($request->file('images') as $image) {
                 $filename = uniqid() . '.webp';
                 $path = 'espaces/' . $filename;
@@ -128,7 +139,7 @@ class EspaceController extends Controller
                 unset($source);
 
                 Image::create([
-                    'url' => $path,
+                    'url'      => $path,
                     'espace_id' => $espace->id,
                 ]);
             }
@@ -137,7 +148,7 @@ class EspaceController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Espace mis à jour avec succès',
-            'espace' => new EspaceResource($espace->load(['equipements', 'images'])),
+            'espace'  => new EspaceResource($espace->load(['categorie', 'equipements', 'images'])),
         ], 200);
     }
 
