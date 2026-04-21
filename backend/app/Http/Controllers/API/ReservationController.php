@@ -15,8 +15,6 @@ class ReservationController extends Controller
 {
     /**
      * Liste des réservations
-     * Admin : toutes les réservations avec filtres sur dates et statut
-     * Utilisateur : uniquement ses propres réservations
      */
     public function index(Request $request)
     {
@@ -47,7 +45,6 @@ class ReservationController extends Controller
 
     /**
      * Créer une réservation
-     * Admin et utilisateur réservent pour eux mêmes
      */
     public function store(StoreReservationRequest $request)
     {
@@ -74,32 +71,30 @@ class ReservationController extends Controller
         // Calculer le prix total automatiquement
         $espace = Espace::findOrFail($request->espace_id);
         $dateDebut = Carbon::parse($request->date_debut);
-        $dateFin = Carbon::parse($request->date_fin);
-        $jours = $dateDebut->diffInDays($dateFin) ;
+        $dateFin   = Carbon::parse($request->date_fin);
+        $jours     = $dateDebut->diffInDays($dateFin);
         $prixTotal = $espace->tarif_journalier * $jours;
 
         // Créer la réservation
         $reservation = Reservation::create([
-            'date_debut' => $request->date_debut,
-            'date_fin' => $request->date_fin,
-            'prix_total' => $prixTotal,
-            'statut' => 'confirmée',
+            'date_debut'        => $request->date_debut,
+            'date_fin'          => $request->date_fin,
+            'prix_total'        => $prixTotal,
+            'statut'            => 'confirmée',
             'facture_acquittee' => false,
-            'user_id' => $request->user()->id,
-            'espace_id' => $request->espace_id,
+            'user_id'           => $request->user()->id,
+            'espace_id'         => $request->espace_id,
         ]);
 
         return response()->json([
-            'success' => true,
-            'message' => 'Réservation confirmée avec succès',
+            'success'     => true,
+            'message'     => 'Réservation confirmée avec succès',
             'reservation' => new ReservationResource($reservation->load(['user', 'espace'])),
         ], 201);
     }
 
     /**
      * Voir une réservation
-     * Admin : peut voir n'importe quelle réservation
-     * Utilisateur : peut voir uniquement ses propres réservations
      */
     public function show(Request $request, $id)
     {
@@ -117,7 +112,6 @@ class ReservationController extends Controller
 
     /**
      * Modifier une réservation (admin uniquement)
-     * Cas exceptionnels : changer les dates, l'espace, marquer la facture acquittée
      */
     public function update(UpdateReservationRequest $request, $id)
     {
@@ -125,18 +119,16 @@ class ReservationController extends Controller
         $reservation->update($request->validated());
 
         return response()->json([
-            'success' => true,
-            'message' => 'Réservation mise à jour avec succès',
+            'success'     => true,
+            'message'     => 'Réservation mise à jour avec succès',
             'reservation' => new ReservationResource($reservation->load(['user', 'espace'])),
         ], 200);
     }
 
     /**
      * Annuler une réservation
-     * Admin : peut annuler sans restriction
-     * Utilisateur : peut annuler uniquement ses réservations et seulement 24h avant
      */
-    public function destroy(Request $request, $id)
+    public function annuler(Request $request, $id)
     {
         $reservation = Reservation::findOrFail($id);
 
@@ -146,6 +138,14 @@ class ReservationController extends Controller
                 'success' => false,
                 'message' => 'Accès non autorisé',
             ], 403);
+        }
+
+        // Vérifier que la réservation n'est pas déjà annulée
+        if ($reservation->statut === 'annulée') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cette réservation est déjà annulée',
+            ], 409);
         }
 
         // Vérifier la règle des 24h pour les utilisateurs
@@ -164,6 +164,22 @@ class ReservationController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Réservation annulée avec succès',
+        ], 200);
+    }
+
+    /**
+     * Supprimer une réservation (admin uniquement)
+     */
+    public function destroy(Request $request, $id)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        // Soft delete
+        $reservation->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Réservation supprimée avec succès',
         ], 200);
     }
 }

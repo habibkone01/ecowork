@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/espaces', [EspaceController::class, 'index'])->name('api.espaces.index');
     Route::get('/espaces/{id}', [EspaceController::class, 'show'])->name('api.espaces.show');
 
-    // Categories (accessible par tous les utilisateurs connectés)
+    // Categories
     Route::get('/categories', [CategorieController::class, 'index'])->name('api.categories.index');
 
     // Equipements
@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Réservations
     Route::get('/reservations', [ReservationController::class, 'index'])->name('api.reservations.index');
     Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('api.reservations.show');
-    Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('api.reservations.destroy');
+    Route::patch('/reservations/{id}/annuler', [ReservationController::class, 'annuler'])->name('api.reservations.annuler');
 
     // Utilisateur
     Route::get('/users/{id}', [UserController::class, 'show'])->name('api.users.show');
@@ -73,6 +73,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Gestion des réservations
         Route::put('/reservations/{id}', [ReservationController::class, 'update'])->name('api.reservations.update');
+        Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('api.reservations.destroy');
 
         // Gestion des utilisateurs
         Route::get('/users', [UserController::class, 'index'])->name('api.users.index');
