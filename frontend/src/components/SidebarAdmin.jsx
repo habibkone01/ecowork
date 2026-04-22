@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Building2, Monitor, Calendar, Users, LogOut, Shield, Menu, X, Leaf } from 'lucide-react'
+import { LayoutDashboard, Building2, Monitor, Calendar, Users, LogOut, Shield, Menu, X, Leaf, Tag } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import logo from '../assets/logo.png'
@@ -16,6 +16,7 @@ export default function SidebarAdmin() {
     const navLinks = [
         { to: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
         { to: '/admin/espaces', icon: Building2, label: 'Espaces' },
+        { to: '/admin/categories', icon: Tag, label: 'Catégories' },
         { to: '/admin/equipements', icon: Monitor, label: 'Équipements' },
         { to: '/admin/reservations', icon: Calendar, label: 'Réservations' },
         { to: '/admin/utilisateurs', icon: Users, label: 'Utilisateurs' },
@@ -77,6 +78,8 @@ export default function SidebarAdmin() {
                     <div className="text-xs font-semibold uppercase tracking-wider mt-4 mb-2 px-4 text-[#ffffff80]">Gestion</div>
 
                     <Link to="/admin/espaces" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all no-underline ${isActive('/admin/espaces') ? 'bg-[#7bdff24d] text-white font-semibold' : 'text-[#ffffff8c]'}`}><Building2 size={16} />Espaces</Link>
+
+                    <Link to="/admin/categories" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all no-underline ${isActive('/admin/categories') ? 'bg-[#7bdff24d] text-white font-semibold' : 'text-[#ffffff8c]'}`}><Tag size={16} />Catégories</Link>
 
                     <Link to="/admin/equipements" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all no-underline ${isActive('/admin/equipements') ? 'bg-[#7bdff24d] text-white font-semibold' : 'text-[#ffffff8c]'}`}><Monitor size={16} />Équipements</Link>
 

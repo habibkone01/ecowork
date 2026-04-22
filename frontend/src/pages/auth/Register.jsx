@@ -16,6 +16,7 @@ export default function Register() {
     const [rgpd, setRgpd] = useState(false)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
     const navigate = useNavigate()
 
     const handleChange = (e) => {
@@ -53,7 +54,7 @@ export default function Register() {
                 return
             }
 
-            navigate('/login')
+            setShowSuccess(true)
 
         } catch (err) {
             setError('Erreur de connexion au serveur')
@@ -64,6 +65,22 @@ export default function Register() {
 
     return (
         <div className="min-h-screen flex">
+
+            {showSuccess && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
+                    <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-xl text-center">
+                        <CheckCircle size={48} className="text-[#7bdff2] mx-auto mb-4" />
+                        <h2 className="text-lg font-bold text-[#1a1a2e] mb-2">Compte créé avec succès !</h2>
+                        <p className="text-sm text-gray-600 mb-5">Votre compte a été créé. Vous pouvez maintenant vous connecter.</p>
+                        <button
+                            onClick={() => navigate('/login')}
+                            className="w-full py-3 rounded-xl font-semibold text-sm bg-[#7bdff2] text-[#1a1a2e] hover:bg-[#5dd4e8] transition-all"
+                        >
+                            Se connecter
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <div className="hidden lg:flex lg:w-2/5 relative overflow-hidden bg-[#1a1a2e]">
                 <img src={imgRegister} alt="" className="absolute inset-0 w-full h-full object-cover opacity-10" />
@@ -96,7 +113,7 @@ export default function Register() {
 
             <div className="w-full lg:w-3/5 flex items-center justify-center p-8 bg-gray-50 overflow-y-auto">
                 <div className="w-full max-w-lg py-8">
-                    <div className="lg:hidden flex items-center  gap-3 mb-8">
+                    <div className="lg:hidden flex items-center gap-3 mb-8">
                         <img src={logo} alt="EcoWork" className="h-12 sm:h-10 object-contain" />
                     </div>
                     <h2 className="text-3xl font-bold mb-2 text-[#1a1a2e]">Créer un compte</h2>

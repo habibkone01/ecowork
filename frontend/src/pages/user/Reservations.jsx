@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { CalendarCheck, CalendarX, Euro, X } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { CalendarCheck, CalendarX, Euro, X, Eye } from 'lucide-react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import { getReservations, deleteReservation } from '../../api/reservations'
+import { getReservations, annulerReservation } from '../../api/reservations'
 import SidebarUser from '../../components/SidebarUser'
 import Modal from '../../components/Modal'
 import usePageTitle from '../../hooks/usePageTitle'
@@ -37,7 +38,7 @@ export default function Reservations() {
     }
 
     const handleAnnuler = async () => {
-        await deleteReservation(token, modal.id)
+        await annulerReservation(token, modal.id)
         setModal({ isOpen: false, id: null })
         fetchReservations(currentPage)
     }
@@ -54,7 +55,7 @@ export default function Reservations() {
     const getNbJours = (debut, fin) => {
         const d1 = new Date(debut)
         const d2 = new Date(fin)
-        return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24)) 
+        return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24))
     }
 
     const formatDate = (dateStr) => {
@@ -137,6 +138,7 @@ export default function Reservations() {
                     <div className="flex items-center justify-center h-32 text-gray-400">Aucune réservation</div>
                 ) : (
                     <>
+                        {/* Vue desktop */}
                         <div className="hidden lg:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                             <div className="p-5 border-b border-gray-100">
                                 <h2 className="font-bold text-[#1a1a2e]">Historique</h2>
@@ -150,7 +152,7 @@ export default function Reservations() {
                                         <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-600">Durée</th>
                                         <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-600">Total</th>
                                         <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-600">Statut</th>
-                                        <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-600">Action</th>
+                                        <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-600">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-50">
@@ -182,14 +184,17 @@ export default function Reservations() {
                                                 )}
                                             </td>
                                             <td className="p-4">
-                                                {r.statut === 'confirmée' && canCancel(r.date_debut) ? (
-                                                    <button onClick={() => setModal({ isOpen: true, id: r.id })}
-                                                        className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-all">
-                                                        Annuler
-                                                    </button>
-                                                ) : (
-                                                    <span className="text-xs text-gray-300">—</span>
-                                                )}
+                                                <div className="flex items-center gap-2">
+                                                    <Link to={`/reservations/${r.id}`} className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
+                                                        <Eye size={14} />
+                                                    </Link>
+                                                    {r.statut === 'confirmée' && canCancel(r.date_debut) && (
+                                                        <button onClick={() => setModal({ isOpen: true, id: r.id })}
+                                                            className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-all">
+                                                            Annuler
+                                                        </button>
+                                                    )}
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -219,10 +224,10 @@ export default function Reservations() {
                             )}
                         </div>
 
+                        {/* Vue mobile */}
                         <div className="lg:hidden flex flex-col gap-3">
                             {reservations.map((r) => (
                                 <div key={r.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 w-full">
-
                                     <div className="flex items-center gap-3 p-4 overflow-hidden">
                                         <div className="w-12 h-12 rounded-2xl overflow-hidden shrink-0">
                                             {r.espace?.images?.length > 0 ? (
@@ -235,15 +240,19 @@ export default function Reservations() {
                                             <div className="font-semibold text-sm text-[#1a1a2e] truncate">{r.espace?.nom}</div>
                                             <div className="text-xs text-gray-400 mt-0.5">{getNbJours(r.date_debut, r.date_fin)} jour(s)</div>
                                         </div>
-                                        {r.statut === 'confirmée' && canCancel(r.date_debut) && (
-                                            <button
-                                                onClick={() => setModal({ isOpen: true, id: r.id })}
-                                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 transition-colors text-xs font-medium shrink-0"
-                                            >
-                                                <X size={11} />
-                                                Annuler
-                                            </button>
-                                        )}
+                                        <div className="flex items-center gap-2 shrink-0">
+                                            <Link to={`/reservations/${r.id}`} className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
+                                                <Eye size={14} />
+                                            </Link>
+                                            {r.statut === 'confirmée' && canCancel(r.date_debut) && (
+                                                <button
+                                                    onClick={() => setModal({ isOpen: true, id: r.id })}
+                                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 transition-colors text-xs font-medium">
+                                                    <X size={11} />
+                                                    Annuler
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
 
                                     <div className="grid grid-cols-4 border-t border-gray-100">

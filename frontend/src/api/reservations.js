@@ -13,11 +13,26 @@ export const getReservations = async (token, page = 1, params = {}) => {
     return response.json()
 }
 
+export const getReservation = async (token, id) => {
+    const response = await fetch(`${API_URL}/reservations/${id}`, {
+        headers: headers(token)
+    })
+    return response.json()
+}
+
 export const createReservation = async (token, data) => {
     const response = await fetch(`${API_URL}/reservations`, {
         method: 'POST',
         headers: headers(token),
         body: JSON.stringify(data)
+    })
+    return response.json()
+}
+
+export const annulerReservation = async (token, id) => {
+    const response = await fetch(`${API_URL}/reservations/${id}/annuler`, {
+        method: 'PATCH',
+        headers: headers(token)
     })
     return response.json()
 }
