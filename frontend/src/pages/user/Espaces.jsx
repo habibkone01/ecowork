@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, Maximize2, Users, ChevronLeft, ChevronRight, LayoutGrid, X } from 'lucide-react'
+import { Search, Maximize2, Users, ChevronLeft, ChevronRight, LayoutGrid } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getEspaces } from '../../api/espaces'
+import { getCategories } from '../../api/categories'
 import SidebarUser from '../../components/SidebarUser'
 import usePageTitle from '../../hooks/usePageTitle'
 
@@ -10,15 +11,26 @@ export default function Espaces() {
     usePageTitle('Les espaces')
     const { token } = useAuth()
     const [espaces, setEspaces] = useState([])
+    const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true)
-    const [filters, setFilters] = useState({ type: '', date_debut: '', date_fin: '' })
+    const [filters, setFilters] = useState({ categorie_id: '', date_debut: '', date_fin: '' })
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
     const [total, setTotal] = useState(0)
 
     useEffect(() => {
+        fetchCategories()
         fetchEspaces({}, 1)
     }, [])
+
+    const fetchCategories = async () => {
+        try {
+            const data = await getCategories(token)
+            setCategories(data.data || [])
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     const fetchEspaces = async (params = {}, page = 1) => {
         setLoading(true)
@@ -41,7 +53,7 @@ export default function Espaces() {
     }
 
     const handleReset = () => {
-        setFilters({ type: '', date_debut: '', date_fin: '' })
+        setFilters({ categorie_id: '', date_debut: '', date_fin: '' })
         fetchEspaces({}, 1)
     }
 
@@ -69,19 +81,14 @@ export default function Espaces() {
                 <div className="flex justify-center mb-6 w-full">
                     <form onSubmit={handleFilter} className="w-full max-w-3xl bg-white overflow-hidden flex flex-col sm:flex-row" style={{ border: '0.5px solid #e0e0d8', borderRadius: '14px' }}>
 
-                        {/* Type */}
+                        {/* Catégorie */}
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
                             <LayoutGrid size={14} className="text-gray-400 shrink-0" />
-                            <select
-                                aria-label="Type d'espace"
-                                value={filters.type}
-                                onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-                                className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full"
-                            >
-                                <option value="">Tous les types</option>
-                                <option value="bureau">Bureau</option>
-                                <option value="salle de réunion">Salle de réunion</option>
-                                <option value="conférence">Conférence</option>
+                            <select aria-label="Catégorie d'espace" value={filters.categorie_id} onChange={(e) => setFilters({ ...filters, categorie_id: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full">
+                                <option value="">Toutes les catégories</option>
+                                {categories.map((cat) => (
+                                    <option key={cat.id} value={cat.id}>{cat.libelle}</option>
+                                ))}
                             </select>
                         </div>
 
@@ -111,7 +118,6 @@ export default function Espaces() {
                             />
                         </div>
 
-                        {/* Boutons — côte à côte sur mobile, inline sur desktop */}
                         <div className="flex sm:contents">
                             <button
                                 type="button"
@@ -154,7 +160,9 @@ export default function Espaces() {
                                                     <span className="shrink-0 text-xs font-bold px-3 py-1.5 rounded-full text-[#1A1A2E] whitespace-nowrap" style={{ backgroundColor: '#7BDFF2' }}>{espace.tarif_journalier}€/j</span>
                                                 </div>
                                                 <div className="flex flex-wrap gap-2 mb-4">
-                                                    <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600">{espace.type}</span>
+                                                    <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600 capitalize">
+                                                        {espace.categorie?.libelle || '-'}
+                                                    </span>
                                                     <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600 flex items-center gap-1"><Maximize2 size={10} /> {espace.surface}m²</span>
                                                     <span className="text-xs font-medium px-3 py-1 rounded-full border border-gray-200 text-gray-600 flex items-center gap-1"><Users size={10} /> {espace.capacite} pers.</span>
                                                 </div>
