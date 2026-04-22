@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Plus, Pencil, Trash2, Maximize2, Users, ChevronLeft, ChevronRight, Search, LayoutGrid, Calendar } from 'lucide-react'
+import { Plus, Pencil, Trash2, Maximize2, Users, ChevronLeft, ChevronRight, Search, LayoutGrid } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getEspaces, deleteEspace } from '../../api/espaces'
+import { getCategories } from '../../api/categories'
 import SidebarAdmin from '../../components/SidebarAdmin'
 import Modal from '../../components/Modal'
 import usePageTitle from '../../hooks/usePageTitle'
@@ -11,16 +12,27 @@ export default function EspacesAdmin() {
     usePageTitle('Espaces')
     const { token } = useAuth()
     const [espaces, setEspaces] = useState([])
+    const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true)
     const [modal, setModal] = useState({ isOpen: false, id: null })
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
     const [total, setTotal] = useState(0)
-    const [filters, setFilters] = useState({ type: '', date_debut: '', date_fin: '' })
+    const [filters, setFilters] = useState({ categorie_id: '', date_debut: '', date_fin: '' })
 
     useEffect(() => {
+        fetchCategories()
         fetchEspaces(1)
     }, [])
+
+    const fetchCategories = async () => {
+        try {
+            const data = await getCategories(token)
+            setCategories(data.data || [])
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     const fetchEspaces = async (page = 1, params = {}) => {
         setLoading(true)
@@ -43,7 +55,7 @@ export default function EspacesAdmin() {
     }
 
     const handleReset = () => {
-        setFilters({ type: '', date_debut: '', date_fin: '' })
+        setFilters({ categorie_id: '', date_debut: '', date_fin: '' })
         fetchEspaces(1)
     }
 
@@ -58,10 +70,12 @@ export default function EspacesAdmin() {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
-    const typeBadge = (type) => {
-        if (type === 'bureau') return 'bg-[#e0f2fe] text-[#0369a1]'
-        if (type === 'salle de réunion') return 'bg-[#f3e8ff] text-[#7c3aed]'
-        if (type === 'conférence') return 'bg-[#fef3c7] text-[#d97706]'
+    const categorieBadge = (categorie) => {
+        if (!categorie) return 'bg-gray-100 text-gray-600'
+        const libelle = categorie.libelle
+        if (libelle === 'bureau') return 'bg-[#e0f2fe] text-[#0369a1]'
+        if (libelle === 'salle de réunion') return 'bg-[#f3e8ff] text-[#7c3aed]'
+        if (libelle === 'conférence') return 'bg-[#fef3c7] text-[#d97706]'
         return 'bg-gray-100 text-gray-600'
     }
 
@@ -96,11 +110,16 @@ export default function EspacesAdmin() {
                     <form onSubmit={handleFilter} className="w-full max-w-3xl bg-white overflow-hidden flex flex-col sm:flex-row" style={{ border: '0.5px solid #e0e0d8', borderRadius: '14px' }}>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100 sm:min-w-45">
                             <LayoutGrid size={14} className="text-gray-500 shrink-0" />
-                            <select aria-label="Type d'espace" value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0">
-                                <option value="">Tous les types</option>
-                                <option value="bureau">Bureau</option>
-                                <option value="salle de réunion">Salle de réunion</option>
-                                <option value="conférence">Conférence</option>
+                            <select
+                                aria-label="Catégorie d'espace"
+                                value={filters.categorie_id}
+                                onChange={(e) => setFilters({ ...filters, categorie_id: e.target.value })}
+                                className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0"
+                            >
+                                <option value="">Toutes les catégories</option>
+                                {categories.map((cat) => (
+                                    <option key={cat.id} value={cat.id}>{cat.libelle}</option>
+                                ))}
                             </select>
                         </div>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
@@ -125,12 +144,13 @@ export default function EspacesAdmin() {
                     <div className="flex items-center justify-center h-64 text-gray-400">Chargement...</div>
                 ) : (
                     <>
+                        {/* Vue desktop */}
                         <div className="hidden lg:block bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b border-gray-100">
                                         <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Espace</th>
-                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Type</th>
+                                        <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Catégorie</th>
                                         <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Surface</th>
                                         <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Capacité</th>
                                         <th className="text-left px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-700">Tarif/jour</th>
@@ -157,7 +177,9 @@ export default function EspacesAdmin() {
                                                 </div>
                                             </td>
                                             <td className="px-5 py-4">
-                                                <span className={`text-xs font-medium px-2.5 py-1 rounded-full whitespace-nowrap ${typeBadge(espace.type)}`}>{espace.type}</span>
+                                                <span className={`text-xs font-medium px-2.5 py-1 rounded-full whitespace-nowrap capitalize ${categorieBadge(espace.categorie)}`}>
+                                                    {espace.categorie?.libelle || '-'}
+                                                </span>
                                             </td>
                                             <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">
                                                 <span className="flex items-center gap-1.5"><Maximize2 size={13} className="shrink-0" />{espace.surface}m²</span>
@@ -202,6 +224,7 @@ export default function EspacesAdmin() {
                             )}
                         </div>
 
+                        {/* Vue mobile */}
                         <div className="lg:hidden flex flex-col gap-3">
                             {espaces.length === 0 ? (
                                 <div className="text-center py-10 text-gray-400 text-sm">Aucun espace trouvé</div>
@@ -217,7 +240,9 @@ export default function EspacesAdmin() {
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="font-semibold text-sm text-[#1a1a2e] truncate">{espace.nom}</div>
-                                            <span className={`text-xs font-medium px-2 py-0.5 rounded-full mt-0.5 inline-block ${typeBadge(espace.type)}`}>{espace.type}</span>
+                                            <span className={`text-xs font-medium px-2 py-0.5 rounded-full mt-0.5 inline-block capitalize ${categorieBadge(espace.categorie)}`}>
+                                                {espace.categorie?.libelle || '-'}
+                                            </span>
                                         </div>
                                         <div className="flex items-center gap-2 shrink-0">
                                             <Link to={`/admin/espaces/${espace.id}/modifier`} className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">

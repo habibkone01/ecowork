@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { CheckCircle, ChevronLeft, ChevronRight, Search } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { CheckCircle, ChevronLeft, ChevronRight, Search, Eye } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getReservations, deleteReservation, acquitterFacture } from '../../api/reservations'
 import SidebarAdmin from '../../components/SidebarAdmin'
@@ -97,11 +98,11 @@ export default function ReservationsAdmin() {
                     <form onSubmit={handleFilter} className="w-full max-w-3xl bg-white overflow-hidden flex flex-col sm:flex-row" style={{ border: '0.5px solid #e0e0d8', borderRadius: '14px' }}>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
                             <span className="text-gray-500 shrink-0">Du</span>
-                            <input type="date" min={new Date().toISOString().split('T')[0]} aria-label="Date de début" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0" />
+                            <input type="date" aria-label="Date de début" value={filters.date_debut} onChange={(e) => setFilters({ ...filters, date_debut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0" />
                         </div>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 sm:min-w-40 sm:max-w-45 border-b sm:border-b-0 sm:border-r border-gray-100">
                             <span className="text-gray-500 shrink-0">Au</span>
-                            <input type="date" min={new Date().toISOString().split('T')[0]} aria-label="Date de fin" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0" />
+                            <input type="date" aria-label="Date de fin" value={filters.date_fin} onChange={(e) => setFilters({ ...filters, date_fin: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0" />
                         </div>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 sm:min-w-40 border-b sm:border-b-0 sm:border-r border-gray-100">
                             <select aria-label="Statut de la réservation" value={filters.statut} onChange={(e) => setFilters({ ...filters, statut: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0">
@@ -126,6 +127,7 @@ export default function ReservationsAdmin() {
                     <div className="flex items-center justify-center h-32 text-gray-400 text-sm">Aucune réservation</div>
                 ) : (
                     <>
+                        {/* Vue desktop */}
                         <div className="hidden lg:block bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                             <table className="w-full">
                                 <thead>
@@ -147,9 +149,9 @@ export default function ReservationsAdmin() {
                                             <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">{r.date_debut} → {r.date_fin}</td>
                                             <td className="px-5 py-4">
                                                 {r.statut === 'confirmée' ? (
-                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70] ">Confirmée</span>
+                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
                                                 ) : (
-                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500 ">Annulée</span>
+                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500">Annulée</span>
                                                 )}
                                             </td>
                                             <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">{r.prix_total}€</td>
@@ -164,12 +166,17 @@ export default function ReservationsAdmin() {
                                                     <span className="text-gray-300 text-sm">—</span>
                                                 )}
                                             </td>
-                                            <td className="pr-5 py-4 text-right">
-                                                {r.statut === 'confirmée' && (
-                                                    <button onClick={() => setModalAnnuler({ isOpen: true, id: r.id })} className="text-xs font-medium px-3 py-1.5 rounded-lg border bg-red-500 text-white hover:bg-red-800 transition-colors">
-                                                        Annuler
-                                                    </button>
-                                                )}
+                                            <td className="px-5 py-4">
+                                                <div className="flex items-center gap-2 justify-end">
+                                                    <Link to={`/admin/reservations/${r.id}`} className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
+                                                        <Eye size={14} />
+                                                    </Link>
+                                                    {r.statut === 'confirmée' && (
+                                                        <button onClick={() => setModalAnnuler({ isOpen: true, id: r.id })} className="text-xs font-medium px-3 py-1.5 rounded-lg border bg-red-500 text-white hover:bg-red-800 transition-colors">
+                                                            Annuler
+                                                        </button>
+                                                    )}
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -195,6 +202,7 @@ export default function ReservationsAdmin() {
                             )}
                         </div>
 
+                        {/* Vue mobile */}
                         <div className="lg:hidden flex flex-col gap-3">
                             {reservations.map((r) => (
                                 <div key={r.id} className="bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #f0f0f0' }}>
@@ -203,11 +211,16 @@ export default function ReservationsAdmin() {
                                             <div className="font-semibold text-sm text-[#1a1a2e] truncate">{r.user?.prenom} {r.user?.nom}</div>
                                             <div className="text-xs text-gray-400 mt-0.5 truncate">{r.espace?.nom}</div>
                                         </div>
-                                        {r.statut === 'confirmée' ? (
-                                            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70] shrink-0">Confirmée</span>
-                                        ) : (
-                                            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500 shrink-0">Annulée</span>
-                                        )}
+                                        <div className="flex items-center gap-2 shrink-0">
+                                            {r.statut === 'confirmée' ? (
+                                                <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
+                                            ) : (
+                                                <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500">Annulée</span>
+                                            )}
+                                            <Link to={`/admin/reservations/${r.id}`} className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
+                                                <Eye size={14} />
+                                            </Link>
+                                        </div>
                                     </div>
                                     <div className="flex items-center divide-x divide-gray-100 border-t border-gray-100 mx-4">
                                         <div className="flex-1 py-2.5 pr-3">
@@ -223,7 +236,7 @@ export default function ReservationsAdmin() {
                                             <div className="text-sm font-bold text-[#7bdff2]">{r.prix_total}€</div>
                                         </div>
                                     </div>
-                                    {(r.statut === 'confirmée') && (
+                                    {r.statut === 'confirmée' && (
                                         <div className="flex items-center gap-2 p-4 pt-3">
                                             {r.facture_acquittee ? (
                                                 <span className="flex items-center gap-1 text-xs font-medium text-[#0a7a70]"><CheckCircle size={13} />Acquittée</span>

@@ -4,6 +4,7 @@ import { ArrowLeft, Save } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { getEspace, createEspace, updateEspace } from '../../api/espaces'
 import { getEquipements } from '../../api/equipements'
+import { getCategories } from '../../api/categories'
 import SidebarAdmin from '../../components/SidebarAdmin'
 import usePageTitle from '../../hooks/usePageTitle'
 
@@ -13,10 +14,10 @@ export default function EspaceForm() {
     const navigate = useNavigate()
     const isEdit = !!id
     usePageTitle(isEdit ? 'Modifier un espace' : 'Ajouter un espace')
-    
+
     const [form, setForm] = useState({
         nom: '',
-        type: '',
+        categorie_id: '',
         surface: '',
         capacite: '',
         description: '',
@@ -24,6 +25,7 @@ export default function EspaceForm() {
         equipements: []
     })
     const [listeEquipements, setListeEquipements] = useState([])
+    const [listeCategories, setListeCategories] = useState([])
     const [images, setImages] = useState([])
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -33,12 +35,15 @@ export default function EspaceForm() {
             const equipementsData = await getEquipements(token)
             setListeEquipements(equipementsData.data || [])
 
+            const categoriesData = await getCategories(token)
+            setListeCategories(categoriesData.data || [])
+
             if (isEdit) {
                 const data = await getEspace(token, id)
                 const e = data.data
                 setForm({
                     nom: e.nom || '',
-                    type: e.type || '',
+                    categorie_id: e.categorie?.id || '',
                     surface: e.surface || '',
                     capacite: e.capacite || '',
                     description: e.description || '',
@@ -126,13 +131,13 @@ export default function EspaceForm() {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Type</label>
-                                    <select name="type" value={form.type} onChange={handleChange} required
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">Catégorie</label>
+                                    <select name="categorie_id" value={form.categorie_id} onChange={handleChange} required
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2]">
-                                        <option value="">Choisir un type</option>
-                                        <option value="bureau">Bureau</option>
-                                        <option value="salle de réunion">Salle de réunion</option>
-                                        <option value="conférence">Conférence</option>
+                                        <option value="">Choisir une catégorie</option>
+                                        {listeCategories.map((cat) => (
+                                            <option key={cat.id} value={cat.id}>{cat.libelle}</option>
+                                        ))}
                                     </select>
                                 </div>
                                 <div>

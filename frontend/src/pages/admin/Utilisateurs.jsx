@@ -11,6 +11,7 @@ export default function Utilisateurs() {
     usePageTitle('Utilisateurs')
     const { token } = useAuth()
     const [utilisateurs, setUtilisateurs] = useState([])
+    const [utilisateursFiltres, setUtilisateursFiltres] = useState([])
     const [loading, setLoading] = useState(true)
     const [modal, setModal] = useState({ isOpen: false, id: null })
     const [currentPage, setCurrentPage] = useState(1)
@@ -27,6 +28,7 @@ export default function Utilisateurs() {
         try {
             const data = await getUsers(token, page, params)
             setUtilisateurs(data.data || [])
+            setUtilisateursFiltres(data.data || [])
             setCurrentPage(data.meta?.current_page || 1)
             setLastPage(data.meta?.last_page || 1)
             setTotal(data.meta?.total || 0)
@@ -37,24 +39,44 @@ export default function Utilisateurs() {
         }
     }
 
-    const handleFilter = (e) => {
-        e.preventDefault()
-        fetchUtilisateurs(1, { search })
+    const handleSearch = (valeur) => {
+        setSearch(valeur)
+
+        if (!valeur.trim()) {
+            // Si recherche vide → afficher tous les utilisateurs chargés
+            setUtilisateursFiltres(utilisateurs)
+            return
+        }
+
+        // Filtrer d'abord en mémoire
+        const resultatsLocaux = utilisateurs.filter(u =>
+            u.nom?.toLowerCase().includes(valeur.toLowerCase()) ||
+            u.prenom?.toLowerCase().includes(valeur.toLowerCase()) ||
+            u.email?.toLowerCase().includes(valeur.toLowerCase())
+        )
+
+        if (resultatsLocaux.length > 0) {
+            // On a trouvé en mémoire → pas d'appel API
+            setUtilisateursFiltres(resultatsLocaux)
+        } else {
+            // Rien trouvé en mémoire → on interroge l'API
+            fetchUtilisateurs(1, { search: valeur })
+        }
     }
 
     const handleReset = () => {
         setSearch('')
-        fetchUtilisateurs(1)
+        setUtilisateursFiltres(utilisateurs)
     }
 
     const handleDelete = async () => {
         await deleteUser(token, modal.id)
         setModal({ isOpen: false, id: null })
-        fetchUtilisateurs(currentPage, { search })
+        fetchUtilisateurs(currentPage)
     }
 
     const handlePage = (page) => {
-        fetchUtilisateurs(page, { search })
+        fetchUtilisateurs(page, search ? { search } : {})
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
@@ -86,25 +108,31 @@ export default function Utilisateurs() {
                 </div>
 
                 <div className="flex justify-center mb-6">
-                    <form onSubmit={handleFilter} className="w-full max-w-3xl bg-white overflow-hidden flex flex-col sm:flex-row" style={{ border: '0.5px solid #e0e0d8', borderRadius: '14px' }}>
+                    <div className="w-full max-w-3xl bg-white overflow-hidden flex flex-col sm:flex-row" style={{ border: '0.5px solid #e0e0d8', borderRadius: '14px' }}>
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 flex-1 border-b sm:border-b-0 sm:border-r border-gray-100">
                             <Search size={14} className="text-gray-400 shrink-0" />
-                            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Nom, prénom ou email..." className="border-none bg-transparent text-sm text-gray-700 outline-none w-full min-w-0" />
+                            <input
+                                type="text"
+                                value={search}
+                                onChange={(e) => handleSearch(e.target.value)}
+                                placeholder="Nom, prénom ou email..."
+                                className="border-none bg-transparent text-sm text-gray-700 outline-none w-full min-w-0"
+                            />
                         </div>
-                        <button type="button" onClick={handleReset} className="flex items-center justify-center px-5 py-3 sm:py-0 sm:h-12 text-sm text-gray-500 border-b sm:border-b-0 sm:border-r border-gray-100 shrink-0 transition-colors">
+                        <button
+                            type="button"
+                            onClick={handleReset}
+                            className="flex items-center justify-center px-5 py-3 sm:py-0 sm:h-12 text-sm text-gray-500 shrink-0 transition-colors"
+                        >
                             Réinitialiser
                         </button>
-                        <button type="submit" className="flex items-center justify-center gap-2 px-7 py-3 sm:py-0 sm:h-12 text-sm font-medium text-[#1A1A2E] hover:opacity-90 transition-opacity shrink-0" style={{ backgroundColor: '#7BDFF2' }}>
-                            <Search size={13} />
-                            Rechercher
-                        </button>
-                    </form>
+                    </div>
                 </div>
 
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                     {loading ? (
                         <div className="flex items-center justify-center h-32 text-gray-400 text-sm">Chargement...</div>
-                    ) : utilisateurs.length === 0 ? (
+                    ) : utilisateursFiltres.length === 0 ? (
                         <div className="flex items-center justify-center h-32 text-gray-400 text-sm">Aucun utilisateur trouvé</div>
                     ) : (
                         <>
@@ -120,7 +148,7 @@ export default function Utilisateurs() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-50">
-                                        {utilisateurs.map((u) => (
+                                        {utilisateursFiltres.map((u) => (
                                             <tr key={u.id} className="hover:bg-gray-50 transition-colors">
                                                 <td className="px-5 py-4">
                                                     <div className="flex items-center gap-3">
@@ -156,7 +184,7 @@ export default function Utilisateurs() {
                             </div>
 
                             <div className="lg:hidden divide-y divide-gray-100">
-                                {utilisateurs.map((u) => (
+                                {utilisateursFiltres.map((u) => (
                                     <div key={u.id} className="flex items-center gap-3 p-4">
                                         <div className="w-9 h-9 rounded-full flex items-center justify-center bg-[#eff7f6] text-[#0a7a70] text-xs font-bold shrink-0">
                                             {u.prenom?.[0]}{u.nom?.[0]}
