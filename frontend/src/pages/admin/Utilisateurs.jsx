@@ -63,7 +63,7 @@ export default function Utilisateurs() {
 
     const handleReset = () => {
         setSearch('')
-        setUtilisateursFiltres(utilisateurs)
+        fetchUtilisateurs(1)
     }
 
     const handleDelete = async () => {
