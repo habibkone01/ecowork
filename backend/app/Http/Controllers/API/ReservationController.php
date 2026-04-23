@@ -57,25 +57,25 @@ class ReservationController extends Controller
             ], 409);
         }
 
-        $espace    = Espace::findOrFail($request->espace_id);
+        $espace = Espace::findOrFail($request->espace_id);
         $dateDebut = Carbon::parse($request->date_debut);
-        $dateFin   = Carbon::parse($request->date_fin);
-        $jours     = $dateDebut->diffInDays($dateFin);
+        $dateFin = Carbon::parse($request->date_fin);
+        $jours = $dateDebut->diffInDays($dateFin);
         $prixTotal = $espace->tarif_journalier * $jours;
 
         $reservation = Reservation::create([
-            'date_debut'        => $request->date_debut,
-            'date_fin'          => $request->date_fin,
-            'prix_total'        => $prixTotal,
-            'statut'            => 'confirmée',
+            'date_debut' => $request->date_debut,
+            'date_fin' => $request->date_fin,
+            'prix_total' => $prixTotal,
+            'statut' => 'confirmée',
             'facture_acquittee' => false,
-            'user_id'           => $request->user()->id,
-            'espace_id'         => $request->espace_id,
+            'user_id' => $request->user()->id,
+            'espace_id' => $request->espace_id,
         ]);
 
         return response()->json([
-            'success'     => true,
-            'message'     => 'Réservation confirmée avec succès',
+            'success' => true,
+            'message' => 'Réservation confirmée avec succès',
             'reservation' => new ReservationResource($reservation->load(['user', 'espace'])),
         ], 201);
     }
@@ -85,7 +85,7 @@ class ReservationController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $reservation = Reservation::with(['user', 'espace'])->findOrFail($id);
+        $reservation = Reservation::with(['user', 'espace', 'espace.categorie', 'espace.images'])->findOrFail($id);
 
         if ($request->user()->role !== 'admin' && $reservation->user_id !== $request->user()->id) {
             return response()->json([
@@ -106,8 +106,8 @@ class ReservationController extends Controller
         $reservation->update($request->validated());
 
         return response()->json([
-            'success'     => true,
-            'message'     => 'Réservation mise à jour avec succès',
+            'success' => true,
+            'message' => 'Réservation mise à jour avec succès',
             'reservation' => new ReservationResource($reservation->load(['user', 'espace'])),
         ], 200);
     }

@@ -92,10 +92,13 @@ export default function ReservationDetailUser() {
                         </div>
                     </div>
 
+                    {/* Statut */}
                     <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm mb-4">
                         <div className="flex items-center justify-between">
                             <h3 className="font-bold text-[#1a1a2e]">Statut</h3>
-                            {reservation.statut === 'confirmée' ? (
+                            {reservation.statut === 'terminée' ? (
+                                <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-orange-50 text-orange-500">Terminée</span>
+                            ) : reservation.statut === 'confirmée' ? (
                                 <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
                             ) : (
                                 <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-red-50 text-red-500">Annulée</span>
@@ -113,6 +116,7 @@ export default function ReservationDetailUser() {
                         </div>
                     </div>
 
+                    {/* Espace */}
                     <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm mb-4">
                         <h3 className="font-bold text-[#1a1a2e] mb-4 flex items-center gap-2">
                             <Building2 size={16} /> Espace
@@ -146,6 +150,7 @@ export default function ReservationDetailUser() {
                         </div>
                     </div>
 
+                    {/* Dates */}
                     <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm mb-4">
                         <h3 className="font-bold text-[#1a1a2e] mb-4 flex items-center gap-2">
                             <Calendar size={16} /> Dates
