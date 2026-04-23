@@ -150,7 +150,7 @@ export default function ReservationsAdmin() {
                                 </thead>
                                 <tbody className="divide-y divide-gray-50">
                                     {reservations.map((r) => (
-                                        <tr key={r.id} className="hover:bg-gray-50 transition-colors">
+                                        <tr key={r.id} className={`transition-colors ${r.user?.deleted_at ? 'opacity-40 bg-gray-50' : 'hover:bg-gray-50'}`}>
                                             <td className="px-5 py-4 text-sm font-semibold text-[#1a1a2e] whitespace-nowrap">{r.user?.prenom} {r.user?.nom}</td>
                                             <td className="px-5 py-4 text-sm text-gray-600">{r.espace?.nom}</td>
                                             <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">{r.date_debut} → {r.date_fin}</td>
@@ -206,7 +206,7 @@ export default function ReservationsAdmin() {
                         {/* Vue mobile */}
                         <div className="lg:hidden flex flex-col gap-3">
                             {reservations.map((r) => (
-                                <div key={r.id} className="bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #f0f0f0' }}>
+                                <div key={r.id} className={`bg-white rounded-2xl overflow-hidden ${r.user?.deleted_at ? 'opacity-40' : ''}`} style={{ border: '1px solid #f0f0f0' }}>
                                     <div className="flex items-center justify-between gap-3 p-4 pb-3">
                                         <div className="min-w-0">
                                             <div className="font-semibold text-sm text-[#1a1a2e] truncate">{r.user?.prenom} {r.user?.nom}</div>

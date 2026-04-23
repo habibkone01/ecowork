@@ -92,7 +92,9 @@ export default function ReservationDetail() {
                     <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm mb-4">
                         <div className="flex items-center justify-between">
                             <h3 className="font-bold text-[#1a1a2e]">Statut</h3>
-                            {reservation.statut === 'confirmée' ? (
+                            {reservation.statut === 'terminée' ? (
+                                <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-orange-50 text-orange-500">Terminée</span>
+                            ) : reservation.statut === 'confirmée' ? (
                                 <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
                             ) : (
                                 <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-red-50 text-red-500">Annulée</span>
@@ -111,9 +113,14 @@ export default function ReservationDetail() {
                     </div>
 
                     {/* Utilisateur */}
-                    <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm mb-4">
+                    <div className={`bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-sm mb-4 ${reservation.user?.deleted_at ? 'opacity-50' : ''}`}>
                         <h3 className="font-bold text-[#1a1a2e] mb-4 flex items-center gap-2">
                             <User size={16} /> Utilisateur
+                            {reservation.user?.deleted_at && (
+                                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-red-50 text-red-400">
+                                    Compte supprimé
+                                </span>
+                            )}
                         </h3>
                         <div className="space-y-2 text-sm">
                             <div className="flex justify-between">
