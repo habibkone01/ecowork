@@ -212,7 +212,8 @@ export default function EspaceDetail() {
                                                 type="date"
                                                 value={dateDebut}
                                                 onChange={(e) => { setDateDebut(e.target.value); setError(null) }}
-                                                className="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]"
+                                                className="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border"
+                                                style={{ WebkitAppearance: 'none', appearance: 'none', maxWidth: '100%' }}
                                             />
                                         </div>
                                         <div>
@@ -221,7 +222,8 @@ export default function EspaceDetail() {
                                                 type="date"
                                                 value={dateFin}
                                                 onChange={(e) => { setDateFin(e.target.value); setError(null) }}
-                                                className="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226]"
+                                                className="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#1a1a2e] focus:outline-none focus:border-[#7bdff2] focus:ring-2 focus:ring-[#7bdff226] box-border"
+                                                style={{ WebkitAppearance: 'none', appearance: 'none', maxWidth: '100%' }}
                                             />
                                         </div>
                                     </div>
