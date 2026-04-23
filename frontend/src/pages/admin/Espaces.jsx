@@ -123,7 +123,7 @@ export default function EspacesAdmin() {
                                 onChange={(e) => setFilters({ ...filters, categorie_id: e.target.value })}
                                 className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full min-w-0"
                             >
-                                <option value="">Toutes les catégories</option>
+                                <option value="">Tous</option>
                                 {categories.map((cat) => (
                                     <option key={cat.id} value={cat.id}>{cat.libelle}</option>
                                 ))}

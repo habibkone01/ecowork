@@ -85,7 +85,7 @@ export default function Espaces() {
                         <div className="flex items-center gap-2 px-4 py-3 sm:py-0 sm:h-12 border-b sm:border-b-0 sm:border-r border-gray-100">
                             <LayoutGrid size={14} className="text-gray-400 shrink-0" />
                             <select aria-label="Catégorie d'espace" value={filters.categorie_id} onChange={(e) => setFilters({ ...filters, categorie_id: e.target.value })} className="border-none bg-transparent text-sm text-gray-700 outline-none cursor-pointer w-full">
-                                <option value="">Toutes les catégories</option>
+                                <option value="">Tous</option>
                                 {categories.map((cat) => (
                                     <option key={cat.id} value={cat.id}>{cat.libelle}</option>
                                 ))}
