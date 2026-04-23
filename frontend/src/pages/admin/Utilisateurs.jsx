@@ -14,6 +14,7 @@ export default function Utilisateurs() {
     const [utilisateursFiltres, setUtilisateursFiltres] = useState([])
     const [loading, setLoading] = useState(true)
     const [modal, setModal] = useState({ isOpen: false, id: null })
+    const [modalError, setModalError] = useState(null)
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
     const [total, setTotal] = useState(0)
@@ -43,12 +44,10 @@ export default function Utilisateurs() {
         setSearch(valeur)
 
         if (!valeur.trim()) {
-            // Si recherche vide → afficher tous les utilisateurs chargés
             setUtilisateursFiltres(utilisateurs)
             return
         }
 
-        // Filtrer d'abord en mémoire
         const resultatsLocaux = utilisateurs.filter(u =>
             u.nom?.toLowerCase().includes(valeur.toLowerCase()) ||
             u.prenom?.toLowerCase().includes(valeur.toLowerCase()) ||
@@ -56,10 +55,8 @@ export default function Utilisateurs() {
         )
 
         if (resultatsLocaux.length > 0) {
-            // On a trouvé en mémoire → pas d'appel API
             setUtilisateursFiltres(resultatsLocaux)
         } else {
-            // Rien trouvé en mémoire → on interroge l'API
             fetchUtilisateurs(1, { search: valeur })
         }
     }
@@ -70,7 +67,12 @@ export default function Utilisateurs() {
     }
 
     const handleDelete = async () => {
-        await deleteUser(token, modal.id)
+        const data = await deleteUser(token, modal.id)
+        if (!data.success) {
+            setModalError(data.message)
+            return
+        }
+        setModalError(null)
         setModal({ isOpen: false, id: null })
         fetchUtilisateurs(currentPage)
     }
@@ -92,7 +94,8 @@ export default function Utilisateurs() {
                     confirmText="Supprimer"
                     confirmColor="bg-red-500 text-white"
                     onConfirm={handleDelete}
-                    onCancel={() => setModal({ isOpen: false, id: null })}
+                    onCancel={() => { setModal({ isOpen: false, id: null }); setModalError(null) }}
+                    error={modalError}
                 />
 
                 <div className="flex items-center justify-between my-6 lg:mb-8 gap-3">
@@ -136,6 +139,7 @@ export default function Utilisateurs() {
                         <div className="flex items-center justify-center h-32 text-gray-400 text-sm">Aucun utilisateur trouvé</div>
                     ) : (
                         <>
+                            {/* Vue desktop */}
                             <div className="hidden lg:block">
                                 <table className="w-full">
                                     <thead>
@@ -182,7 +186,8 @@ export default function Utilisateurs() {
                                     </tbody>
                                 </table>
                             </div>
-
+                            
+                            {/* Vue mobile */}
                             <div className="lg:hidden divide-y divide-gray-100">
                                 {utilisateursFiltres.map((u) => (
                                     <div key={u.id} className="flex items-center gap-3 p-4">
