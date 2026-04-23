@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { CheckCircle, ChevronLeft, ChevronRight, Search, Eye } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import { getReservations, deleteReservation, acquitterFacture } from '../../api/reservations'
+import { getReservations, annulerReservation, acquitterFacture } from '../../api/reservations'
 import SidebarAdmin from '../../components/SidebarAdmin'
 import Modal from '../../components/Modal'
 import usePageTitle from '../../hooks/usePageTitle'
@@ -49,7 +49,7 @@ export default function ReservationsAdmin() {
     }
 
     const handleAnnuler = async () => {
-        await deleteReservation(token, modalAnnuler.id)
+        await annulerReservation(token, modalAnnuler.id)
         setModalAnnuler({ isOpen: false, id: null })
         fetchReservations(currentPage, filters)
     }
@@ -63,6 +63,12 @@ export default function ReservationsAdmin() {
     const handlePage = (page) => {
         fetchReservations(page, filters)
         window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
+    const getStatutBadge = (statut) => {
+        if (statut === 'terminée') return <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-orange-50 text-orange-500">Terminée</span>
+        if (statut === 'confirmée') return <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
+        return <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500">Annulée</span>
     }
 
     return (
@@ -109,6 +115,7 @@ export default function ReservationsAdmin() {
                                 <option value="">Tous les statuts</option>
                                 <option value="confirmée">Confirmée</option>
                                 <option value="annulée">Annulée</option>
+                                <option value="terminée">Terminée</option>
                             </select>
                         </div>
                         <button type="button" onClick={handleReset} className="flex items-center justify-center px-5 py-3 sm:py-0 sm:h-12 text-sm text-gray-500 border-b sm:border-b-0 sm:border-r border-gray-100 shrink-0 transition-colors">
@@ -147,13 +154,7 @@ export default function ReservationsAdmin() {
                                             <td className="px-5 py-4 text-sm font-semibold text-[#1a1a2e] whitespace-nowrap">{r.user?.prenom} {r.user?.nom}</td>
                                             <td className="px-5 py-4 text-sm text-gray-600">{r.espace?.nom}</td>
                                             <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">{r.date_debut} → {r.date_fin}</td>
-                                            <td className="px-5 py-4">
-                                                {r.statut === 'confirmée' ? (
-                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
-                                                ) : (
-                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500">Annulée</span>
-                                                )}
-                                            </td>
+                                            <td className="px-5 py-4">{getStatutBadge(r.statut)}</td>
                                             <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">{r.prix_total}€</td>
                                             <td className="px-5 py-4">
                                                 {r.facture_acquittee ? (
@@ -212,11 +213,7 @@ export default function ReservationsAdmin() {
                                             <div className="text-xs text-gray-400 mt-0.5 truncate">{r.espace?.nom}</div>
                                         </div>
                                         <div className="flex items-center gap-2 shrink-0">
-                                            {r.statut === 'confirmée' ? (
-                                                <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
-                                            ) : (
-                                                <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500">Annulée</span>
-                                            )}
+                                            {getStatutBadge(r.statut)}
                                             <Link to={`/admin/reservations/${r.id}`} className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
                                                 <Eye size={14} />
                                             </Link>

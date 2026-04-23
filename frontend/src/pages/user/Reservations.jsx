@@ -67,10 +67,43 @@ export default function Reservations() {
         return `${parseFloat(prix).toFixed(0)} €`
     }
 
+    const getStatutBadge = (statut) => {
+        if (statut === 'terminée') return (
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-50 text-orange-500">Terminée</span>
+        )
+        if (statut === 'confirmée') return (
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
+        )
+        return (
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-red-50 text-red-600">Annulée</span>
+        )
+    }
+
+    const getStatutBadgeMobile = (statut) => {
+        if (statut === 'terminée') return (
+            <span className="inline-flex items-center gap-1 bg-orange-50 px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-orange-500 max-w-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
+                <span className="truncate">Terminée</span>
+            </span>
+        )
+        if (statut === 'confirmée') return (
+            <span className="inline-flex items-center gap-1 bg-[#eff7f6] px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-[#0a7a70] max-w-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#0a7a70] shrink-0" />
+                <span className="truncate">Confirmée</span>
+            </span>
+        )
+        return (
+            <span className="inline-flex items-center gap-1 bg-red-50 px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-red-600 max-w-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
+                <span className="truncate">Annulée</span>
+            </span>
+        )
+    }
+
     const confirmees = reservations.filter(r => r.statut === 'confirmée')
     const annulees = reservations.filter(r => r.statut === 'annulée')
     const totalDepense = reservations
-        .filter(r => r.statut === 'confirmée')
+        .filter(r => r.statut === 'confirmée' || r.statut === 'terminée')
         .reduce((acc, r) => acc + parseFloat(r.prix_total || 0), 0)
         .toFixed(2)
 
@@ -174,15 +207,7 @@ export default function Reservations() {
                                             <td className="p-4 text-sm text-gray-500">{r.date_fin}</td>
                                             <td className="p-4 text-sm text-gray-500">{getNbJours(r.date_debut, r.date_fin)} jours</td>
                                             <td className="p-4 text-sm font-bold text-[#7bdff2]">{r.prix_total}€</td>
-                                            <td className="p-4">
-                                                {new Date(r.date_fin) < new Date() && r.statut === 'confirmée' ? (
-                                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-50 text-orange-500">Terminée</span>
-                                                ) : r.statut === 'confirmée' ? (
-                                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70]">Confirmée</span>
-                                                ) : (
-                                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-red-50 text-red-600">Annulée</span>
-                                                )}
-                                            </td>
+                                            <td className="p-4">{getStatutBadge(r.statut)}</td>
                                             <td className="p-4">
                                                 <div className="flex items-center gap-2">
                                                     <Link to={`/reservations/${r.id}`} className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors no-underline">
@@ -270,22 +295,7 @@ export default function Reservations() {
                                         </div>
                                         <div className="py-2.5 px-3 min-w-0">
                                             <div className="text-[10px] text-gray-400 mb-1 truncate">Statut</div>
-                                            {new Date(r.date_fin) < new Date() && r.statut === 'confirmée' ? (
-                                                <span className="inline-flex items-center gap-1 bg-orange-50 px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-orange-500 max-w-full">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
-                                                    <span className="truncate">Terminée</span>
-                                                </span>
-                                            ) : r.statut === 'confirmée' ? (
-                                                <span className="inline-flex items-center gap-1 bg-[#eff7f6] px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-[#0a7a70] max-w-full">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-[#0a7a70] shrink-0" />
-                                                    <span className="truncate">Confirmée</span>
-                                                </span>
-                                            ) : (
-                                                <span className="inline-flex items-center gap-1 bg-red-50 px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-red-600 max-w-full">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-                                                    <span className="truncate">Annulée</span>
-                                                </span>
-                                            )}
+                                            {getStatutBadgeMobile(r.statut)}
                                         </div>
                                     </div>
                                 </div>

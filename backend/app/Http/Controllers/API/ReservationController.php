@@ -18,6 +18,8 @@ class ReservationController extends Controller
      */
     public function index(Request $request)
     {
+        Reservation::where('statut', 'confirmée')->where('date_fin', '<', now())->update(['statut' => 'terminée']);
+
         $perPage = $request->query('per_page', 10);
 
         if ($request->user()->role === 'admin') {
@@ -48,7 +50,6 @@ class ReservationController extends Controller
      */
     public function store(StoreReservationRequest $request)
     {
-        // Vérifier la disponibilité de l'espace aux dates choisies
         if (!$this->estDisponible($request->espace_id, $request->date_debut, $request->date_fin)) {
             return response()->json([
                 'success' => false,
@@ -56,14 +57,12 @@ class ReservationController extends Controller
             ], 409);
         }
 
-        // Calculer le prix total automatiquement
         $espace    = Espace::findOrFail($request->espace_id);
         $dateDebut = Carbon::parse($request->date_debut);
         $dateFin   = Carbon::parse($request->date_fin);
         $jours     = $dateDebut->diffInDays($dateFin);
         $prixTotal = $espace->tarif_journalier * $jours;
 
-        // Créer la réservation
         $reservation = Reservation::create([
             'date_debut'        => $request->date_debut,
             'date_fin'          => $request->date_fin,
