@@ -22,6 +22,7 @@ export default function Profil() {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const [modal, setModal] = useState(false)
+    const [modalError, setModalError] = useState(null)
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -53,7 +54,11 @@ export default function Profil() {
     }
 
     const handleSupprimer = async () => {
-        await deleteUser(token, user.id)
+        const data = await deleteUser(token, user.id)
+        if (!data.success) {
+            setModalError(data.message)
+            return
+        }
         logout()
     }
 
@@ -72,7 +77,8 @@ export default function Profil() {
                         confirmText="Supprimer mon compte"
                         confirmColor="bg-red-500 text-white"
                         onConfirm={handleSupprimer}
-                        onCancel={() => setModal(false)}
+                        onCancel={() => { setModal(false); setModalError(null) }}
+                        error={modalError}
                     />
 
                     <div className="my-6 lg:mb-8">

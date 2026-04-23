@@ -97,6 +97,17 @@ class UserController extends Controller
             ], 403);
         }
 
+        $reservationsActives = $user->reservations()
+            ->where('statut', 'confirmée')
+            ->exists();
+
+        if ($reservationsActives) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Impossible de supprimer cet utilisateur car il a des réservations actives.',
+            ], 409);
+        }
+
         $user->tokens()->delete();
         $user->delete();
 
