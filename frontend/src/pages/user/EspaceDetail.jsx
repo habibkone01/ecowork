@@ -101,8 +101,8 @@ export default function EspaceDetail() {
     return (
         <div className="flex bg-gray-100">
             <SidebarUser />
-            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8">
-                <div className="max-w-5xl mx-auto">
+            <main className="ml-0 lg:ml-65 pt-16 lg:pt-0 flex-1 min-h-screen bg-gray-100 p-4 lg:p-8 overflow-x-hidden">
+                <div className="w-full max-w-5xl mx-auto">
 
                     {/* Popup confirmation réservation */}
                     {showSuccess && reservation && (
@@ -123,51 +123,49 @@ export default function EspaceDetail() {
                         </div>
                     )}
 
-                    {/* Fil d'ariane */}
-                    <div className="flex items-center gap-2 text-sm text-gray-600 my-6">
-                        <Link to="/espaces" className="hover:text-gray-600 flex items-center gap-1 no-underline transition-colors">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 my-6 overflow-hidden">
+                        <Link to="/espaces" className="hover:text-gray-600 flex items-center gap-1 no-underline transition-colors shrink-0">
                             <ArrowLeft size={15} />
                             Les espaces
                         </Link>
-                        <ChevronRight size={14} />
+                        <ChevronRight size={14} className="shrink-0" />
                         <span className="text-[#1a1a2e] font-medium truncate">{espace.nom}</span>
-                    </div>
-
-                    {/* Galerie */}
-                    <div className="bg-white rounded-3xl overflow-hidden p-3 mb-6 shadow-sm" style={{ border: '1px solid #f0f0f0' }}>
-                        <div className="flex gap-3 h-56 lg:h-80">
-                            <div className="relative flex-1 rounded-2xl overflow-hidden">
-                                {espace.images?.length > 0 ? (
-                                    <img src={espace.images[0].url} alt={espace.nom} className="w-full h-full object-cover" loading="lazy" />
-                                ) : (
-                                    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                                        <span className="text-gray-400 text-sm">Pas d'image</span>
-                                    </div>
-                                )}
-                                <div className="absolute top-3 left-3">
-                                    <span className="text-xs font-medium px-3 py-1.5 rounded-full text-white capitalize" style={{ backgroundColor: '#1a1a2e99' }}>
-                                        {espace.categorie?.libelle || '-'}
-                                    </span>
-                                </div>
-                            </div>
-                            {espace.images?.length > 1 && (
-                                <div className="flex flex-col gap-3 w-1/3">
-                                    {espace.images.slice(1, 3).map((img) => (
-                                        <div key={img.id} className="flex-1 rounded-2xl overflow-hidden">
-                                            <img src={img.url} alt="" className="w-full h-full object-cover object-center" loading="lazy" />
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
 
-                        {/* Colonne gauche */}
-                        <div className="lg:col-span-2 space-y-4">
+                        <div className="lg:col-span-2 space-y-4 min-w-0">
+
+                            <div className="bg-white rounded-3xl overflow-hidden p-3 shadow-sm" style={{ border: '1px solid #f0f0f0' }}>
+                                <div className="flex gap-3 h-56 lg:h-72">
+                                    <div className="relative flex-1 rounded-2xl overflow-hidden min-w-0">
+                                        {espace.images?.length > 0 ? (
+                                            <img src={espace.images[0].url} alt={espace.nom} className="w-full h-full object-cover" loading="lazy" />
+                                        ) : (
+                                            <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                                                <span className="text-gray-400 text-sm">Pas d'image</span>
+                                            </div>
+                                        )}
+                                        <div className="absolute top-3 left-3">
+                                            <span className="text-xs font-medium px-3 py-1.5 rounded-full text-white capitalize" style={{ backgroundColor: '#1a1a2e99' }}>
+                                                {espace.categorie?.libelle || '-'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {espace.images?.length > 1 && (
+                                        <div className="flex flex-col gap-3 w-1/3">
+                                            {espace.images.slice(1, 3).map((img) => (
+                                                <div key={img.id} className="flex-1 rounded-2xl overflow-hidden">
+                                                    <img src={img.url} alt="" className="w-full h-full object-cover object-center" loading="lazy" />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
                             <div className="bg-white rounded-3xl p-5 lg:p-6 shadow-sm" style={{ border: '1px solid #f0f0f0' }}>
-                                <h1 className="text-xl lg:text-2xl font-extrabold text-[#1a1a2e] mb-4">{espace.nom}</h1>
+                                <h1 className="text-xl lg:text-2xl font-extrabold text-[#1a1a2e] mb-4 wrap-break-words">{espace.nom}</h1>
                                 <div className="flex flex-wrap gap-2">
                                     <span className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 flex items-center gap-1.5"><Maximize2 size={11} /> {espace.surface}m²</span>
                                     <span className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 flex items-center gap-1.5"><Users size={11} /> {espace.capacite} pers. max.</span>
@@ -177,7 +175,7 @@ export default function EspaceDetail() {
 
                             <div className="bg-white rounded-3xl p-5 lg:p-6 shadow-sm" style={{ border: '1px solid #f0f0f0' }}>
                                 <h3 className="font-semibold text-sm uppercase tracking-wider text-gray-600 mb-3">Description</h3>
-                                <p className="text-sm text-gray-600 leading-relaxed">{espace.description}</p>
+                                <p className="text-sm text-gray-600 leading-relaxed wrap-break-words">{espace.description}</p>
                             </div>
 
                             <div className="bg-white rounded-3xl p-5 lg:p-6 shadow-sm" style={{ border: '1px solid #f0f0f0' }}>
@@ -193,8 +191,8 @@ export default function EspaceDetail() {
                             </div>
                         </div>
 
-                        {/* Colonne droite - Formulaire réservation */}
-                        <div className="lg:col-span-1">
+                        {/* Formulaire*/}
+                        <div className="lg:col-span-1 min-w-0">
                             <div className="bg-white rounded-3xl p-5 lg:p-6 shadow-sm lg:sticky lg:top-8" style={{ border: '1px solid #f0f0f0' }}>
                                 <div className="text-center mb-5">
                                     <div className="text-4xl font-extrabold text-[#7bdff2]">{espace.tarif_journalier}€</div>
@@ -228,7 +226,6 @@ export default function EspaceDetail() {
                                         </div>
                                     </div>
 
-                                    {/* Récapitulatif prix */}
                                     {getNbJours() > 0 && (
                                         <div className="bg-gray-50 rounded-2xl p-3 mb-4 text-sm space-y-2">
                                             <div className="flex justify-between">
