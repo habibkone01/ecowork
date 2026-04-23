@@ -183,7 +183,7 @@ export default function Profil() {
                                     <Save size={16} />
                                     {loading ? 'Enregistrement...' : 'Enregistrer'}
                                 </button>
-                                <button type="button" onClick={() => setForm({ ...form, password: '', password_confirmation: '' })}
+                                <button type="button" onClick={() => setForm({nom: user?.nom || '', prenom: user?.prenom || '', email: user?.email || '',telephone: user?.telephone || '', adresse: user?.adresse || '', password: '', password_confirmation: ''})}
                                     className="px-6 py-3 rounded-xl font-semibold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all">
                                     Annuler
                                 </button>
