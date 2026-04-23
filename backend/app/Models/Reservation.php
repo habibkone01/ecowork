@@ -36,6 +36,6 @@ class Reservation extends Model
 
     public function espace()
     {
-        return $this->belongsTo(Espace::class);
+        return $this->belongsTo(Espace::class)->withTrashed();
     }
 }

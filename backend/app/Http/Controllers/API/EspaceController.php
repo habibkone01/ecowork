@@ -68,7 +68,7 @@ class EspaceController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Espace créé avec succès',
-            'espace'  => new EspaceResource($espace->load(['categorie', 'equipements', 'images'])),
+            'espace' => new EspaceResource($espace->load(['categorie', 'equipements', 'images'])),
         ], 201);
     }
 
@@ -106,7 +106,7 @@ class EspaceController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Espace mis à jour avec succès',
-            'espace'  => new EspaceResource($espace->load(['categorie', 'equipements', 'images'])),
+            'espace' => new EspaceResource($espace->load(['categorie', 'equipements', 'images'])),
         ], 200);
     }
 
@@ -116,6 +116,18 @@ class EspaceController extends Controller
     public function destroy($id)
     {
         $espace = Espace::findOrFail($id);
+
+        $reservationsActives = $espace->reservations()
+            ->where('statut', 'confirmée')
+            ->exists();
+
+        if ($reservationsActives) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Impossible de supprimer cet espace car il a des réservations actives.',
+            ], 409);
+        }
+
         $espace->delete();
 
         return response()->json([
@@ -131,14 +143,14 @@ class EspaceController extends Controller
     {
         foreach ($images as $image) {
             $filename = uniqid() . '.webp';
-            $path     = 'espaces/' . $filename;
+            $path = 'espaces/' . $filename;
 
             $source = imagecreatefromstring(file_get_contents($image->getRealPath()));
             imagewebp($source, storage_path('app/public/' . $path), 90);
             unset($source);
 
             Image::create([
-                'url'      => $path,
+                'url' => $path,
                 'espace_id' => $espaceId,
             ]);
         }

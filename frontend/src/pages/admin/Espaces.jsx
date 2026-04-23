@@ -15,6 +15,7 @@ export default function EspacesAdmin() {
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true)
     const [modal, setModal] = useState({ isOpen: false, id: null })
+    const [modalError, setModalError] = useState(null)
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
     const [total, setTotal] = useState(0)
@@ -60,7 +61,12 @@ export default function EspacesAdmin() {
     }
 
     const handleDelete = async () => {
-        await deleteEspace(token, modal.id)
+        const data = await deleteEspace(token, modal.id)
+        if (!data.success) {
+            setModalError(data.message)
+            return
+        }
+        setModalError(null)
         setModal({ isOpen: false, id: null })
         fetchEspaces(currentPage, filters)
     }
@@ -91,7 +97,8 @@ export default function EspacesAdmin() {
                     confirmText="Supprimer"
                     confirmColor="bg-red-500 text-white"
                     onConfirm={handleDelete}
-                    onCancel={() => setModal({ isOpen: false, id: null })}
+                    onCancel={() => { setModal({ isOpen: false, id: null }); setModalError(null) }}
+                    error={modalError}
                 />
 
                 <div className="flex items-center justify-between my-6 lg:mb-8 gap-3">

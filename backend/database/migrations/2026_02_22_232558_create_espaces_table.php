@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('tarif_journalier', 8, 2);
             $table->foreignId('categorie_id')->constrained('categories')->onDelete('restrict');
             $table->timestamps();
+            $table->softDeletes();
             $table->index('categorie_id');
             $table->index('tarif_journalier');
         });
