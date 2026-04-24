@@ -12,7 +12,7 @@ class EspaceTest extends TestCase
 
     public function test_espace_a_les_bons_champs_fillable()
     {
-        $fillable = ['nom', 'surface', 'type', 'capacite', 'description', 'tarif_journalier'];
+        $fillable = ['nom', 'surface',  'capacite', 'description', 'tarif_journalier', 'categorie_id'];
         $espace = new Espace();
         $this->assertEquals($fillable, $espace->getFillable());
     }
@@ -20,17 +20,17 @@ class EspaceTest extends TestCase
     public function test_espace_peut_etre_cree_avec_tous_les_champs()
     {
         $espace = Espace::factory()->create([
-            'nom'              => 'Bureau Zen',
-            'surface'          => 30,
-            'type'             => 'bureau',
-            'capacite'         => 5,
-            'description'      => 'Un beau bureau',
+            'nom' => 'Bureau Zen',
+            'surface' => 30,
+            'categorie_id' => 1,
+            'capacite' => 5,
+            'description' => 'Un beau bureau',
             'tarif_journalier' => 120,
         ]);
 
         $this->assertEquals('Bureau Zen', $espace->nom);
         $this->assertEquals(30, $espace->surface);
-        $this->assertEquals('bureau', $espace->type);
+        $this->assertEquals(1, $espace->categorie_id);
         $this->assertEquals(5, $espace->capacite);
         $this->assertEquals(120, $espace->tarif_journalier);
     }

@@ -24,7 +24,7 @@ class ReservationFactory extends Factory
             'prix_total' => $espace->tarif_journalier * $jours,
             'statut' => fake()->randomElement(['confirmée', 'annulée']),
             'facture_acquittee' => fake()->boolean(),
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => User::factory(),
             'espace_id' => $espace->id,
         ];
     }
