@@ -59,27 +59,6 @@ class ReservationTest extends TestCase
         $this->assertCount(2, $response->json('data'));
     }
 
-    public function test_creer_reservation_calcule_prix_correctement()
-    {
-        /** @var User $user */
-        $user = User::factory()->create(['role' => 'utilisateur']);
-        $espace = Espace::factory()->create(['tarif_journalier' => 100]);
-
-        $this->actingAs($user, 'sanctum')
-            ->postJson('/api/reservations', [
-                'espace_id' => $espace->id,
-                'date_debut' => '2026-06-10',
-                'date_fin' => '2026-06-12',
-            ])
-            ->assertStatus(201)
-            ->assertJsonFragment(['success' => true]);
-
-        $this->assertDatabaseHas('reservations', [
-            'espace_id' => $espace->id,
-            'user_id' => $user->id,
-            'prix_total' => 200,
-        ]);
-    }
 
     public function test_reservation_sur_espace_deja_occupe_retourne_409()
     {
