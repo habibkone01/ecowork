@@ -35,6 +35,14 @@ class ReservationController extends Controller
                 })
                 ->orderBy('created_at', 'desc')
                 ->paginate($perPage);
+
+            $revenus = Reservation::whereIn('statut', ['confirmée', 'terminée'])
+                ->sum('prix_total');
+
+            $collection = ReservationResource::collection($reservations);
+            $collection->additional(['revenus' => $revenus]);
+            return $collection;
+
         } else {
             $reservations = Reservation::with(['espace', 'espace.images'])
                 ->where('user_id', $request->user()->id)

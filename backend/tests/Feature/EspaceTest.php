@@ -78,11 +78,11 @@ class EspaceTest extends TestCase
 
         $this->actingAs($admin, 'sanctum')
             ->postJson('/api/espaces', [
-                'nom'              => 'Nouveau Bureau',
-                'surface'          => 25,
-                'categorie_id'     => $categorie->id,
-                'capacite'         => 4,
-                'description'      => 'Un beau bureau',
+                'nom' => 'Nouveau Bureau',
+                'surface' => 25,
+                'categorie_id' => $categorie->id,
+                'capacite' => 4,
+                'description' => 'Un beau bureau',
                 'tarif_journalier' => 100,
             ])
             ->assertStatus(201)
@@ -99,11 +99,11 @@ class EspaceTest extends TestCase
 
         $this->actingAs($user, 'sanctum')
             ->postJson('/api/espaces', [
-                'nom'              => 'Bureau Pirate',
-                'surface'          => 20,
-                'categorie_id'     => $categorie->id,
-                'capacite'         => 2,
-                'description'      => 'Test',
+                'nom' => 'Bureau Pirate',
+                'surface' => 20,
+                'categorie_id' => $categorie->id,
+                'capacite' => 2,
+                'description' => 'Test',
                 'tarif_journalier' => 50,
             ])
             ->assertStatus(403);
@@ -118,11 +118,11 @@ class EspaceTest extends TestCase
 
         $this->actingAs($admin, 'sanctum')
             ->putJson('/api/espaces/' . $espace->id, [
-                'nom'              => 'Nouveau Nom',
-                'surface'          => $espace->surface,
-                'categorie_id'     => $categorie->id,
-                'capacite'         => $espace->capacite,
-                'description'      => $espace->description,
+                'nom' => 'Nouveau Nom',
+                'surface' => $espace->surface,
+                'categorie_id' => $categorie->id,
+                'capacite' => $espace->capacite,
+                'description' => $espace->description,
                 'tarif_journalier' => $espace->tarif_journalier,
             ])
             ->assertStatus(200)
@@ -142,7 +142,7 @@ class EspaceTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment(['success' => true]);
 
-        $this->assertDatabaseMissing('espaces', ['id' => $espace->id]);
+        $this->assertSoftDeleted('espaces', ['id' => $espace->id]);
     }
 
     public function test_utilisateur_ne_peut_pas_supprimer_un_espace()

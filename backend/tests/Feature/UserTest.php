@@ -4,6 +4,9 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Espace;
+use App\Models\Reservation;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
@@ -17,9 +20,9 @@ class UserTest extends TestCase
         User::factory()->count(3)->create();
 
         $this->actingAs($admin, 'sanctum')
-             ->getJson('/api/users')
-             ->assertStatus(200)
-             ->assertJsonStructure(['data', 'meta']);
+            ->getJson('/api/users')
+            ->assertStatus(200)
+            ->assertJsonStructure(['data', 'meta']);
     }
 
     public function test_utilisateur_ne_peut_pas_voir_liste_des_users()
@@ -28,8 +31,8 @@ class UserTest extends TestCase
         $user = User::factory()->create(['role' => 'utilisateur']);
 
         $this->actingAs($user, 'sanctum')
-             ->getJson('/api/users')
-             ->assertStatus(403);
+            ->getJson('/api/users')
+            ->assertStatus(403);
     }
 
     public function test_admin_peut_voir_un_utilisateur()
@@ -39,9 +42,9 @@ class UserTest extends TestCase
         $cible = User::factory()->create(['nom' => 'Martin']);
 
         $this->actingAs($admin, 'sanctum')
-             ->getJson('/api/users/' . $cible->id)
-             ->assertStatus(200)
-             ->assertJsonFragment(['nom' => 'Martin']);
+            ->getJson('/api/users/' . $cible->id)
+            ->assertStatus(200)
+            ->assertJsonFragment(['nom' => 'Martin']);
     }
 
     public function test_utilisateur_peut_voir_son_propre_profil()
@@ -50,19 +53,19 @@ class UserTest extends TestCase
         $user = User::factory()->create(['role' => 'utilisateur']);
 
         $this->actingAs($user, 'sanctum')
-             ->getJson('/api/users/' . $user->id)
-             ->assertStatus(200);
+            ->getJson('/api/users/' . $user->id)
+            ->assertStatus(200);
     }
 
     public function test_utilisateur_ne_peut_pas_voir_profil_dun_autre()
     {
         /** @var User $user */
-        $user      = User::factory()->create(['role' => 'utilisateur']);
+        $user = User::factory()->create(['role' => 'utilisateur']);
         $autreUser = User::factory()->create();
 
         $this->actingAs($user, 'sanctum')
-             ->getJson('/api/users/' . $autreUser->id)
-             ->assertStatus(403);
+            ->getJson('/api/users/' . $autreUser->id)
+            ->assertStatus(403);
     }
 
     public function test_utilisateur_peut_modifier_son_profil()
@@ -71,13 +74,13 @@ class UserTest extends TestCase
         $user = User::factory()->create(['role' => 'utilisateur']);
 
         $this->actingAs($user, 'sanctum')
-             ->putJson('/api/users/' . $user->id, [
-                 'nom'    => 'NouveauNom',
-                 'prenom' => $user->prenom,
-                 'email'  => $user->email,
-             ])
-             ->assertStatus(200)
-             ->assertJsonFragment(['success' => true]);
+            ->putJson('/api/users/' . $user->id, [
+                'nom' => 'NouveauNom',
+                'prenom' => $user->prenom,
+                'email' => $user->email,
+            ])
+            ->assertStatus(200)
+            ->assertJsonFragment(['success' => true]);
 
         $this->assertDatabaseHas('users', ['id' => $user->id, 'nom' => 'NouveauNom']);
     }
@@ -88,12 +91,12 @@ class UserTest extends TestCase
         $user = User::factory()->create(['role' => 'utilisateur']);
 
         $this->actingAs($user, 'sanctum')
-             ->putJson('/api/users/' . $user->id, [
-                 'nom'    => $user->nom,
-                 'prenom' => $user->prenom,
-                 'email'  => $user->email,
-                 'role'   => 'admin',
-             ]);
+            ->putJson('/api/users/' . $user->id, [
+                'nom' => $user->nom,
+                'prenom' => $user->prenom,
+                'email' => $user->email,
+                'role' => 'admin',
+            ]);
 
         $this->assertDatabaseHas('users', ['id' => $user->id, 'role' => 'utilisateur']);
     }
@@ -104,22 +107,22 @@ class UserTest extends TestCase
         $user = User::factory()->create(['role' => 'utilisateur']);
 
         $this->actingAs($user, 'sanctum')
-             ->deleteJson('/api/users/' . $user->id)
-             ->assertStatus(200)
-             ->assertJsonFragment(['success' => true]);
+            ->deleteJson('/api/users/' . $user->id)
+            ->assertStatus(200)
+            ->assertJsonFragment(['success' => true]);
 
-        $this->assertDatabaseMissing('users', ['id' => $user->id]);
+        $this->assertSoftDeleted('users', ['id' => $user->id]);
     }
 
     public function test_utilisateur_ne_peut_pas_supprimer_compte_dun_autre()
     {
         /** @var User $user */
-        $user      = User::factory()->create(['role' => 'utilisateur']);
+        $user = User::factory()->create(['role' => 'utilisateur']);
         $autreUser = User::factory()->create();
 
         $this->actingAs($user, 'sanctum')
-             ->deleteJson('/api/users/' . $autreUser->id)
-             ->assertStatus(403);
+            ->deleteJson('/api/users/' . $autreUser->id)
+            ->assertStatus(403);
 
         $this->assertDatabaseHas('users', ['id' => $autreUser->id]);
     }
@@ -128,12 +131,58 @@ class UserTest extends TestCase
     {
         /** @var User $admin */
         $admin = User::factory()->create(['role' => 'admin']);
-        $user  = User::factory()->create();
+        $user = User::factory()->create();
 
         $this->actingAs($admin, 'sanctum')
-             ->deleteJson('/api/users/' . $user->id)
-             ->assertStatus(200);
+            ->deleteJson('/api/users/' . $user->id)
+            ->assertStatus(200);
 
-        $this->assertDatabaseMissing('users', ['id' => $user->id]);
+        $this->assertSoftDeleted('users', ['id' => $user->id]);
+    }
+
+    public function test_utilisateur_avec_reservation_active_ne_peut_pas_supprimer_son_compte()
+    {
+        /** @var User $user */
+        $user = User::factory()->create(['role' => 'utilisateur']);
+        $espace = Espace::factory()->create();
+
+        Reservation::factory()->create([
+            'user_id' => $user->id,
+            'espace_id' => $espace->id,
+            'date_debut' => Carbon::now()->addDays(5)->format('Y-m-d'),
+            'date_fin' => Carbon::now()->addDays(7)->format('Y-m-d'),
+            'statut' => 'confirmée',
+        ]);
+
+        $this->actingAs($user, 'sanctum')
+            ->deleteJson('/api/users/' . $user->id)
+            ->assertStatus(409)
+            ->assertJsonFragment(['success' => false]);
+
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'deleted_at' => null]);
+    }
+
+    public function test_admin_ne_peut_pas_supprimer_utilisateur_avec_reservation_active()
+    {
+        /** @var User $admin */
+        $admin = User::factory()->create(['role' => 'admin']);
+        /** @var User $user */
+        $user = User::factory()->create();
+        $espace = Espace::factory()->create();
+
+        Reservation::factory()->create([
+            'user_id' => $user->id,
+            'espace_id' => $espace->id,
+            'date_debut' => Carbon::now()->addDays(5)->format('Y-m-d'),
+            'date_fin' => Carbon::now()->addDays(7)->format('Y-m-d'),
+            'statut' => 'confirmée',
+        ]);
+
+        $this->actingAs($admin, 'sanctum')
+            ->deleteJson('/api/users/' . $user->id)
+            ->assertStatus(409)
+            ->assertJsonFragment(['success' => false]);
+
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'deleted_at' => null]);
     }
 }

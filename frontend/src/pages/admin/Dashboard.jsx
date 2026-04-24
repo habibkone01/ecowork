@@ -25,9 +25,7 @@ export default function Dashboard() {
                 ])
 
                 const reservations = reservationsData.data || []
-                const revenus = reservations
-                    .filter(r => r.statut === 'confirmée')
-                    .reduce((acc, r) => acc + parseFloat(r.prix_total || 0), 0)
+                const revenus = reservationsData.revenus || 0
 
                 setStats({
                     espaces: espacesData.meta?.total || espacesData.data?.length || 0,
@@ -54,7 +52,7 @@ export default function Dashboard() {
                     <p className="text-gray-700 text-sm">Voici un aperçu de votre plateforme EcoWork</p>
                 </div>
 
-               
+
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-5 mb-6 lg:mb-8">
                     <div className="bg-white rounded-2xl p-4 lg:p-5 border border-gray-100 shadow-sm">
                         <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl flex items-center justify-center bg-[#eff7f6] mb-3">
