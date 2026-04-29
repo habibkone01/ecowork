@@ -115,6 +115,8 @@ export default function Dashboard() {
                                                     <td className="p-4">
                                                         {r.statut === 'confirmée' ? (
                                                             <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#e6f7f5] text-[#0a7a70] ">Confirmée</span>
+                                                        ) : r.statut === 'terminée' ? (
+                                                            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-orange-50 text-orange-500 ">Terminée</span>
                                                         ) : (
                                                             <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-100 text-red-500 ">Annulée</span>
                                                         )}
@@ -131,6 +133,8 @@ export default function Dashboard() {
                                                 <span className="text-sm font-semibold text-[#1a1a2e]">{r.user?.prenom} {r.user?.nom}</span>
                                                 {r.statut === 'confirmée' ? (
                                                     <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eff7f6] text-[#0a7a70] ">Confirmée</span>
+                                                ) : r.statut === 'terminée' ? (
+                                                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-orange-50 text-orange-500 ">Terminée</span>
                                                 ) : (
                                                     <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-red-50 text-red-500 ">Annulée</span>
                                                 )}
