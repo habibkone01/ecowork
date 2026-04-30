@@ -1,13 +1,11 @@
 describe('Scénario 1 — Inscription', () => {
-  it('permet de créer un compte et redirige vers /login', () => {
+  it('permet de créer un compte et affiche un popup de confirmation', () => {
     const email = `test${Date.now()}@ecowork.fr`
-
     cy.visit('/register')
     cy.wait(500)
-
-    cy.get('input[name="nom"]').type('Dupont', { delay: 100 })
+    cy.get('input[name="nom"]').type('Kone', { delay: 100 })
     cy.wait(300)
-    cy.get('input[name="prenom"]').type('Jean', { delay: 100 })
+    cy.get('input[name="prenom"]').type('Boa', { delay: 100 })
     cy.wait(300)
     cy.get('input[name="email"]').type(email, { delay: 100 })
     cy.wait(300)
@@ -21,10 +19,14 @@ describe('Scénario 1 — Inscription', () => {
     cy.wait(300)
     cy.get('#rgpd').check()
     cy.wait(500)
-
     cy.contains('button', 'Créer mon compte').click()
     cy.wait(1000)
 
+    cy.contains('Compte créé avec succès !').should('be.visible')
+    cy.contains('Se connecter').should('be.visible')
+
+    cy.contains('button', 'Se connecter').click()
+    cy.wait(500)
     cy.url().should('include', '/login')
   })
 })
