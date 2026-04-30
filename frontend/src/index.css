@@ -4,5 +4,5 @@
     font-family: system-ui, sans-serif;
 }
 
+.low-carbon main,.low-carbon aside { filter: grayscale(100%) !important; }
 .low-carbon img { display: none !important; }
-.low-carbon { filter: grayscale(100%) !important; }
